@@ -39,8 +39,11 @@ DEFAULT_DB = (
 )
 DB_PATH = Path(os.environ.get("GAMEVAULT_DB", os.environ.get("PLAYSCAPE_DB", DEFAULT_DB)))
 HOST = os.environ.get("GAMEVAULT_HOST", os.environ.get("HOST", "0.0.0.0"))
-PORT = int(os.environ.get("PORT", os.environ.get("GAMEVAULT_PORT", os.environ.get("PLAYSCAPE_PORT", "4174"))))
+PORT = int(os.environ.get("PORT") or os.environ.get("GAMEVAULT_PORT") or os.environ.get("PLAYSCAPE_PORT") or 4174)
 ADMIN_TOKEN = os.environ.get("GAMEVAULT_ADMIN_TOKEN", os.environ.get("PLAYSCAPE_ADMIN_TOKEN", "")).strip()
+if not ADMIN_TOKEN:
+    ADMIN_TOKEN = secrets.token_urlsafe(32)
+    os.environ["GAMEVAULT_ADMIN_TOKEN"] = ADMIN_TOKEN
 SESSION_COOKIE = "gamevault_session"
 SESSION_DAYS = 30
 RAWG_PAGE_SIZE = 40
@@ -68,6 +71,13 @@ def utc_now() -> str:
 
 def connect() -> sqlite3.Connection:
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+    if not DB_PATH.exists() and LOCAL_DB.exists():
+        try:
+            if DB_PATH.resolve() != LOCAL_DB.resolve():
+                import shutil
+                shutil.copy2(LOCAL_DB, DB_PATH)
+        except Exception:
+            pass
     db = sqlite3.connect(DB_PATH, timeout=30)
     db.row_factory = sqlite3.Row
     db.execute("PRAGMA foreign_keys=ON")
@@ -1303,7 +1313,12 @@ class Handler(SimpleHTTPRequestHandler):
                     allowed.add(origin)
                 else:
                     for item in configured.split(","):
-                        allowed.add(item.strip())
+                        cleaned = item.strip().rstrip("/")
+                        if cleaned:
+                            allowed.add(cleaned)
+                            if not cleaned.startswith("http://") and not cleaned.startswith("https://"):
+                                allowed.add(f"https://{cleaned}")
+                                allowed.add(f"http://{cleaned}")
             if origin in allowed:
                 self.send_header("Access-Control-Allow-Origin", origin)
                 self.send_header("Access-Control-Allow-Credentials", "true")

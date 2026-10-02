@@ -8,6 +8,14 @@ services:
     autoDeploy: true
     envVars:
       - key: RAWG_API_KEY
-        value: 4b4c93a0cb2e4cd7ab734df6825760b8
+        sync: false
+      - key: GAMEVAULT_ADMIN_TOKEN
+        generateValue: true
+      - key: GAMEVAULT_HOST
+        value: 0.0.0.0
+      - key: GAMEVAULT_DB
+        value: playscape.sqlite3
+      - key: GAMEVAULT_CORS_ORIGIN
+        sync: false
       - key: PYTHON_VERSION
         value: 3.11.9
