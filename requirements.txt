@@ -1,0 +1,1 @@
+# GAMEVAULT server uses Python 3 standard library with zero external dependencies.

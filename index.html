@@ -1,0 +1,1374 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#050508">
+  <meta name="description" content="Discover RAWG-sourced games, compare real CheapShark deals, explore verified game details, and save a personal wishlist.">
+  <title>GAMEVAULT — unlock your next adventure</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #050508;
+      --panel: #0c0c14;
+      --panel-2: #131320;
+      --line: rgba(200, 200, 255, .09);
+      --muted: #9a9eb5;
+      --text: #f4f3fb;
+      --lime: #a855f7;
+      --aqua: #76e4f5;
+      --pink: #ff86ad;
+      --neon: #a855f7;
+      --neon-bright: #c084fc;
+      --neon-deep: #7c3aed;
+      --font: 'Inter', sans-serif;
+      --display: 'Outfit', sans-serif;
+      --ease: cubic-bezier(.2,.75,.2,1);
+      font-family: var(--font);
+      background: var(--bg);
+      scroll-behavior: smooth;
+      scroll-padding-top: 92px;
+      -webkit-tap-highlight-color: rgba(168,85,247,.15);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; min-width: 320px; color: var(--text); background: var(--bg); overflow-x: hidden; -webkit-overflow-scrolling: touch; text-rendering: optimizeSpeed; }
+    body.modal-open { overflow: hidden; }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+    button { color: inherit; }
+    ::selection { background: var(--neon); color: #0d0a14; }
+    .progress { position: fixed; top: 0; left: 0; z-index: 100; height: 3px; width: 0; background: linear-gradient(90deg,var(--aqua),var(--neon),var(--pink)); box-shadow: 0 0 16px rgba(168,85,247,.65); will-change: width; transform: translateZ(0); }
+    .noise { pointer-events: none; position: fixed; inset: 0; z-index: 5; opacity: .025; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E"); }
+    .wrap { width: min(1240px, calc(100% - 64px)); margin: 0 auto; }
+    .topline { height: 31px; display: flex; align-items: center; justify-content: center; gap: 10px; color: #aeb7c4; background: #0d1016; border-bottom: 1px solid var(--line); font: 600 9px var(--display); letter-spacing: .19em; text-transform: uppercase; }
+    .topline .dot { width: 5px; height: 5px; background: var(--lime); border-radius: 50%; box-shadow: 0 0 10px var(--lime); }
+    .nav-shell { position: sticky; top: 0; z-index: 30; background: rgba(9,11,16,.78); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-bottom: 1px solid rgba(255,255,255,.055); transition: background .25s ease; will-change: transform; transform: translateZ(0); }
+    .nav { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; font: 800 17px 'Orbitron', var(--display); letter-spacing: .06em; white-space: nowrap; text-transform: uppercase; }
+    .brand-mark { width: 34px; height: 34px; position: relative; display: grid; place-items: center; border: 1px solid rgba(168,85,247,.55); border-radius: 10px; background: linear-gradient(145deg,rgba(168,85,247,.18),rgba(99,102,241,.06)); box-shadow: 0 0 24px rgba(168,85,247,.16), inset 0 0 14px rgba(168,85,247,.08); transition: box-shadow .35s ease, border-color .35s ease, transform .35s ease; }
+    .brand:hover .brand-mark { border-color: rgba(192,132,252,.9); box-shadow: 0 0 35px rgba(168,85,247,.35), inset 0 0 18px rgba(192,132,252,.15); transform: scale(1.06); }
+    .brand-mark svg { width: 22px; height: 22px; filter: drop-shadow(0 0 8px rgba(168,85,247,.65)); }
+    .brand em { color: var(--neon-bright); font-style: normal; text-shadow: 0 0 16px rgba(192,132,252,.65); }
+    .nav-links { display: flex; align-items: center; gap: 31px; }
+    .nav-links a { color: #a3abb9; font-size: 12px; font-weight: 600; transition: color .2s ease; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+    .nav-actions { display: flex; align-items: center; gap: 11px; }
+    .icon-btn, .account-btn, .menu-btn { border: 1px solid var(--line); background: rgba(255,255,255,.035); transition: .2s ease; cursor: pointer; }
+    .icon-btn { position: relative; height: 39px; width: 39px; display: grid; place-items: center; border-radius: 50%; color: #cbd1db; }
+    .icon-btn:hover, .menu-btn:hover { border-color: rgba(200,255,77,.48); color: var(--lime); background: rgba(200,255,77,.07); }
+    .wish-count { position: absolute; top: -4px; right: -4px; min-width: 16px; height: 16px; display: grid; place-items: center; padding: 0 4px; border-radius: 20px; background: var(--lime); color: #11140d; font: 700 9px var(--display); }
+    .account-btn { height: 39px; padding: 0 16px; border-radius: 8px; font-size: 11px; font-weight: 700; }
+    .account-btn:hover { background: var(--text); color: #0b0d12; border-color: var(--text); }
+    .menu-btn { display: none; width: 39px; height: 39px; border-radius: 50%; place-items: center; }
+    .hero { position: relative; min-height: 590px; display: flex; align-items: center; overflow: hidden; border-bottom: 1px solid var(--line); isolation: isolate; content-visibility: auto; contain-intrinsic-size: auto 640px; }
+    .hero-bg { position: absolute; z-index: -3; inset: 0; background: linear-gradient(90deg,#090b10 0%,rgba(9,11,16,.96) 23%,rgba(9,11,16,.64) 56%,rgba(9,11,16,.45) 100%),linear-gradient(0deg,#090b10 0%,transparent 38%,rgba(9,11,16,.1) 100%); opacity: .68; transform: scale(1.04) translateZ(0); animation: heroDrift 18s ease-in-out infinite alternate; transition: opacity .5s ease; will-change: transform, opacity; }
+    .hero-orb { position: absolute; z-index: -1; width: 530px; height: 530px; top: 20px; right: 2%; border: 1px solid rgba(200,255,77,.12); border-radius: 50%; box-shadow: inset 0 0 75px rgba(200,255,77,.025), 0 0 100px rgba(125,96,255,.08); animation: orbit 38s linear infinite; will-change: transform; transform: translateZ(0); }
+    .hero-orb::before,.hero-orb::after { content: ''; position: absolute; inset: 8%; border-radius: inherit; border: 1px solid rgba(128,240,211,.13); transform: rotateX(68deg) rotateY(-20deg); }
+    .hero-orb::after { inset: 15%; border-color: rgba(247,132,194,.1); transform: rotateX(70deg) rotateY(49deg) rotateZ(23deg); }
+    .hero-inner { width: min(1240px, calc(100% - 64px)); margin: 0 auto; display: grid; grid-template-columns: minmax(0,1.04fr) minmax(360px,.96fr); align-items: center; position: relative; z-index: 2; padding: 61px 0 67px; }
+    .hero-copy { position: relative; z-index: 2; max-width: 610px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: var(--lime); font: 600 10px var(--display); letter-spacing: .16em; text-transform: uppercase; }
+    .eyebrow::before { content: ''; height: 1px; width: 26px; background: var(--lime); box-shadow: 0 0 8px var(--lime); }
+    h1,h2,h3,p { margin-top: 0; }
+    h1 { margin: 19px 0 18px; font: 700 clamp(48px,6.4vw,78px)/1.01 var(--display); letter-spacing: -.06em; }
+    h1 span { color: var(--lime); font-weight: 700; }
+    .hero-copy > p { max-width: 430px; margin-bottom: 27px; color: #abb3c0; font-size: 14px; line-height: 1.8; }
+    .hero-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .btn { min-height: 45px; display: inline-flex; align-items: center; justify-content: center; gap: 9px; padding: 0 18px; border: 1px solid transparent; border-radius: 8px; cursor: pointer; font-size: 11px; font-weight: 700; transition: transform .25s var(--ease),background .2s,border .2s,color .2s; touch-action: manipulation; }
+    .btn:hover { transform: translateY(-3px); }
+    .btn:active { transform: translateY(0) scale(.97); transition-duration: .08s; }
+    .btn-primary { background: var(--lime); color: #10130a; box-shadow: 0 7px 30px rgba(200,255,77,.16); }
+    .btn-primary:hover { background: #d7ff84; box-shadow: 0 9px 36px rgba(200,255,77,.25); }
+    .btn-ghost { border-color: rgba(255,255,255,.18); background: rgba(255,255,255,.045); color: #eef0f5; }
+    .btn-ghost:hover { border-color: rgba(200,255,77,.48); background: rgba(200,255,77,.06); }
+    .hero-note { margin-top: 25px; display: flex; align-items: center; gap: 11px; color: #828b9a; font-size: 10px; }
+    .avatar-stack { display: flex; padding-left: 3px; }
+    .avatar-stack i { width: 21px; height: 21px; margin-left: -3px; border-radius: 50%; border: 2px solid #0b0e14; background: linear-gradient(140deg,#f5c57d,#d97177); }
+    .avatar-stack i:nth-child(2) { background: linear-gradient(140deg,#99c4fe,#7965cc); }
+    .avatar-stack i:nth-child(3) { background: linear-gradient(140deg,#b2e796,#438994); }
+    .hero-showcase { height: 405px; position: relative; perspective: 1200px; display: grid; place-items: center; }
+    .hero-card { position: relative; width: 258px; height: 344px; border-radius: 13px; transform-style: preserve-3d; transform: rotateY(-19deg) rotateX(6deg) rotateZ(2deg); transition: transform .3s ease; background: #20252b; box-shadow: 22px 26px 75px rgba(0,0,0,.65), -2px 0 0 rgba(200,255,77,.38); will-change: transform; }
+    .hero-card::before { content: ''; position: absolute; z-index: 2; inset: 0; border-radius: inherit; background: linear-gradient(120deg,rgba(255,255,255,.25),transparent 17%,transparent 77%,rgba(0,0,0,.5)),linear-gradient(0deg,rgba(7,9,14,.78),transparent 39%); pointer-events: none; }
+    .hero-card::after { content: ''; position: absolute; top: 10px; bottom: 10px; left: -12px; width: 12px; border-radius: 6px 0 0 6px; transform: rotateY(-90deg) translateX(-6px); transform-origin: right; background: repeating-linear-gradient(0deg,#22282e 0 3px,#13171d 4px 7px); }
+    .hero-card img { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; transition: opacity .32s ease; }
+    .hero-card-title { position: absolute; z-index: 3; bottom: 22px; left: 19px; right: 14px; transform: translateZ(36px); }
+    .hero-card-title small { display: block; color: var(--lime); font: 600 8px var(--display); letter-spacing: .18em; text-transform: uppercase; }
+    .hero-card-title strong { display: block; max-width: 188px; margin-top: 6px; font: 700 22px/.95 var(--display); letter-spacing: -.06em; transition: opacity .22s ease; }
+    .hero-card-title small,#heroRating,#heroStyle { transition: opacity .22s ease; }
+    .hero-badge { position: absolute; z-index: 4; right: -56px; top: 54px; padding: 12px 15px; border: 1px solid rgba(255,255,255,.16); border-radius: 9px; background: rgba(18,22,30,.83); backdrop-filter: blur(14px); box-shadow: 0 14px 38px rgba(0,0,0,.24); transform: translateZ(50px) rotateY(-11deg); }
+    .hero-badge small,.float-chip small { display: block; margin-bottom: 5px; color: #8993a2; font: 600 8px var(--display); letter-spacing: .13em; text-transform: uppercase; }
+    .hero-badge strong { color: var(--lime); font: 700 12px var(--display); }
+    .float-chip { position: absolute; z-index: 4; left: -67px; bottom: 46px; padding: 11px 14px; border: 1px solid rgba(255,255,255,.16); border-radius: 9px; background: rgba(18,22,30,.82); backdrop-filter: blur(14px); transform: translateZ(55px) rotateY(13deg); }
+    .float-chip strong { font: 600 10px var(--display); }
+    .hero-pager { position: absolute; z-index: 6; right: 20%; bottom: 0; display: flex; align-items: center; gap: 8px; padding: 6px 8px; border: 1px solid rgba(255,255,255,.12); border-radius: 99px; background: rgba(13,16,22,.72); backdrop-filter: blur(12px); transform: translateZ(55px); }
+    .hero-arrow { width: 23px; height: 23px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 50%; background: transparent; color: #bbc4cf; font-size: 13px; cursor: pointer; transition: .2s; }
+    .hero-arrow:hover { background: rgba(200,255,77,.13); color: var(--lime); }
+    .hero-dots { display: flex; align-items: center; gap: 4px; }
+    .hero-dot { width: 12px; height: 17px; display: grid; place-items: center; padding: 0; border: 0; background: none; cursor: pointer; }
+    .hero-dot::after { content: ''; width: 4px; height: 4px; border-radius: 9px; background: #727b88; transition: .25s; }
+    .hero-dot.active::after { width: 13px; height: 4px; background: var(--lime); box-shadow: 0 0 8px rgba(200,255,77,.5); }
+    .hero-count { min-width: 35px; color: #d8dfe8; font: 600 8px var(--display); letter-spacing: .06em; }
+    .hero-count span { color: #7f8a98; }
+    .hero-star { position: absolute; width: 8px; height: 8px; border: 1px solid var(--lime); transform: rotate(45deg); opacity: .8; animation: twinkle 3s ease-in-out infinite alternate; }
+    .hero-star.one { top: 37px; left: 3%; }.hero-star.two { top: 89px; right: 12%; width: 5px; height: 5px; animation-delay: .8s; }.hero-star.three { bottom: 40px; right: 34%; width: 6px; height: 6px; animation-delay: 1.3s; }
+    .ticker { background: #0e1117; border-bottom: 1px solid var(--line); overflow: hidden; }
+    .ticker-track { min-height: 53px; display: flex; align-items: center; justify-content: space-between; gap: 22px; white-space: nowrap; }
+    .ticker-item { display: flex; align-items: center; gap: 10px; color: #9ba4b0; font: 600 9px var(--display); letter-spacing: .08em; text-transform: uppercase; }
+    .ticker-item b { color: #e9edf3; font-weight: 600; }.ticker-item span { color: var(--lime); font-size: 11px; }
+    .section { padding: 88px 0; content-visibility: auto; contain-intrinsic-size: auto 800px; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 28px; margin-bottom: 30px; }
+    .section-title h2 { margin: 11px 0 0; font: 500 clamp(30px,4.5vw,47px)/1.05 var(--display); letter-spacing: -.065em; }
+    .section-title h2 span { color: var(--lime); }
+    .section-title p { margin: 11px 0 0; color: var(--muted); font-size: 12px; line-height: 1.65; }
+    .text-link { display: inline-flex; align-items: center; gap: 8px; color: #c7ced9; font: 600 10px var(--display); transition: color .2s; white-space: nowrap; }
+    .text-link:hover { color: var(--lime); }
+    .filters { display: flex; justify-content: space-between; align-items: center; gap: 15px; padding-bottom: 15px; margin-bottom: 17px; border-bottom: 1px solid var(--line); }
+    .chips { display: flex; gap: 7px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity; }.chips::-webkit-scrollbar { display: none; }
+    .chip { flex: 0 0 auto; padding: 8px 12px; border: 1px solid rgba(255,255,255,.09); border-radius: 99px; background: transparent; color: #a1aab8; font: 600 9px var(--display); cursor: pointer; transition: .2s; touch-action: manipulation; scroll-snap-align: start; }
+    .chip:hover,.chip.active { color: #14180e; border-color: var(--lime); background: var(--lime); }
+    .filter-tools { display: flex; align-items: center; gap: 8px; }
+    .search-box { min-width: 192px; display: flex; align-items: center; gap: 8px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 7px; background: #0d1016; color: #9ba4b0; }
+    .search-box:focus-within { border-color: rgba(200,255,77,.45); box-shadow: 0 0 0 3px rgba(200,255,77,.05); }
+    .search-box input { width: 100%; min-width: 0; outline: none; border: 0; background: transparent; color: var(--text); font-size: 10px; }.search-box input::placeholder { color: #697282; }
+    .sort-select { border: 1px solid var(--line); border-radius: 7px; padding: 9px 10px; outline: none; background: #0d1016; color: #c1c8d2; font-size: 10px; cursor: pointer; }
+    .game-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 16px; }
+    .game-card { min-width: 0; position: relative; perspective: 1000px; animation: cardIn .55s var(--ease) both; contain: layout style; }
+    .game-card-inner { height: 100%; overflow: hidden; border: 1px solid rgba(255,255,255,.08); border-radius: 11px; background: linear-gradient(145deg,#151a22,#0f1218); transform-style: preserve-3d; transition: transform .35s var(--ease),border-color .25s,box-shadow .3s; will-change: transform; backface-visibility: hidden; }
+    .game-card:hover .game-card-inner { border-color: rgba(200,255,77,.36); box-shadow: 0 18px 45px rgba(0,0,0,.32); }
+    .card-art { height: 185px; position: relative; overflow: hidden; cursor: pointer; background: radial-gradient(ellipse at 70% 20%,#56627c,transparent 40%),linear-gradient(135deg,#242a37,#15161b); }
+    .card-art::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg,rgba(13,15,21,.93) 1%,rgba(10,12,16,.18) 55%,rgba(7,9,14,.08)); transition: opacity .3s; }
+    .game-card:hover .card-art::after { opacity: .85; }
+    .card-art img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform .65s var(--ease); transform: translateZ(0); }
+    .game-card:hover .card-art img { transform: scale(1.09) translateZ(0); }
+    .card-top { position: absolute; z-index: 2; left: 12px; right: 12px; top: 11px; display: flex; align-items: center; justify-content: space-between; }
+    .status-pill {
+      padding: 6px 11px;
+      border: 1px solid rgba(192, 132, 252, 0.35);
+      border-top: 1px solid rgba(255, 255, 255, 0.4);
+      border-left: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 8px;
+      background: rgba(14, 10, 28, 0.45);
+      backdrop-filter: blur(16px) saturate(200%);
+      -webkit-backdrop-filter: blur(16px) saturate(200%);
+      color: #ffffff;
+      font: 700 8.5px/1 var(--display);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.22), 0 0 12px rgba(168, 85, 247, 0.2);
+      transition: all .25s var(--ease);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    }
+    .game-card:hover .status-pill {
+      border-color: rgba(216, 180, 254, 0.65);
+      border-top-color: rgba(255, 255, 255, 0.55);
+      background: rgba(24, 16, 48, 0.6);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.55), 0 0 18px rgba(168, 85, 247, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+      transform: translateY(-1px);
+    }
+    .save-btn {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(192, 132, 252, 0.35);
+      border-top: 1px solid rgba(255, 255, 255, 0.42);
+      border-radius: 50%;
+      background: rgba(14, 10, 28, 0.45);
+      backdrop-filter: blur(16px) saturate(200%);
+      -webkit-backdrop-filter: blur(16px) saturate(200%);
+      color: #e9d5ff;
+      cursor: pointer;
+      font-size: 15px;
+      line-height: 1;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.25), 0 0 12px rgba(168, 85, 247, 0.2);
+      transition: all .25s var(--ease);
+    }
+    .save-btn:hover {
+      border-color: rgba(255, 255, 255, 0.65);
+      background: linear-gradient(135deg, rgba(217, 70, 239, 0.45), rgba(168, 85, 247, 0.55));
+      color: #ffffff;
+      transform: scale(1.12);
+      box-shadow: 0 6px 22px rgba(0, 0, 0, 0.5), 0 0 22px rgba(217, 70, 239, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.45);
+    }
+    .save-btn.saved {
+      background: linear-gradient(135deg, #d946ef, #a855f7);
+      border-color: rgba(255, 255, 255, 0.65);
+      color: #ffffff;
+      box-shadow: 0 0 25px rgba(217, 70, 239, 0.75), inset 0 1px 2px rgba(255, 255, 255, 0.5);
+      transform: scale(1.06);
+    }
+    .art-title { position: absolute; z-index: 2; left: 15px; bottom: 13px; right: 40px; text-shadow: 0 2px 12px rgba(0,0,0,.7); }
+    .art-title small { display: block; margin-bottom: 5px; color: var(--neon-bright); font: 700 8.5px var(--display); letter-spacing: .16em; text-transform: uppercase; text-shadow: 0 0 10px rgba(192,132,252,.5); }
+    .art-title strong { display: block; font: 700 19px/1.05 var(--display); letter-spacing: -.05em; color:#ffffff; text-shadow: 0 2px 8px rgba(0,0,0,.8); }
+    .card-body { padding: 14px 14px 13px; }
+    .tag-row { min-height: 22px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .genre-tag { display: inline-flex; align-items: center; padding: 3px 8px; border-radius: 6px; background: rgba(168,85,247,.08); border: 1px solid rgba(168,85,247,.22); border-top: 1px solid rgba(255,255,255,.14); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); color: #d8b4fe; font: 600 8.5px var(--display); letter-spacing: .02em; box-shadow: 0 2px 6px rgba(0,0,0,.15); transition: all .2s ease; }
+    .genre-tag:hover { background: rgba(168,85,247,.25); border-color: rgba(192,132,252,.5); color: #ffffff; transform: translateY(-1px); }
+    .genre-tag + .genre-tag::before { display: none; }
+    .rating-row { display: flex; align-items: center; justify-content: space-between; gap: 7px; padding-top: 10px; border-top: 1px solid rgba(168,85,247,.12); }
+    .rating { display: inline-flex; align-items: center; gap: 6px; color: #f3e8ff; font: 600 9px var(--display); }
+    .rating .spark { color: var(--neon-bright); font-size: 11px; }
+    .release-mini { color: #94a3b8; font-size: 9px; }
+    .catalog-card-price { color: var(--neon-bright); font: 700 11px var(--display); letter-spacing: -.02em; }
+    .card-open { width: 100%; margin-top: 12px; min-height: 36px; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; border: 1px solid rgba(168,85,247,.25); border-top: 1px solid rgba(255,255,255,.16); border-radius: 8px; background: rgba(168,85,247,.08); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #e9d5ff; font: 600 9px var(--display); cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.08); transition: all .25s var(--ease); }
+    .card-open:hover { border-color: rgba(192,132,252,.7); background: linear-gradient(135deg,rgba(168,85,247,.28) 0%,rgba(124,58,237,.2) 100%); color: #ffffff; box-shadow: 0 4px 18px rgba(168,85,247,.35), inset 0 1px 0 rgba(255,255,255,.25); transform: translateY(-1px); }
+    .empty-state { grid-column: 1/-1; min-height: 200px; display: grid; place-items: center; text-align: center; color: var(--muted); border: 1px dashed var(--line); border-radius: 12px; }
+    .empty-state strong { display: block; margin-bottom: 7px; color: var(--text); font: 500 19px var(--display); }
+    .genre-section { padding: 18px 0 87px; }
+    .genre-grid { display: grid; grid-template-columns: repeat(6,minmax(0,1fr)); gap: 12px; }
+    .genre-tile { min-height: 130px; position: relative; display: flex; align-items: end; overflow: hidden; padding: 14px; border: 1px solid rgba(255,255,255,.09); border-radius: 9px; background: linear-gradient(145deg,#21283a,#12151d); cursor: pointer; transition: transform .3s var(--ease),border-color .3s; isolation: isolate; touch-action: manipulation; }
+    .genre-tile::before { content: ''; position: absolute; inset: 0; z-index: -2; background: var(--genre-art,radial-gradient(ellipse at 70% 20%,rgba(200,255,77,.38),transparent 40%)); transition: transform .6s var(--ease); }
+    .genre-tile::after { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg,rgba(8,10,15,.86),rgba(8,10,15,.03)); }
+    .genre-tile:hover { transform: translateY(-5px) translateZ(0); border-color: rgba(200,255,77,.43); }.genre-tile:hover::before { transform: scale(1.12) translateZ(0); }
+    .genre-tile strong { font: 600 14px var(--display); letter-spacing: -.04em; }.genre-tile small { display: block; margin-top: 4px; color: #aeb7c5; font-size: 8px; }
+    .genre-glyph { position: absolute; top: 13px; right: 14px; color: rgba(255,255,255,.85); font: 500 20px var(--display); }
+    .recommend { position: relative; padding: 72px 0; overflow: hidden; background: linear-gradient(120deg,#111723,#13131b 65%,#191221); border-top: 1px solid rgba(255,255,255,.06); border-bottom: 1px solid rgba(255,255,255,.06); content-visibility: auto; contain-intrinsic-size: auto 600px; }
+    .recommend::before { content: ''; position: absolute; width: 540px; height: 540px; top: -260px; right: 6%; border-radius: 50%; border: 1px solid rgba(128,240,211,.11); box-shadow: 0 0 80px rgba(128,240,211,.06),inset 0 0 80px rgba(128,240,211,.045); }
+    .recommend-grid { display: grid; grid-template-columns: 1.05fr .95fr; align-items: center; gap: 55px; position: relative; }
+    .recommend-copy h2 { max-width: 540px; margin: 14px 0 13px; font: 500 clamp(34px,5vw,53px)/1.03 var(--display); letter-spacing: -.07em; }
+    .recommend-copy h2 span { color: var(--aqua); }
+    .recommend-copy p { max-width: 420px; margin-bottom: 22px; color: #a5afbd; font-size: 12px; line-height: 1.8; }
+    .recommend-features { display: flex; flex-wrap: wrap; gap: 14px 20px; margin-top: 27px; }
+    .recommend-features span { display: inline-flex; align-items: center; gap: 7px; color: #bdc5d0; font-size: 9px; }.recommend-features i { color: var(--aqua); font-style: normal; }
+    .rec-card { max-width: 460px; justify-self: end; width: 100%; padding: 19px; border: 1px solid rgba(255,255,255,.1); border-radius: 12px; background: rgba(11,14,20,.63); box-shadow: 0 25px 70px rgba(0,0,0,.25); backdrop-filter: blur(15px); transform: rotateY(-7deg) rotateX(2deg); }
+    .rec-card-head { display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 17px; }
+    .rec-card-head strong { font: 600 12px var(--display); }.rec-card-head small { display: block; margin-top: 4px; color: #8994a2; font-size: 9px; }
+    .rec-avatar { width: 33px; height: 33px; display: grid; place-items: center; border-radius: 50%; color: #1a1e13; background: var(--aqua); font: 700 10px var(--display); }
+    .fit-result { display: flex; gap: 12px; align-items: center; padding: 14px; border: 1px solid rgba(128,240,211,.2); border-radius: 8px; background: rgba(128,240,211,.06); }
+    .fit-icon { width: 32px; height: 32px; display: grid; place-items: center; flex: none; border-radius: 9px; color: #09110f; background: var(--aqua); }
+    .fit-result strong { display: block; font: 600 11px var(--display); }.fit-result small { display: block; margin-top: 4px; color: #99a6af; font-size: 9px; line-height: 1.5; }
+    .fit-bars { display: grid; gap: 12px; margin-top: 17px; }
+    .fit-bar-label { display: flex; justify-content: space-between; margin-bottom: 6px; color: #9ca6b2; font-size: 9px; }.fit-bar-label b { color: #d4dae2; font-weight: 500; }
+    .fit-track { height: 4px; border-radius: 9px; background: #292e39; overflow: hidden; }.fit-track i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg,#5bbeb2,var(--aqua)); }
+    .upcoming { padding: 88px 0; content-visibility: auto; contain-intrinsic-size: auto 700px; }
+    .upcoming-feature { position: relative; min-height: 330px; display: grid; grid-template-columns: 1.04fr .96fr; overflow: hidden; border: 1px solid rgba(255,255,255,.1); border-radius: 14px; background: #17131d; isolation: isolate; }
+    .upcoming-feature[hidden] { display: none !important; }
+    .upcoming-feature::before { content: ''; position: absolute; inset: 0; z-index: -2; background: linear-gradient(90deg,#111019 0%,rgba(17,16,25,.94) 37%,rgba(17,16,25,.42) 100%),linear-gradient(0deg,rgba(10,11,16,.35),transparent),url('https://www.rockstargames.com/VI/_next/static/media/poster_full.0az_iud2g3y4j.jpg?akim=1&imdensity=1&imwidth=1920') center 36% / cover; opacity: .88; }
+    .upcoming-feature::after { content: ''; position: absolute; z-index: -1; width: 360px; height: 360px; right: 12%; top: 5px; border: 1px solid rgba(247,132,194,.18); border-radius: 50%; box-shadow: inset 0 0 90px rgba(247,132,194,.12),0 0 100px rgba(247,132,194,.1); transform: rotateX(68deg) rotateZ(-18deg); }
+    .upcoming-copy { align-self: center; padding: 38px 0 38px 42px; max-width: 540px; }
+    .upcoming-copy h3 { margin: 13px 0 9px; font: 500 clamp(31px,4vw,47px)/1 var(--display); letter-spacing: -.07em; }
+    .upcoming-copy p { max-width: 430px; color: #abb1bb; font-size: 11px; line-height: 1.7; }
+    .release-count { display: flex; gap: 9px; align-items: center; margin: 19px 0 21px; color: #e3e6ea; font: 600 10px var(--display); }.release-count span { padding: 7px 9px; border-radius: 5px; background: rgba(255,255,255,.09); color: var(--pink); }
+    .upcoming-art { display: grid; align-items: end; justify-items: end; padding: 24px; }
+    .upcoming-stamp { width: 105px; height: 105px; display: grid; place-items: center; padding: 15px; border: 1px solid rgba(255,255,255,.25); border-radius: 50%; background: rgba(17,15,23,.51); color: #fff; text-align: center; font: 600 9px/1.5 var(--display); letter-spacing: .1em; backdrop-filter: blur(12px); transform: rotate(9deg); box-shadow: 0 0 30px rgba(247,132,194,.12); }
+    .upcoming-meta { color: #818a99; font-size: 9px; }
+    .platform-row { display: flex; gap: 7px; flex-wrap: wrap; margin: 0 0 19px; }.platform { padding: 6px 8px; border: 1px solid rgba(255,255,255,.14); border-radius: 5px; color: #d6dbe3; font: 500 8px var(--display); }
+    .more-upcoming { display: flex; justify-content: space-between; gap: 20px; align-items: center; margin-top: 16px; padding: 15px 17px; border: 1px solid var(--line); border-radius: 9px; background: #0f1219; }
+    .more-upcoming strong { font: 600 10px var(--display); }.more-upcoming p { margin: 4px 0 0; color: #858f9f; font-size: 9px; }.more-upcoming .text-link { flex: none; }
+    .newsletter { padding: 67px 0; border-top: 1px solid var(--line); background: radial-gradient(ellipse at 50% 100%,rgba(200,255,77,.07),transparent 50%),#0d1016; }
+    .newsletter-inner { display: flex; align-items: center; justify-content: space-between; gap: 35px; }
+    .newsletter h2 { margin: 8px 0 5px; font: 500 clamp(25px,3.6vw,37px)/1 var(--display); letter-spacing: -.06em; }.newsletter p { margin: 0; color: #8993a2; font-size: 10px; }
+    .newsletter-form { display: flex; max-width: 385px; width: 100%; gap: 8px; }.newsletter-form input { flex: 1; min-width: 0; padding: 0 12px; border: 1px solid rgba(255,255,255,.12); border-radius: 7px; outline: none; background: #10141c; color: white; font-size: 10px; }.newsletter-form input:focus { border-color: rgba(200,255,77,.5); }
+    footer { padding: 31px 0 25px; background: #090b10; }
+    .footer-top { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-bottom: 22px; border-bottom: 1px solid var(--line); }.footer-top p { margin: 8px 0 0; color: #778190; font-size: 9px; }
+    .footer-links { display: flex; gap: 22px; color: #a2aab6; font-size: 9px; }.footer-links a:hover { color: var(--lime); }
+    .footer-bottom { display: flex; justify-content: space-between; gap: 20px; padding-top: 15px; color: #66707e; font-size: 8px; }.footer-bottom a { color: #99a2ad; text-decoration: underline; text-decoration-color: #39414d; text-underline-offset: 3px; }
+    .modal-backdrop { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: 20px; background: rgba(3,4,7,.78); backdrop-filter: blur(11px); opacity: 0; visibility: hidden; pointer-events:none; transition: opacity .25s,visibility .25s; }
+    .modal-backdrop.open { opacity: 1; visibility: visible; pointer-events:auto; }
+    .game-modal { position: relative; width: min(900px,100%); max-height: min(88vh,820px); overflow: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; border: 1px solid rgba(255,255,255,.14); border-radius: 14px; background: #10141c; box-shadow: 0 35px 110px rgba(0,0,0,.65); transform: translateY(16px) scale(.985); transition: transform .28s var(--ease); scrollbar-color: #3b4452 transparent; }
+    .modal-backdrop.open .game-modal { transform: translateY(0) scale(1); }
+    .modal-hero { min-height: 270px; position: relative; display: flex; align-items: end; padding: 29px 32px; background-position: center 35%; background-size: cover; isolation: isolate; }
+    .modal-hero::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg,#10141c 0%,rgba(16,20,28,.7) 34%,rgba(12,14,19,.05) 100%),linear-gradient(90deg,rgba(9,11,16,.6),transparent); }
+    .modal-close { position: absolute; top: 15px; right: 15px; width: 35px; height: 35px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.2); border-radius: 50%; background: rgba(8,10,15,.65); color: white; cursor: pointer; z-index: 2; transition: .2s; }.modal-close:hover { color: #111; border-color: var(--lime); background: var(--lime); }
+    .modal-title-wrap { max-width: 600px; }.modal-title-wrap h2 { margin: 7px 0 10px; font: 600 clamp(27px,4vw,42px)/.98 var(--display); letter-spacing: -.07em; }.modal-meta-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; color: #d2d8e1; font-size: 9px; }.modal-meta-row span:not(:last-child)::after { content: '·'; margin-left: 8px; color: #768091; }
+    .modal-tab-row { display: flex; gap: 19px; padding: 0 32px; border-bottom: 1px solid var(--line); }.modal-tab { position: relative; padding: 15px 0 13px; border: 0; background: transparent; color: #818b9a; font: 600 10px var(--display); cursor: pointer; }.modal-tab.active { color: var(--lime); }.modal-tab.active::after { content: ''; position: absolute; height: 2px; bottom: -1px; left: 0; right: 0; background: var(--lime); }
+    .modal-content { padding: 24px 32px 30px; }.tab-panel { display: none; animation: fadeUp .35s var(--ease); }.tab-panel.active { display: block; }
+    .overview-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 24px; }
+    .overview-grid h3,.tab-panel h3 { margin: 0 0 12px; font: 600 15px var(--display); letter-spacing: -.04em; }.overview-copy { color: #a8b1be; font-size: 11px; line-height: 1.8; }.verdict-box { padding: 15px; border: 1px solid rgba(200,255,77,.19); border-radius: 9px; background: rgba(200,255,77,.045); }.verdict-box small { color: var(--lime); font: 600 8px var(--display); letter-spacing: .12em; text-transform: uppercase; }.verdict-box p { margin: 8px 0 0; color: #c3cad4; font-size: 10px; line-height: 1.7; }
+    .fact-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 9px; margin-top: 19px; }.fact { padding: 12px 11px; border: 1px solid rgba(255,255,255,.07); border-radius: 7px; background: rgba(255,255,255,.025); }.fact small { display: block; color: #7e8998; font-size: 8px; }.fact strong { display: block; margin-top: 5px; color: #e2e7ed; font: 600 10px var(--display); }
+    .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 17px; }.review-note { padding: 14px; border: 1px solid rgba(255,255,255,.08); border-radius: 8px; }.review-note strong { display: block; margin-bottom: 8px; color: #dfe5ec; font: 600 9px var(--display); }.review-note p { margin: 0; color: #98a3b1; font-size: 9px; line-height: 1.7; }
+    .steam-review { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 15px; padding: 8px 10px; border: 1px solid rgba(128,240,211,.2); border-radius: 6px; background: rgba(128,240,211,.05); color: #b9f6e9; font: 600 9px var(--display); }.steam-review span { color: var(--aqua); }
+    .req-toggle { display: flex; gap: 6px; margin-bottom: 14px; }.req-toggle button { padding: 7px 10px; border: 1px solid var(--line); border-radius: 6px; background: transparent; color: #a5aebb; font: 600 9px var(--display); cursor: pointer; }.req-toggle button.active { border-color: rgba(200,255,77,.45); color: var(--lime); background: rgba(200,255,77,.05); }
+    .spec-list { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0 22px; }.spec-item { padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,.065); }.spec-item small { display: block; margin-bottom: 4px; color: #7f8a99; font: 600 8px var(--display); letter-spacing: .08em; text-transform: uppercase; }.spec-item span { color: #d0d6df; font-size: 10px; line-height: 1.5; }
+    .spec-foot { margin: 14px 0 0; color: #778292; font-size: 8px; line-height: 1.6; }
+    .modal-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 21px; }
+    .modal-actions .btn { min-height: 38px; padding: 0 13px; font-size: 9px; }.btn-small-ghost { min-height: 38px; padding: 0 13px; border: 1px solid rgba(255,255,255,.13); border-radius: 7px; background: transparent; color: #c4cbd5; font: 600 9px var(--display); cursor: pointer; transition: .2s; }.btn-small-ghost:hover { color: var(--neon); border-color: rgba(168,85,247,.42); }
+    .login-modal { width: min(410px,100%); position: relative; padding: 31px; border: 1px solid rgba(255,255,255,.13); border-radius: 14px; background: radial-gradient(ellipse at 100% 0%,rgba(168,85,247,.08),transparent 38%),#0a0a14; box-shadow: 0 30px 100px rgba(0,0,0,.55); transform: translateY(15px); transition: transform .28s var(--ease); }.modal-backdrop.open .login-modal { transform: translateY(0); }
+    .login-modal h2 { margin: 12px 0 6px; font: 600 27px var(--display); letter-spacing: -.06em; }.login-modal > p { margin-bottom: 19px; color: #8f99a8; font-size: 10px; line-height: 1.6; }
+    .login-form { display: grid; gap: 11px; }.field label { display: block; margin-bottom: 6px; color: #aeb7c4; font: 600 9px var(--display); }.field input { width: 100%; height: 41px; padding: 0 11px; border: 1px solid rgba(255,255,255,.12); border-radius: 6px; outline: none; background: #070710; color: white; font-size: 10px; }.field input:focus { border-color: rgba(168,85,247,.48); }.login-form .btn { width: 100%; margin-top: 3px; }.demo-note { margin: 13px 0 0; color: #707b8a; font-size: 8px; line-height: 1.6; }.login-switch { margin: 15px 0 0; color: #8993a2; font-size: 9px; text-align: center; }.login-switch button { border: 0; padding: 0; background: none; color: var(--neon-bright); font: inherit; cursor: pointer; }
+    .toast-stack { position: fixed; z-index: 110; right: 22px; bottom: 22px; display: grid; gap: 8px; }.toast { min-width: 210px; display: flex; align-items: center; gap: 9px; padding: 12px 14px; border: 1px solid rgba(168,85,247,.25); border-radius: 8px; background: rgba(10,10,18,.95); color: #e7ecf1; font-size: 10px; box-shadow: 0 12px 35px rgba(0,0,0,.35); animation: toastIn .3s var(--ease); backdrop-filter: blur(12px); }.toast i { color: var(--neon-bright); font-style: normal; }
+    .reveal { opacity: 0; transform: translateY(22px) translateZ(0); transition: opacity .65s var(--ease),transform .65s var(--ease); will-change: opacity, transform; }.reveal.visible { opacity: 1; transform: translateY(0) translateZ(0); will-change: auto; }
+    /* Electric purple neon palette with deep black dimensionality. */
+    body { background: radial-gradient(ellipse at 12% 18%,rgba(124,58,237,.1),transparent 34%),radial-gradient(ellipse at 91% 45%,rgba(55,113,143,.06),transparent 30%),var(--bg); }
+    .topline { background: rgba(6,6,14,.88); }
+    .nav-shell { background: rgba(5,5,8,.82); }
+    .brand-mark { border-color: rgba(168,85,247,.6); background: linear-gradient(145deg,rgba(168,85,247,.18),rgba(124,58,237,.03)); box-shadow: 0 0 24px rgba(168,85,247,.12); }
+    .brand-mark svg { filter: drop-shadow(0 0 9px rgba(168,85,247,.6)); }
+    .hero { min-height: 640px; }
+    .hero-bg { filter: saturate(.88) contrast(1.05); }
+    .hero::after { content:''; position:absolute; inset:0; z-index:-2; pointer-events:none; background:radial-gradient(ellipse at 75% 52%,rgba(124,58,237,.2),transparent 44%),linear-gradient(115deg,rgba(5,5,8,.18),transparent 45%,rgba(5,5,8,.5)); }
+    .hero-orb { border-color:rgba(168,85,247,.2); box-shadow:inset 0 0 75px rgba(168,85,247,.05),0 0 110px rgba(118,228,245,.11); }
+    .hero-orb::before { border-color:rgba(118,228,245,.2); }
+    .hero-orb::after { border-color:rgba(255,134,173,.17); }
+    .hero-card { border:1px solid rgba(255,255,255,.12); box-shadow:24px 30px 92px rgba(0,0,0,.7),-2px 0 0 rgba(168,85,247,.55),0 0 60px rgba(118,228,245,.1); }
+    .hero-card img { filter:saturate(.94) contrast(1.03); }
+    .hero-pager,.hero-badge,.float-chip { border-color:rgba(180,170,240,.14); background:rgba(8,8,18,.82); box-shadow:0 18px 52px rgba(0,0,0,.32); }
+    .hero-badge { right:0; }
+    .ticker { background:rgba(6,6,14,.85); }
+    .section { padding-top:96px; padding-bottom:96px; }
+    .section-title h2,.recommend-copy h2,.newsletter h2 { text-wrap:balance; }
+    .chip { border-color:rgba(180,170,240,.11); background:rgba(255,255,255,.015); }
+    .chip:hover,.chip.active { color:#0d0a14; border-color:var(--neon); background:linear-gradient(115deg,#c084fc,var(--neon)); box-shadow:0 5px 22px rgba(168,85,247,.22); }
+    .game-grid { gap:18px; }
+    .game-card { animation:none; opacity:0; transform:translateY(28px) scale(.975) translateZ(0); transition:opacity .65s var(--ease),transform .65s var(--ease); will-change:opacity,transform; }
+    .game-card.visible { opacity:1; transform:translateY(0) scale(1) translateZ(0); will-change:auto; }
+    .game-card-inner { border: 1px solid rgba(168,85,247,.16); border-top: 1px solid rgba(255,255,255,.14); border-radius: 14px; background: linear-gradient(165deg,rgba(20,18,34,.78) 0%,rgba(10,10,18,.92) 100%); backdrop-filter: blur(20px) saturate(170%); -webkit-backdrop-filter: blur(20px) saturate(170%); box-shadow: 0 12px 40px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.06); }
+    .game-card:hover .game-card-inner { border-color: rgba(192,132,252,.55); box-shadow: 0 24px 65px rgba(0,0,0,.65), 0 0 35px rgba(168,85,247,.22), inset 0 1px 1px rgba(255,255,255,.2); }
+    .game-card-inner { will-change:transform; }
+    .card-art { height:194px; }
+    .card-art img { filter:saturate(.95) contrast(1.04); }
+    .card-art::after { background:linear-gradient(0deg,rgba(10,10,18,.96) 1%,rgba(10,10,16,.14) 62%,rgba(7,8,13,.04)); }
+    .genre-tile { min-height:140px; border-radius:12px; background:linear-gradient(145deg,#211b31,#11121b); }
+    .genre-tile:hover { border-color:rgba(193,165,255,.55); box-shadow:0 15px 40px rgba(0,0,0,.24); }
+    .genre-tile::after { background:linear-gradient(0deg,rgba(9,9,16,.92),rgba(9,9,16,.02)); }
+    .recommend { background:linear-gradient(120deg,#101321,#13111d 65%,#1b1423); }
+    .upcoming-feature { border-color:rgba(220,200,255,.16); box-shadow:0 28px 100px rgba(0,0,0,.22); }
+    .game-modal { border-color:rgba(207,194,255,.2); background:#10111a; box-shadow:0 40px 130px rgba(0,0,0,.72),0 0 80px rgba(111,78,166,.11); }
+    .modal-hero::before { background:linear-gradient(0deg,#10111a 0%,rgba(16,17,26,.72) 34%,rgba(12,14,19,.02) 100%),linear-gradient(90deg,rgba(9,9,17,.62),transparent); }
+    .modal-tab.active::after { box-shadow:0 0 12px rgba(193,165,255,.55); }
+    .verdict-box { border-color:rgba(193,165,255,.25); background:linear-gradient(145deg,rgba(193,165,255,.08),rgba(118,228,245,.025)); }
+    .login-modal { background:radial-gradient(ellipse at 100% 0%,rgba(193,165,255,.13),transparent 40%),#11121c; }
+    .toast { border-color:rgba(193,165,255,.32); background:rgba(18,17,29,.96); }
+    .btn-primary { color:#171222; background:linear-gradient(115deg,#d3c0ff,#b89aff 56%,#9e8be5); box-shadow:0 8px 32px rgba(156,123,222,.23); }
+    .btn-primary:hover { background:linear-gradient(115deg,#e0d2ff,#c1a5ff 56%,#a99aef); box-shadow:0 12px 40px rgba(156,123,222,.3); }
+    .hero-arrow:hover,.icon-btn:hover,.card-open:hover,.btn-small-ghost:hover { color:var(--lime); }
+    .btn-small-ghost:active,.card-open:active,.chip:active,.icon-btn:active { transform:scale(.97); transition-duration:.08s; }
+    .save-btn.saved { animation:heartPop .42s var(--ease); }
+    .modal-backdrop.open .game-modal,.modal-backdrop.open .login-modal { animation:modalBloom .42s var(--ease) both; }
+    .media-section { margin-top:25px; padding-top:21px; border-top:1px solid var(--line); }
+    .media-head { display:flex; justify-content:space-between; align-items:end; gap:14px; margin-bottom:13px; }
+    .media-head h3 { margin:0; font:600 14px var(--display); letter-spacing:-.04em; }
+    .media-head p { margin:5px 0 0; color:#8f96aa; font-size:9px; line-height:1.5; }
+    .media-grid { display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:10px; }
+    .media-shot { min-width:0; position:relative; min-height:116px; overflow:hidden; border:1px solid rgba(213,204,255,.14); border-radius:9px; background:#171725; }
+    .media-shot img { width:100%; height:100%; min-height:116px; display:block; object-fit:cover; transition:transform .6s var(--ease),filter .35s; filter:saturate(.92); }
+    .media-shot:hover img { transform:scale(1.06); filter:saturate(1.08); }
+    .media-shot figcaption { position:absolute; inset:auto 0 0; padding:17px 10px 8px; background:linear-gradient(0deg,rgba(6,7,12,.9),transparent); color:#f0edfb; font:600 8px var(--display); letter-spacing:.07em; text-transform:uppercase; }
+    .media-shot.missing { display:none; }
+    .media-cta { margin-top:11px; }
+    .media-note { color:#788094; font-size:8px; line-height:1.55; }
+    .library-count { padding:7px 10px; border:1px solid rgba(193,165,255,.22); border-radius:99px; background:rgba(193,165,255,.06); color:#d2c3f7; font:600 9px var(--display); white-space:nowrap; }
+    .catalog-note { margin:14px 0 0; color:#7e8497; font-size:9px; line-height:1.6; }
+    .catalog-note a { color:#c9b8f8; text-decoration:underline; text-underline-offset:3px; }
+    .catalog-heading-actions { display:flex; align-items:center; justify-content:flex-end; flex-wrap:wrap; gap:10px; }
+    .catalog-mode-btn { border-color:rgba(193,165,255,.32); color:#d8c9ff; }
+    .catalog-advanced-tools { width:100%; display:flex; align-items:end; flex-wrap:wrap; gap:9px; padding:12px 14px 0; border-top:1px solid rgba(220,220,255,.07); }
+    .catalog-advanced-tools label { display:grid; gap:5px; color:#7f8799; font:600 8px var(--display); letter-spacing:.1em; text-transform:uppercase; }
+    .catalog-advanced-tools select { min-width:128px; padding:8px 26px 8px 10px; border:1px solid rgba(220,220,255,.12); border-radius:7px; outline:none; background:#0d1016; color:#c8c8d5; font:500 10px var(--font); letter-spacing:0; text-transform:none; }
+    .catalog-advanced-tools select:disabled { opacity:.45; cursor:not-allowed; }
+    .catalog-extra-filters { width:100%; border-top:1px solid rgba(220,220,255,.07); padding-top:10px; color:#a9a7b9; font-size:10px; }
+    .catalog-extra-filters summary { width:max-content; cursor:pointer; color:#bab6ca; font:650 9px var(--display); letter-spacing:.08em; text-transform:uppercase; }
+    .catalog-extra-filters[open] summary { margin-bottom:10px; }
+    .catalog-extra-filters .catalog-advanced-tools { border:0; padding:0; }
+    .catalog-advanced-tools input { min-width:128px; max-width:180px; padding:8px 10px; border:1px solid rgba(220,220,255,.12); border-radius:7px; outline:none; background:#0d1016; color:#c8c8d5; font:500 10px var(--font); letter-spacing:0; text-transform:none; }
+    .catalog-advanced-tools input:disabled { opacity:.45; cursor:not-allowed; }
+    .catalog-advanced-tools select:focus-visible,.sort-select:focus-visible,.search-box:focus-within { outline:2px solid var(--lime); outline-offset:2px; }
+    .filter-reset { margin-left:auto; }
+    .catalog-source { display:flex; align-items:center; flex-wrap:wrap; gap:9px; margin-top:17px; padding:12px 14px; border:1px solid rgba(193,165,255,.15); border-radius:9px; background:rgba(193,165,255,.035); color:#9ca0b1; font-size:10px; line-height:1.5; }
+    .catalog-source[hidden] { display:none; }
+    .catalog-source i { width:7px; height:7px; flex:0 0 auto; border-radius:50%; background:#a78bfa; box-shadow:0 0 12px rgba(167,139,250,.45); }
+    .catalog-source a { margin-left:auto; color:#d2c1ff; font-weight:700; white-space:nowrap; }
+    .catalog-source.live i { background:#7cdbac; box-shadow:0 0 12px rgba(124,219,172,.45); }
+    .catalog-source.error i { background:#ff929e; box-shadow:0 0 12px rgba(255,146,158,.4); }
+    .catalog-pagination { display:flex; align-items:center; justify-content:center; gap:14px; margin-top:26px; color:#a9adbd; font-size:10px; }
+    .catalog-pagination[hidden] { display:none; }
+    .catalog-pagination button:disabled { opacity:.4; cursor:not-allowed; }
+    .catalog-card-price { color:#d4c4ff; font:700 9px var(--display); }
+    .steam-shelves { display:grid; gap:30px; }
+    .steam-shelf { min-width:0; }
+    .steam-shelf-head { display:flex; align-items:end; justify-content:space-between; gap:18px; margin-bottom:14px; }
+    .steam-shelf-head h3 { margin:0; color:#f2f0fa; font:600 clamp(20px,2.5vw,27px)/1.1 var(--display); letter-spacing:-.055em; }
+    .steam-shelf-head p { margin:6px 0 0; color:#82889a; font-size:10px; }
+    .btn-view-all-3d,
+    .steam-shelf-head .text-link,
+    #viewAllUpcoming.text-link {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 15px 7px 16px;
+      border-radius: 9px;
+      border: 1px solid rgba(192, 132, 252, 0.4);
+      border-top: 1.5px solid rgba(255, 255, 255, 0.38);
+      border-bottom: 2px solid rgba(126, 34, 206, 0.75);
+      background: linear-gradient(145deg, rgba(28, 20, 52, 0.9) 0%, rgba(13, 10, 26, 0.96) 100%);
+      color: #f3e8ff;
+      font: 700 10.5px/1 var(--display);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      outline: none;
+      overflow: visible;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 
+        0 4px 0 #230d43,
+        0 8px 20px rgba(0, 0, 0, 0.5),
+        0 0 16px rgba(168, 85, 247, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+      transform: translateY(0);
+      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s, border-color 0.22s, background 0.22s, color 0.22s;
+      user-select: none;
+    }
+    .btn-view-all-3d:hover,
+    .steam-shelf-head .text-link:hover,
+    #viewAllUpcoming.text-link:hover {
+      background: linear-gradient(145deg, rgba(46, 30, 86, 0.95) 0%, rgba(20, 14, 42, 0.98) 100%);
+      border-color: rgba(216, 180, 254, 0.65);
+      border-top-color: rgba(255, 255, 255, 0.6);
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 
+        0 6px 0 #230d43,
+        0 12px 28px rgba(0, 0, 0, 0.6),
+        0 0 24px rgba(192, 132, 252, 0.55),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+    .btn-view-all-3d:active,
+    .steam-shelf-head .text-link:active,
+    #viewAllUpcoming.text-link:active {
+      transform: translateY(3px);
+      box-shadow: 
+        0 1px 0 #230d43,
+        0 4px 10px rgba(0, 0, 0, 0.55),
+        0 0 20px rgba(168, 85, 247, 0.4),
+        inset 0 1px 2px rgba(0, 0, 0, 0.4);
+    }
+    .icon-3d-badge {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 7px;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.3) 0%, rgba(126, 34, 206, 0.45) 100%);
+      border: 1px solid rgba(216, 180, 254, 0.45);
+      border-top: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 
+        inset 0 1px 1px rgba(255, 255, 255, 0.35),
+        0 2px 6px rgba(0, 0, 0, 0.4),
+        0 0 10px rgba(168, 85, 247, 0.35);
+      perspective: 400px;
+      transform-style: preserve-3d;
+      flex-shrink: 0;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    }
+    .btn-view-all-3d:hover .icon-3d-badge,
+    .steam-shelf-head .text-link:hover .icon-3d-badge,
+    #viewAllUpcoming.text-link:hover .icon-3d-badge {
+      background: linear-gradient(135deg, rgba(192, 132, 252, 0.45) 0%, rgba(147, 51, 234, 0.6) 100%);
+      box-shadow: 
+        inset 0 1px 2px rgba(255, 255, 255, 0.6),
+        0 3px 10px rgba(0, 0, 0, 0.5),
+        0 0 18px rgba(192, 132, 252, 0.65);
+      transform: rotateY(12deg) rotateX(-8deg);
+    }
+    .view-all-3d-svg {
+      width: 17px;
+      height: 17px;
+      display: block;
+      overflow: visible;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 8px rgba(192, 132, 252, 0.5));
+      animation: icon3DFloat 3s ease-in-out infinite;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease;
+    }
+    .btn-view-all-3d:hover .view-all-3d-svg,
+    .steam-shelf-head .text-link:hover .view-all-3d-svg,
+    #viewAllUpcoming.text-link:hover .view-all-3d-svg {
+      animation: icon3DHoverPop 0.8s ease-in-out infinite alternate;
+      transform: translate(2px, -2px) scale(1.18);
+      filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 14px rgba(240, 171, 252, 0.85));
+    }
+    @keyframes icon3DFloat {
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-2.5px) rotate(1.5deg);
+      }
+    }
+    @keyframes icon3DHoverPop {
+      0% {
+        transform: translate(2px, -2px) scale(1.15) rotate(0deg);
+      }
+      100% {
+        transform: translate(3.5px, -3.5px) scale(1.22) rotate(2deg);
+      }
+    }
+    .steam-shelf-grid { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:13px; }
+    .steam-mini-card { min-width:0; overflow:hidden; border:1px solid rgba(210,205,244,.1); border-radius:10px; background:linear-gradient(145deg,rgba(24,25,39,.96),rgba(13,14,22,.98)); transition:transform .25s var(--ease),border-color .25s,box-shadow .25s; }
+    .steam-mini-card:hover { transform:translateY(-4px); border-color:rgba(193,165,255,.42); box-shadow:0 14px 36px rgba(0,0,0,.3); }
+    .steam-mini-card img { display:block; width:100%; aspect-ratio:460/215; object-fit:cover; background:#171725; }
+    .steam-mini-copy { padding:10px 11px 12px; }
+    .steam-mini-copy strong { display:block; overflow:hidden; color:#f3f1fb; font:600 11px/1.35 var(--display); text-overflow:ellipsis; white-space:nowrap; }
+    .steam-mini-copy span { display:block; margin-top:5px; overflow:hidden; color:#9296a6; font-size:9px; text-overflow:ellipsis; white-space:nowrap; }
+    .steam-mini-card button { width:100%; margin-top:8px; border:0; padding:5px 0 0; background:none; color:#cdb9ff; text-align:left; font:600 9px var(--display); cursor:pointer; }
+    .catalog-setup-note { max-width:720px; margin:0 auto; padding:18px 20px; border:1px solid rgba(193,165,255,.2); border-radius:10px; background:rgba(193,165,255,.045); color:#b5b2c4; font-size:11px; line-height:1.7; }
+    .game-skeleton { height:325px; border:1px solid rgba(220,215,250,.08); border-radius:13px; background:linear-gradient(100deg,#12131d 24%,#1b1a29 38%,#12131d 62%); background-size:400% 100%; animation:skeletonShimmer 1.4s ease infinite; }
+    .steam-trailer { display:grid; gap:7px; margin:10px 0 15px; color:#a19daf; font-size:9px; }
+    .steam-trailer video,.steam-trailer iframe { display:block; width:min(100%,720px); height:min(56vw,390px); border:1px solid var(--line); border-radius:9px; background:#050508; }
+    .login-error { color:#ff9eaa !important; }
+    .compare-add { display:inline-flex; align-items:center; gap:5px; margin-top:9px; border:1px solid rgba(168,85,247,.25); border-top:1px solid rgba(255,255,255,.16); border-radius:7px; padding:6px 10px; background:rgba(168,85,247,.08); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); color:#d8b4fe; font-size:8px; font-weight:700; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.2); transition:all .2s var(--ease); }
+    .compare-add:hover,.compare-add.selected { border-color:rgba(192,132,252,.75); background:rgba(168,85,247,.28); color:#ffffff; box-shadow:0 0 16px rgba(168,85,247,.45); }
+    .compare-tray { position:fixed; z-index:80; left:50%; bottom:17px; width:min(690px,calc(100% - 28px)); display:flex; align-items:center; gap:12px; padding:12px 14px; border:1px solid rgba(168,85,247,.35); border-top:1px solid rgba(255,255,255,.2); border-radius:12px; background:rgba(14,12,25,.88); box-shadow:0 18px 70px rgba(0,0,0,.65), 0 0 35px rgba(168,85,247,.2); transform:translateX(-50%); backdrop-filter:blur(22px); -webkit-backdrop-filter:blur(22px); }
+    .compare-tray[hidden] { display:none; }
+    .compare-items { flex:1; min-width:0; display:flex; align-items:center; gap:7px; overflow:auto; }
+    .compare-items strong { margin-right:4px; color:#f2eff9; font:650 10px var(--display); white-space:nowrap; }
+    .compare-pill { display:flex; align-items:center; gap:5px; padding:5px 9px; border:1px solid rgba(168,85,247,.28); border-top:1px solid rgba(255,255,255,.18); border-radius:99px; background:rgba(22,17,40,.75); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); color:#e9d5ff; font-size:8.5px; white-space:nowrap; }
+    .compare-pill button { border:0; padding:0; background:none; color:#8b879b; cursor:pointer; }
+    .compare-tray > button { border:1px solid rgba(193,165,255,.27); border-radius:7px; padding:8px 10px; background:rgba(193,165,255,.09); color:#e1d7f7; font:650 9px var(--display); white-space:nowrap; cursor:pointer; }
+    .compare-tray > button.primary { background:linear-gradient(110deg,#d3c0ff,#b89aff); color:#171221; }
+    .compare-tray > button:disabled { opacity:.42; cursor:not-allowed; }
+    .compare-modal { position:relative; width:min(1050px,100%); max-height:min(86vh,900px); overflow:auto; border:1px solid rgba(207,194,255,.2); border-radius:15px; padding:30px; background:#10111a; box-shadow:0 40px 130px rgba(0,0,0,.72),0 0 80px rgba(111,78,166,.11); }
+    .compare-modal h2 { margin:8px 0 22px; font:650 clamp(25px,4vw,38px)/1.05 var(--display); letter-spacing:-.06em; }
+    .compare-table-wrap { overflow:auto; border:1px solid var(--line); border-radius:9px; }
+    .compare-table { width:100%; border-collapse:collapse; min-width:560px; }
+    .compare-table th,.compare-table td { width:21%; border-bottom:1px solid rgba(220,215,250,.08); padding:13px; color:#b8b6c4; text-align:left; vertical-align:top; font-size:10px; line-height:1.55; }
+    .compare-table th:first-child,.compare-table td:first-child { width:16%; color:#8b8a99; text-transform:uppercase; font-size:8px; letter-spacing:.1em; }
+    .compare-table thead th { color:#f3f0fa; font:650 12px var(--display); }
+    @keyframes skeletonShimmer { to { background-position:-400% 0; } }
+    .genre-grid { grid-template-columns:repeat(7,minmax(0,1fr)); }
+    @keyframes heartPop { 45% { transform:scale(1.24); } 100% { transform:scale(1); } }
+    @keyframes modalBloom { from { filter:brightness(.78); } to { filter:brightness(1); } }
+    @keyframes heroDrift { to { transform: scale(1.1) translateX(-1.2%) translateZ(0); } }
+    @keyframes orbit { to { transform: rotate(360deg) translateZ(0); } }
+    @keyframes twinkle { from { opacity: .3; transform: rotate(45deg) scale(.7) translateZ(0); } to { opacity: 1; transform: rotate(135deg) scale(1.2) translateZ(0); } }
+    @keyframes cardIn { from { opacity: 0; transform: translateY(12px) translateZ(0); } to { opacity: 1; transform: translateY(0) translateZ(0); } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(7px) translateZ(0); } to { opacity: 1; transform: translateY(0) translateZ(0); } }
+    @keyframes toastIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 1000px) {
+      .wrap,.hero-inner { width: min(100% - 44px,850px); }.hero { min-height: 590px; }.hero-inner { grid-template-columns: 1fr .84fr; }.hero-showcase { transform: scale(.87); transform-origin: center right; }.hero-orb { width: 450px; height: 450px; right: -4%; top: 40px; }.game-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }.genre-grid { grid-template-columns: repeat(4,minmax(0,1fr)); }.genre-tile { min-height: 112px; }
+    }
+    @media (max-width: 720px) {
+      .wrap,.hero-inner { width: calc(100% - 38px); }.topline { font-size: 8px; }.nav { min-height: 64px; }.nav-links { position: absolute; top: 63px; left: 0; right: 0; display: none; padding: 10px 19px 17px; border-bottom: 1px solid var(--line); background: rgba(9,9,17,.97); }.nav-links.open { display: grid; gap: 0; }.nav-links a { padding: 12px 3px; border-bottom: 1px solid rgba(255,255,255,.05); }.menu-btn { display: grid; }.account-btn { display: none; }.hero { min-height: 0; }.hero-inner { display: block; padding: 70px 0 43px; }.hero-bg { background-position: 63% center; opacity: .55; }.hero-copy { max-width: 540px; }.hero-copy > p { max-width: 380px; }.hero-showcase { position: absolute; right: -70px; top: 62px; height: 345px; width: 350px; opacity: .48; transform: scale(.75); transform-origin: center right; pointer-events: none; }.hero-card { transform: rotateY(-24deg) rotateX(7deg) rotateZ(3deg); }.hero-badge,.float-chip { display: none; }.hero-pager { right: 27%; bottom: 5px; pointer-events: auto; }.hero-orb { width: 340px; height: 340px; top: 68px; right: -36%; opacity: .7; }.hero-star.one { left: 20px; }.ticker-track { justify-content: flex-start; overflow: hidden; }.ticker-item { flex: 0 0 auto; }.section { padding: 66px 0; }.section-head { align-items: start; flex-direction: column; gap: 14px; margin-bottom: 23px; }.filters { align-items: stretch; flex-direction: column; }.filter-tools { justify-content: space-between; }.search-box { flex: 1; }.catalog-heading-actions { justify-content:flex-start; }.catalog-advanced-tools { padding-inline:0; }.catalog-advanced-tools select { min-width:118px; }.filter-reset { margin-left:0; }.catalog-source { align-items:flex-start; }.catalog-source a { margin-left:16px; }.catalog-pagination { gap:8px; }.steam-shelf-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; }.steam-shelf-grid .steam-mini-card:nth-child(n+7) { display:none; }.steam-shelf-head { align-items:start; flex-direction:column; }.compare-tray { flex-wrap:wrap; bottom:8px; padding:9px; }.compare-items { flex-basis:100%; }.compare-modal { padding:23px 16px; }.game-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 11px; }.card-art { height: 145px; }.card-body { padding: 11px; }.art-title strong { font-size: 16px; }.genre-section { padding: 0 0 65px; }.genre-grid { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; }.genre-tile { min-height: 100px; padding: 10px; }.genre-tile strong { font-size: 12px; }.recommend { padding: 58px 0; }.recommend-grid { grid-template-columns: 1fr; gap: 30px; }.rec-card { justify-self: start; max-width: none; transform: none; }.upcoming { padding: 65px 0; }.upcoming-feature { grid-template-columns: 1fr; min-height: 370px; }.upcoming-feature::before { background: linear-gradient(90deg,rgba(17,16,25,.94),rgba(17,16,25,.65)),linear-gradient(0deg,rgba(10,11,16,.5),transparent),url('https://www.rockstargames.com/VI/_next/static/media/poster_full.0az_iud2g3y4j.jpg?akim=1&imdensity=1&imwidth=1920') center 36% / cover; }.upcoming-copy { padding: 29px 24px 8px; }.upcoming-art { position: absolute; right: 10px; bottom: 6px; padding: 14px; opacity: .78; }.upcoming-stamp { width: 78px; height: 78px; font-size: 7px; }.more-upcoming { align-items: start; }.newsletter-inner { align-items: start; flex-direction: column; gap: 20px; }.newsletter-form { max-width: 100%; height: 42px; }.footer-top { align-items: start; flex-direction: column; }.footer-links { flex-wrap: wrap; gap: 14px; }.footer-bottom { align-items: start; flex-direction: column; gap: 9px; }.modal-backdrop { padding: 10px; }.game-modal { max-height: 92vh; }.modal-hero { min-height: 220px; padding: 24px 19px; }.modal-tab-row { padding: 0 19px; gap: 15px; }.modal-content { padding: 20px 19px 24px; }.overview-grid { grid-template-columns: 1fr; gap: 14px; }.fact-grid { grid-template-columns: repeat(2,1fr); }.spec-list { grid-template-columns: 1fr; }.login-modal { padding: 26px 22px; }.media-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }.media-shot:first-child { grid-column:1/-1; }
+    }
+    @media (max-width: 400px) {
+      .wrap,.hero-inner { width: calc(100% - 30px); }.brand { font-size: 15px; }.nav-actions { gap: 7px; }.hero-inner { padding-top: 63px; }.hero-showcase { right: -104px; opacity: .35; }.hero h1 { font-size: 51px; }.hero-copy > p { font-size: 12px; }.game-grid { gap: 8px; }.card-art { height: 123px; }.status-pill { padding: 5px 6px; font-size: 7px; }.card-top { left: 8px; right: 8px; top: 8px; }.save-btn { width: 27px; height: 27px; }.art-title { left: 10px; bottom: 9px; }.art-title strong { font-size: 14px; }.rating { font-size: 8px; }.release-mini { font-size: 8px; }.card-open { font-size: 8px; }.genre-grid { grid-template-columns: repeat(2,1fr); }.upcoming-copy { padding-left: 19px; padding-right: 19px; }.upcoming-copy p { max-width: 280px; }.modal-tab { font-size: 9px; }.pros-cons { grid-template-columns: 1fr; }.media-grid { grid-template-columns:1fr; }.media-shot:first-child { grid-column:auto; }
+    }
+    @media (max-width: 1000px) { .steam-shelf-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+    @media (prefers-reduced-motion: reduce) {
+      *,*::before,*::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; will-change: auto; }
+      .game-card { opacity: 1; transform: none; will-change: auto; }
+      .hero-bg { animation: none; }
+      .hero-orb { animation: none; }
+      .hero-star { animation: none; opacity: .6; }
+      .progress { transition: none; }
+    }
+    @media (hover: none) and (pointer: coarse) {
+      .game-card-inner { transition: border-color .25s, box-shadow .25s; }
+      .game-card:hover .game-card-inner { transform: none; }
+      .card-art img { transition: none; }
+      .game-card:hover .card-art img { transform: none; }
+      .genre-tile:hover::before { transform: none; }
+      .btn:hover { transform: none; }
+      .btn:active { transform: scale(.96); transition-duration: .08s; }
+      .genre-tile:active { transform: scale(.97); transition-duration: .1s; }
+      .save-btn:active { transform: scale(1.18); transition-duration: .08s; }
+      .chip:active { transform: scale(.95); transition-duration: .06s; }
+      .icon-btn:active { transform: scale(.9); transition-duration: .06s; }
+    }
+    .deals-page{display:none;min-height:calc(100vh - 125px);padding:75px 0 80px;background:radial-gradient(ellipse at 80% 0%,rgba(136,108,219,.12),transparent 38%),#0a0b10}.deals-heading{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:28px}.deals-heading h1{margin:10px 0;font:600 clamp(34px,5vw,56px)/1 var(--display);letter-spacing:-.065em}.deals-heading h1 span{color:var(--lime)}.deals-heading p{max-width:650px;color:var(--muted);font-size:12px;line-height:1.7}.deals-filterbar{display:flex;flex-wrap:wrap;align-items:end;gap:10px;padding:14px;border:1px solid var(--line);border-radius:11px;background:linear-gradient(135deg,rgba(25,24,36,.85),rgba(13,15,22,.9));box-shadow:0 16px 50px #0002}.deals-filterbar label{display:grid;gap:6px;min-width:125px;color:#a5a6b2;font-size:9px}.deals-filterbar select,.deals-filterbar input[type=number],.deals-filterbar input[type=search]{height:36px;max-width:190px;border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:0 9px;background:#10121a;color:#e5e6ed;font-size:10px;outline:none}.deals-filterbar select:focus,.deals-filterbar input:focus{border-color:rgba(193,165,255,.55)}.deals-filterbar .sale-only{display:flex;align-items:center;gap:8px;min-height:36px}.sale-only input{accent-color:var(--lime)}.deals-status{min-height:34px;padding:16px 1px 10px;color:#a8aab5;font-size:10px}.deals-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.deal-card{min-width:0;overflow:hidden;border:1px solid rgba(220,215,250,.1);border-radius:12px;background:linear-gradient(145deg,rgba(24,24,34,.93),rgba(14,16,22,.97));box-shadow:0 12px 35px rgba(0,0,0,.18);transition:transform .3s var(--ease),border-color .25s,box-shadow .3s;animation:fadeUp .35s both}.deal-card:hover{transform:translateY(-4px);border-color:rgba(193,165,255,.34);box-shadow:0 20px 50px #0005}.deal-art{position:relative;aspect-ratio:16/8;overflow:hidden;background:linear-gradient(135deg,#282638,#11141c)}.deal-art img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .55s}.deal-card:hover .deal-art img{transform:scale(1.04)}.deal-discount{position:absolute;left:11px;top:11px;padding:6px 8px;border-radius:6px;background:var(--lime);color:#11150b;font:750 9px var(--display);letter-spacing:.05em}.deal-body{padding:13px}.deal-store{display:flex;align-items:center;gap:7px;margin-bottom:9px;color:#a7a6b5;font-size:9px}.deal-store img{width:17px;height:17px;object-fit:contain}.deal-title{display:block;min-height:36px;color:#f0eff5;font:650 14px/1.3 var(--display);letter-spacing:-.025em}.deal-prices{display:flex;align-items:baseline;gap:8px;margin-top:12px}.deal-price{color:var(--lime);font:700 22px var(--display);letter-spacing:-.06em}.deal-retail{color:#81818e;font-size:10px;text-decoration:line-through}.deal-facts{display:flex;flex-wrap:wrap;gap:6px 12px;margin:8px 0 13px;color:#9796a5;font-size:9px}.deal-action{width:100%;display:flex;justify-content:center;align-items:center;gap:8px;padding:10px;border:1px solid rgba(193,165,255,.25);border-radius:7px;background:rgba(193,165,255,.1);color:#e7ddfa;font:700 9px var(--display);transition:background .2s}.deal-action:hover{background:rgba(193,165,255,.2)}.deals-route main>:not(#dealsPage){display:none!important}.deals-route main #dealsPage{display:block}.deals-route footer{display:block}.price-comparison{margin-top:22px;padding:17px;border:1px solid rgba(193,165,255,.17);border-radius:11px;background:linear-gradient(135deg,rgba(193,165,255,.07),rgba(21,21,31,.78))}.price-comparison h3{margin:0;color:#e9e4f4;font:650 13px var(--display)}.price-state{margin:8px 0 12px;color:#9895a6;font-size:9px}.price-table{width:100%;border-collapse:collapse}.price-table td{padding:10px 7px;border-top:1px solid rgba(220,215,250,.07);color:#c7c3d2;font-size:9px}.price-table td:last-child{text-align:right}.price-table .price-current{color:var(--lime);font:700 14px var(--display)}.price-store{display:flex;align-items:center;gap:7px}.price-store img{width:16px;height:16px;object-fit:contain}.price-table a{display:inline-flex;padding:7px 9px;border-radius:6px;background:rgba(193,165,255,.12);color:#e1d4ff;font-weight:700}.price-lowest{margin:5px 0 11px;color:#b1e9a2;font-size:9px}.rawg-media-image{cursor:zoom-in}.media-lightbox{position:fixed;z-index:120;inset:0;display:none;place-items:center;padding:24px;background:rgba(4,4,8,.94);backdrop-filter:blur(12px)}.media-lightbox.open{display:grid;animation:fadeUp .2s both}.media-lightbox img{max-width:min(94vw,1300px);max-height:82vh;object-fit:contain;border:1px solid rgba(255,255,255,.12);border-radius:8px;box-shadow:0 24px 100px #000}.lightbox-close,.lightbox-nav{position:absolute;display:grid;place-items:center;width:42px;height:42px;border:1px solid rgba(255,255,255,.18);border-radius:50%;background:#15151dbf;color:#fff;font-size:19px;cursor:pointer}.lightbox-close{right:22px;top:22px}.lightbox-nav.prev{left:20px}.lightbox-nav.next{right:20px}.lightbox-caption{position:absolute;bottom:17px;color:#d2cfdb;font-size:10px}.deals-route .nav-links a[href="/deals"]{color:var(--lime)}
+    .games-route main>:not(#library){display:none!important}.games-route main #library{display:block;padding-top:55px}
+    @media(max-width:850px){.deals-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.deals-filterbar{align-items:stretch}.deals-filterbar label{flex:1 1 130px}}
+    @media(max-width:560px){.deals-page{padding:46px 0 60px}.deals-heading{align-items:start;flex-direction:column}.deals-grid{grid-template-columns:1fr}.deal-art{aspect-ratio:16/7}.deals-filterbar label{flex:1 1 42%}.deals-filterbar select,.deals-filterbar input[type=number],.deals-filterbar input[type=search]{width:100%;max-width:none}.deals-route .topline{display:none}.deals-route .nav-shell{top:0}}
+    .playscape-api-pending #heroBg,.playscape-api-pending #heroShowcase,.playscape-api-pending #gameGrid,.playscape-api-pending #steamShelves,.playscape-api-pending #upcoming { visibility:hidden !important; }
+  </style>
+  <script>if(location.pathname.replace(/\/$/, "") !== "/deals") document.documentElement.classList.add("playscape-api-pending");</script>
+</head>
+<body>
+  <svg style="position:absolute;width:0;height:0;overflow:hidden;pointer-events:none" aria-hidden="true">
+    <defs>
+      <linearGradient id="v3dTop" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#ffffff"/>
+        <stop offset="30%" stop-color="#f5d0fe"/>
+        <stop offset="70%" stop-color="#d946ef"/>
+        <stop offset="100%" stop-color="#a855f7"/>
+      </linearGradient>
+      <linearGradient id="v3dFront" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#c084fc"/>
+        <stop offset="100%" stop-color="#6b21a8"/>
+      </linearGradient>
+      <linearGradient id="v3dSide" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#9333ea"/>
+        <stop offset="100%" stop-color="#2e1065"/>
+      </linearGradient>
+      <filter id="v3dGlow" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur stdDeviation="1.5" result="blur"/>
+        <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+      </filter>
+      <g id="icon-3d-arrow">
+        <ellipse cx="11.5" cy="19.5" rx="7.5" ry="3" fill="#a855f7" opacity="0.4" filter="url(#v3dGlow)"/>
+        <path d="M10 6.5 L12.5 9 L12.5 11.5 L10 9 Z" fill="url(#v3dFront)"/>
+        <path d="M5.5 16 L8 18.5 L8 21 L5.5 18.5 Z" fill="url(#v3dFront)"/>
+        <path d="M8 18.5 L15 11.5 L15 14 L8 21 Z" fill="url(#v3dSide)"/>
+        <path d="M15 11.5 L17.5 14 L17.5 16.5 L15 14 Z" fill="url(#v3dFront)"/>
+        <path d="M17.5 14 L18 4 L18 6.5 L17.5 16.5 Z" fill="url(#v3dSide)"/>
+        <path d="M18 4 L10 6.5 L12.5 9 L5.5 16 L8 18.5 L15 11.5 L17.5 14 Z" fill="url(#v3dTop)" stroke="rgba(255,255,255,0.75)" stroke-width="0.6" stroke-linejoin="round"/>
+        <circle cx="18" cy="4" r="1.3" fill="#ffffff" filter="url(#v3dGlow)"/>
+        <circle cx="18" cy="4" r="0.6" fill="#ffffff"/>
+      </g>
+    </defs>
+  </svg>
+  <div class="progress" id="progress"></div>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="topline"><span class="dot"></span> A better way to find your next game <span class="dot"></span></div>
+  <div class="nav-shell">
+    <nav class="nav wrap" aria-label="Main navigation">
+      <a class="brand" href="#top" aria-label="GAMEVAULT home"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="gvLogoGrad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#f0abfc"/><stop offset="50%" stop-color="#c084fc"/><stop offset="100%" stop-color="#a855f7"/></linearGradient></defs><path d="M5.8 7C7.6 6 16.4 6 18.2 7C20.2 8.1 22 11.8 21.2 16.8C20.6 19.8 17.8 20.6 15.8 18.6C14.4 17.2 13.5 16.5 12 16.5C10.5 16.5 9.6 17.2 8.2 18.6C6.2 20.6 3.4 19.8 2.8 16.8C2 11.8 3.8 8.1 5.8 7Z" stroke="url(#gvLogoGrad)" stroke-width="1.6" stroke-linejoin="round" fill="rgba(168,85,247,0.1)"/><path d="M6.2 5.2L9.2 4.6" stroke="#c084fc" stroke-width="1.3" stroke-linecap="round" opacity="0.85"/><path d="M17.8 5.2L14.8 4.6" stroke="#c084fc" stroke-width="1.3" stroke-linecap="round" opacity="0.85"/><path d="M6 12H8.4M7.2 10.8V13.2" stroke="#e879f9" stroke-width="1.4" stroke-linecap="round"/><circle cx="16.8" cy="10.8" r="0.65" fill="#f0abfc"/><circle cx="15.6" cy="12" r="0.65" fill="#c084fc"/><circle cx="18" cy="12" r="0.65" fill="#c084fc"/><circle cx="16.8" cy="13.2" r="0.65" fill="#a855f7"/><path d="M13.2 9.8H11.2C10.1 9.8 9.3 10.6 9.3 11.8C9.3 13 10.1 13.8 11.2 13.8H12.8V11.8H11.5" stroke="url(#gvLogoGrad)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="11.8" r="0.5" fill="#ffffff"/></svg></span><span>GAME<em>VAULT</em></span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="#library" class="active">Discover</a>
+        <a href="#genres">Genres</a>
+        <a href="/deals">Deals</a>
+        <a href="#upcoming">Coming soon</a>
+        <a href="#about">How it works</a>
+      </div>
+      <div class="nav-actions">
+        <button class="icon-btn search-nav" id="searchNav" aria-label="Search games" title="Search games (Ctrl/⌘ K)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8" stroke="currentColor" stroke-width="1.7"/><path d="m16 16 4.5 4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
+        <button class="icon-btn" id="wishlistNav" aria-label="Show my wishlist" title="My wishlist">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.8 8.7c0 4.2-8.8 10-8.8 10s-8.8-5.8-8.8-10A4.7 4.7 0 0 1 12 6.1a4.7 4.7 0 0 1 8.8 2.6Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="wish-count" id="wishCount">0</span>
+        </button>
+        <button class="account-btn" id="openLogin">Sign in <span id="userName"></span></button>
+        <button class="menu-btn" id="menuBtn" aria-label="Open navigation menu"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
+      </div>
+    </nav>
+  </div>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="hero-bg" id="heroBg" aria-hidden="true"></div><div class="hero-orb" aria-hidden="true"></div>
+      <i class="hero-star one" aria-hidden="true"></i><i class="hero-star two" aria-hidden="true"></i><i class="hero-star three" aria-hidden="true"></i>
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <div class="eyebrow">RAWG game data · GAMEVAULT discovery</div>
+          <h1 id="heroTitle">Find a game<br><span>you’ll love.</span></h1>
+          <p>Explore games with clearly sourced ratings, published PC specs and practical buying details.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#library">Explore games <span aria-hidden="true">↘</span></a>
+            <button class="btn btn-ghost" id="heroTrailer"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m8 5 12 7-12 7V5Z"/></svg> See the featured pick</button>
+          </div>
+          <div class="hero-note"><span class="avatar-stack" aria-hidden="true"><i></i><i></i><i></i></span> Made for curious players, not endless scrolling.</div>
+        </div>
+        <div class="hero-showcase" id="heroShowcase" aria-label="Featured game artwork">
+          <div class="hero-card" id="heroCard"><img id="heroCover" alt="Featured game art"><div class="hero-card-title"><small id="heroKicker">RAWG featured game</small><strong id="heroTitleGame">Loading game data…</strong></div></div>
+          <div class="hero-badge"><small>RAWG rating</small><strong id="heroRating">Loading game data…</strong></div>
+          <div class="float-chip"><small>Play style</small><strong id="heroStyle">Story-rich · Open world</strong></div>
+          <div class="hero-pager" aria-label="Featured games carousel"><button class="hero-arrow" id="heroPrev" aria-label="Previous featured game">‹</button><div class="hero-dots" id="heroDots"><button class="hero-dot active" data-slide="0" aria-label="Show Cyberpunk 2077"></button><button class="hero-dot" data-slide="1" aria-label="Show Elden Ring"></button><button class="hero-dot" data-slide="2" aria-label="Show Baldur's Gate 3"></button><button class="hero-dot" data-slide="3" aria-label="Show Resident Evil 4"></button><button class="hero-dot" data-slide="4" aria-label="Show Hogwarts Legacy"></button></div><button class="hero-arrow" id="heroNext" aria-label="Next featured game">›</button><span class="hero-count" id="heroCount" aria-live="polite">01 <span>/ 05</span></span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="ticker" aria-label="What you can discover">
+      <div class="ticker-track wrap">
+        <div class="ticker-item"><span>✳</span><b>RAWG game data</b> for every mood</div><div class="ticker-item"><span>↗</span><b>Clearly sourced ratings</b> and useful details</div><div class="ticker-item"><span>◉</span><b>PC specs</b> when published</div><div class="ticker-item"><span>♡</span><b>Your wishlist</b> stays yours</div>
+      </div>
+    </div>
+
+    <section class="deals-page" id="dealsPage" aria-labelledby="dealsTitle">
+      <div class="wrap">
+        <div class="deals-heading"><div><div class="eyebrow">Real offers · Updated from CheapShark</div><h1 id="dealsTitle">Deals worth <span>a closer look.</span></h1><p>Compare current PC game offers across participating stores. Prices are shown in USD and links use CheapShark’s deal redirect.</p></div><a class="text-link" href="/" aria-label="Back to discovery">← Back to discovery</a></div>
+        <div class="deals-filterbar" aria-label="Filter and sort deals">
+          <label>Game title<input id="dealTitle" type="search" maxlength="100" placeholder="Find a game"></label>
+          <label>Store<select id="dealStore"><option value="">All stores</option></select></label>
+          <label>Maximum price<input id="dealPriceMax" type="number" min="0" max="500" step="1" placeholder="Any price"></label>
+          <label>Metacritic<input id="dealMetacritic" type="number" min="0" max="100" step="1" placeholder="Any score"></label>
+          <label>Steam rating<input id="dealSteamRating" type="number" min="0" max="100" step="1" placeholder="Any score"></label>
+          <label>Minimum Steam reviews<input id="dealReviewCount" type="number" min="0" step="100" placeholder="Any count"></label>
+          <label>Sort by<select id="dealSort"><option value="DealRating">Deal rating</option><option value="Savings">Discount</option><option value="Price">Price</option><option value="Metacritic">Metacritic</option><option value="Reviews">Steam rating</option><option value="ReviewCount">Review count</option><option value="Release">Release date</option><option value="Store">Store</option><option value="Recent">Recently updated</option></select></label>
+          <label class="sale-only"><input id="dealOnSale" type="checkbox" checked> On sale</label>
+          <button class="btn-small-ghost" id="dealFilterReset" type="button">Clear filters</button>
+        </div>
+        <div class="deals-status" id="dealsStatus" role="status">Choose filters to explore live deals.</div>
+        <div class="deals-grid" id="dealsGrid" aria-live="polite" aria-busy="false"></div>
+        <div class="catalog-pagination" id="dealsPagination" hidden><button class="btn-small-ghost" id="dealsPrev" type="button">← Previous</button><span id="dealsPageLabel" aria-live="polite"></span><button class="btn-small-ghost" id="dealsNext" type="button">Next →</button></div>
+        <p class="catalog-note">Store availability and prices can change. CheapShark deal links route through CheapShark as required by its public API terms.</p>
+      </div>
+    </section>
+
+    <section class="section" id="library">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div class="section-title"><div class="eyebrow">The game library</div><h2>Worth your <span>playtime.</span></h2><p>Big adventures, tight indies and a few hidden gems. Find the one that feels like you.</p></div>
+          <div class="catalog-heading-actions"><span class="library-count" id="libraryCount">Loading RAWG games…</span><button class="btn-small-ghost" id="surpriseBtn" type="button">Surprise me ✦</button><button class="btn-small-ghost catalog-mode-btn" id="catalogModeBtn" type="button">Browse the RAWG catalog <span>↗</span></button></div>
+        </div>
+        <div class="filters reveal">
+          <div class="chips" id="genreFilters" aria-label="Filter games by genre">
+            <button class="chip active" data-genre="All">All games</button><button class="chip" data-genre="Action">Action</button><button class="chip" data-genre="RPG">RPG</button><button class="chip" data-genre="Horror">Horror</button><button class="chip" data-genre="Adventure">Adventure</button><button class="chip" data-genre="Indie">Indie</button><button class="chip" data-genre="Strategy">Strategy</button><button class="chip" data-genre="Shooter">Shooter</button><button class="chip" data-genre="Roguelike">Roguelike</button><button class="chip" data-genre="Survival">Survival</button><button class="chip" data-genre="Simulation">Simulation</button><button class="chip" data-genre="Co-op">Co-op</button><button class="chip" data-genre="Multiplayer">Multiplayer</button><button class="chip" data-genre="Puzzle">Puzzle</button><button class="chip" data-genre="Fighting">Fighting</button><button class="chip" data-genre="Platformer">Platformer</button><button class="chip" data-genre="Card game">Card game</button>
+          </div>
+          <div class="filter-tools">
+            <label class="search-box"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8" stroke="currentColor" stroke-width="1.7"/><path d="m16 16 4.5 4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input id="searchInput" type="search" placeholder="Search games..." aria-label="Search games"></label>
+            <select class="sort-select" id="sortSelect" aria-label="Sort games"><option value="most-reviewed">Most rated by players</option><option value="newest">Recently released</option><option value="highest-rated">Highest RAWG rating</option><option value="metacritic">Metacritic</option><option value="az">Name: A–Z</option></select>
+          </div>
+          <div class="catalog-advanced-tools" aria-label="Catalog filters"><label>Platform<select id="platformFilter" aria-label="Filter by platform"><option value="">Any platform</option></select></label><label>Metacritic<select id="priceFilter" aria-label="Filter by Metacritic score"><option value="">Any score</option><option value="70">70+</option><option value="80">80+</option><option value="90">90+</option></select></label><label>Release<select id="releaseFilter" aria-label="Filter by release status"><option value="">All release dates</option><option value="released">Released</option><option value="upcoming">Coming soon</option></select></label><button class="btn-small-ghost filter-reset" id="filterReset" type="button">Clear filters</button></div>
+          <details class="catalog-extra-filters"><summary>More filters · RAWG ratings, tags, studios</summary><div class="catalog-advanced-tools"><label>RAWG rating<select id="ratingFilter" aria-label="Minimum RAWG rating"><option value="">Any rating</option><option value="3">3+ / 5</option><option value="4">4+ / 5</option><option value="4.5">4.5+ / 5</option></select></label><label>Game tag<select id="tagFilter" aria-label="Filter by game tag"><option value="">Any tag</option></select></label><label>Developer<input id="developerFilter" type="search" maxlength="120" placeholder="Studio name" aria-label="Filter by developer"></label><label>Publisher<input id="publisherFilter" type="search" maxlength="120" placeholder="Publisher name" aria-label="Filter by publisher"></label></div></details>
+        </div>
+        <div class="game-grid" id="gameGrid" aria-live="polite"></div>
+        <div class="catalog-pagination" id="catalogPagination" hidden><button class="btn-small-ghost" id="catalogPrev" type="button">← Previous</button><span id="catalogPageLabel" aria-live="polite"></span><button class="btn-small-ghost" id="catalogNext" type="button">Next →</button></div>
+        <div class="catalog-source" id="catalogSource" role="status"><i></i><span>Loading the RAWG catalog.</span><a href="admin.html" hidden>Catalog setup ↗</a></div>
+        <p class="catalog-note">The synchronized catalog is stored locally for fast browsing. Prices load on demand from CheapShark; store links only appear when the source provides them.</p>
+      </div>
+    </section>
+
+    <section class="section" id="steamShelves" hidden>
+      <div class="wrap"><div class="section-head reveal"><div class="section-title"><div class="eyebrow">The RAWG catalog</div><h2>More worlds, <span>worth a look.</span></h2><p>Fresh shelves from the locally synchronized game library.</p></div><span class="upcoming-meta" id="steamShelfSource">RAWG game data</span></div><div class="steam-shelves" id="steamShelfRows"></div></div>
+    </section>
+
+    <section class="genre-section" id="genres">
+      <div class="wrap">
+        <div class="section-head reveal"><div class="section-title"><div class="eyebrow">Pick a feeling</div><h2>What are you <span>in the mood for?</span></h2></div><span class="upcoming-meta">A good place to start</span></div>
+        <div class="genre-grid reveal">
+          <button class="genre-tile" data-genre="Action" style="--genre-art:radial-gradient(ellipse at 65% 20%,rgba(255,170,84,.6),transparent 42%),linear-gradient(135deg,#352117,#161117)"><span class="genre-glyph">↗</span><span><strong>Action</strong><small>Into the thick of it</small></span></button>
+          <button class="genre-tile" data-genre="Adventure" style="--genre-art:radial-gradient(ellipse at 60% 20%,rgba(85,206,224,.5),transparent 43%),linear-gradient(135deg,#14313a,#101820)"><span class="genre-glyph">⌁</span><span><strong>Adventure</strong><small>See what's out there</small></span></button>
+          <button class="genre-tile" data-genre="RPG" style="--genre-art:radial-gradient(ellipse at 60% 20%,rgba(164,131,255,.55),transparent 43%),linear-gradient(135deg,#251d3a,#13121b)"><span class="genre-glyph">✦</span><span><strong>RPG</strong><small>Make it your story</small></span></button>
+          <button class="genre-tile" data-genre="Horror" style="--genre-art:radial-gradient(ellipse at 62% 25%,rgba(255,105,135,.62),transparent 42%),linear-gradient(135deg,#2d1922,#15111b)"><span class="genre-glyph">☾</span><span><strong>Horror</strong><small>Feel the tension</small></span></button>
+          <button class="genre-tile" data-genre="Shooter" style="--genre-art:radial-gradient(ellipse at 62% 20%,rgba(255,139,92,.52),transparent 43%),linear-gradient(135deg,#35221c,#15141b)"><span class="genre-glyph">⌖</span><span><strong>Shooter</strong><small>Lock in and fire</small></span></button>
+          <button class="genre-tile" data-genre="Indie" style="--genre-art:radial-gradient(ellipse at 62% 20%,rgba(247,132,194,.52),transparent 43%),linear-gradient(135deg,#351c35,#171420)"><span class="genre-glyph">✧</span><span><strong>Indie</strong><small>Small worlds, big ideas</small></span></button>
+          <button class="genre-tile" data-genre="Strategy" style="--genre-art:radial-gradient(ellipse at 62% 20%,rgba(193,165,255,.4),transparent 43%),linear-gradient(135deg,#262139,#141820)"><span class="genre-glyph">⌘</span><span><strong>Strategy</strong><small>Think ahead</small></span></button>
+          <button class="genre-tile" data-genre="Roguelike" style="--genre-art:radial-gradient(ellipse at 62% 20%,rgba(255,134,173,.45),transparent 43%),linear-gradient(135deg,#361a2c,#17131c)"><span class="genre-glyph">⟳</span><span><strong>Roguelike</strong><small>One more run</small></span></button>
+          <button class="genre-tile" data-genre="Survival" style="--genre-art:radial-gradient(ellipse at 62% 20%,rgba(118,228,245,.45),transparent 43%),linear-gradient(135deg,#12343a,#101820)"><span class="genre-glyph">⌁</span><span><strong>Survival</strong><small>Make it through</small></span></button>
+          <button class="genre-tile" data-genre="Simulation" style="--genre-art:radial-gradient(ellipse at 62% 20%,rgba(147,219,149,.43),transparent 43%),linear-gradient(135deg,#183326,#111a19)"><span class="genre-glyph">▧</span><span><strong>Simulation</strong><small>Build your own pace</small></span></button>
+          <button class="genre-tile" data-genre="Co-op" style="--genre-art:radial-gradient(ellipse at 62% 20%,rgba(118,228,245,.46),transparent 43%),linear-gradient(135deg,#162a3b,#111520)"><span class="genre-glyph">⟷</span><span><strong>Co-op</strong><small>Better together</small></span></button>
+          <button class="genre-tile" data-genre="Puzzle" style="--genre-art:radial-gradient(ellipse at 62% 20%,rgba(255,204,117,.45),transparent 43%),linear-gradient(135deg,#332a1b,#17151b)"><span class="genre-glyph">◇</span><span><strong>Puzzle</strong><small>Think it through</small></span></button>
+          <button class="genre-tile" data-genre="Fighting" style="--genre-art:radial-gradient(ellipse at 62% 20%,rgba(255,110,115,.54),transparent 43%),linear-gradient(135deg,#391b20,#17131b)"><span class="genre-glyph">✹</span><span><strong>Fighting</strong><small>Find your matchup</small></span></button>
+          <button class="genre-tile" data-genre="Platformer" style="--genre-art:radial-gradient(ellipse at 62% 20%,rgba(183,143,255,.48),transparent 43%),linear-gradient(135deg,#251e38,#12141e)"><span class="genre-glyph">↟</span><span><strong>Platformer</strong><small>Jump into a new world</small></span></button>
+          <button class="genre-tile" data-genre="Card game" style="--genre-art:radial-gradient(ellipse at 62% 20%,rgba(118,228,245,.42),transparent 43%),linear-gradient(135deg,#172738,#12141e)"><span class="genre-glyph">♧</span><span><strong>Card games</strong><small>Play the hand you're dealt</small></span></button>
+          <button class="genre-tile" data-genre="Multiplayer" style="--genre-art:radial-gradient(ellipse at 62% 20%,rgba(255,134,173,.42),transparent 43%),linear-gradient(135deg,#351a2b,#17131c)"><span class="genre-glyph">◎</span><span><strong>Multiplayer</strong><small>Play with the world</small></span></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="recommend" id="about">
+      <div class="wrap recommend-grid">
+        <div class="recommend-copy reveal"><div class="eyebrow" style="color:var(--aqua)">Not just another score</div><h2>Every game is great<br><span>for someone.</span></h2><p>A number can't tell you if a game fits your evenings. We break down what feels brilliant, what might not click and who'll love it most.</p><a href="#library" class="btn btn-ghost">Find your fit <span>↗</span></a><div class="recommend-features"><span><i>✦</i> Play-style notes</span><span><i>✦</i> Honest trade-offs</span><span><i>✦</i> Specs before you buy</span></div></div>
+        <div class="rec-card reveal"><div class="rec-card-head"><div><strong>A more useful review</strong><small>One game, looked at from your side</small></div><span class="rec-avatar">P</span></div><div class="fit-result"><span class="fit-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="m5 12 4 4L19 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><strong>Worth your time — if you like the journey</strong><small>Clear strengths. Clear trade-offs. No mystery score.</small></div></div><div class="fit-bars"><div><div class="fit-bar-label"><span>Story & characters</span><b>Excellent fit</b></div><div class="fit-track"><i style="width:90%"></i></div></div><div><div class="fit-bar-label"><span>Relaxed, pick-up-and-play</span><b>Know before you go</b></div><div class="fit-track"><i style="width:42%"></i></div></div><div><div class="fit-bar-label"><span>Time commitment</span><b>A longer stay</b></div><div class="fit-track"><i style="width:77%"></i></div></div></div></div>
+      </div>
+    </section>
+
+    <section class="upcoming" id="upcoming" hidden>
+      <div class="wrap">
+        <div class="section-head reveal"><div class="section-title"><div class="eyebrow">On the horizon</div><h2>Make room for <span>what's next.</span></h2><p>Upcoming dates and platforms appear when RAWG has supplied those details.</p></div><a class="text-link upcoming-meta" id="viewAllUpcoming" href="/games?release=upcoming">Browse upcoming games ↗</a></div>
+        <div class="deals-grid" id="upcomingGrid"></div>
+        <article class="upcoming-feature reveal" aria-label="Editor pick" hidden>
+          <div class="upcoming-copy"><div class="eyebrow" style="color:var(--pink)">Most anticipated · Official date</div><h3>Grand Theft Auto VI</h3><p>Jason and Lucia's story unfolds across the state of Leonida. The launch listing currently names PlayStation 5 and Xbox Series X|S.</p><div class="release-count"><span>19 NOV</span> 2026 · RELEASE DATE</div><div class="platform-row"><span class="platform">PlayStation 5</span><span class="platform">Xbox Series X|S</span><span class="platform">PC date unannounced</span></div><div class="hero-actions"><button class="btn btn-primary" id="gtaDetails">Game details <span>↗</span></button><button class="btn btn-ghost save-btn-wide" id="saveGta">♡ <span>Save to wishlist</span></button></div></div>
+          <div class="upcoming-art"><div class="upcoming-stamp">VICE CITY<br>IS CALLING<br>✳</div></div>
+        </article>
+        <div class="more-upcoming reveal" hidden></div>
+      </div>
+    </section>
+
+    <section class="newsletter" id="wishlist">
+      <div class="wrap newsletter-inner"><div><div class="eyebrow">Your own corner of the library</div><h2>Keep the good ones close.</h2><p>Save games to your wishlist on this device and pick up where you left off.</p></div><button class="btn btn-primary" id="newsletterWish">View my wishlist <span>♡</span></button></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-top"><div><a class="brand" href="#top"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="gvLogoGradFoot" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#f0abfc"/><stop offset="50%" stop-color="#c084fc"/><stop offset="100%" stop-color="#a855f7"/></linearGradient></defs><path d="M5.8 7C7.6 6 16.4 6 18.2 7C20.2 8.1 22 11.8 21.2 16.8C20.6 19.8 17.8 20.6 15.8 18.6C14.4 17.2 13.5 16.5 12 16.5C10.5 16.5 9.6 17.2 8.2 18.6C6.2 20.6 3.4 19.8 2.8 16.8C2 11.8 3.8 8.1 5.8 7Z" stroke="url(#gvLogoGradFoot)" stroke-width="1.6" stroke-linejoin="round" fill="rgba(168,85,247,0.1)"/><path d="M6.2 5.2L9.2 4.6" stroke="#c084fc" stroke-width="1.3" stroke-linecap="round" opacity="0.85"/><path d="M17.8 5.2L14.8 4.6" stroke="#c084fc" stroke-width="1.3" stroke-linecap="round" opacity="0.85"/><path d="M6 12H8.4M7.2 10.8V13.2" stroke="#e879f9" stroke-width="1.4" stroke-linecap="round"/><circle cx="16.8" cy="10.8" r="0.65" fill="#f0abfc"/><circle cx="15.6" cy="12" r="0.65" fill="#c084fc"/><circle cx="18" cy="12" r="0.65" fill="#c084fc"/><circle cx="16.8" cy="13.2" r="0.65" fill="#a855f7"/><path d="M13.2 9.8H11.2C10.1 9.8 9.3 10.6 9.3 11.8C9.3 13 10.1 13.8 11.2 13.8H12.8V11.8H11.5" stroke="url(#gvLogoGradFoot)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="11.8" r="0.5" fill="#ffffff"/></svg></span><span>GAME<em>VAULT</em></span></a><p>Unlock your next gaming adventure.</p></div><div class="footer-links"><a href="#library">Discover</a><a href="#genres">Genres</a><a href="#upcoming">Coming soon</a><a href="#about">About GameVault</a></div></div>
+      <div class="footer-bottom"><span>© 2026 GAMEVAULT · An independent game discovery concept.</span><span>Game metadata and artwork by <a href="https://rawg.io/" target="_blank" rel="noreferrer">RAWG ↗</a>. Price comparison by <a href="https://www.cheapshark.com/" target="_blank" rel="noreferrer">CheapShark ↗</a>. Offers change.</span></div>
+    </div>
+  </footer>
+
+  <div class="modal-backdrop" id="gameBackdrop" aria-hidden="true"><section class="game-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-hero" id="modalHero"><button class="modal-close" data-close="game" aria-label="Close details"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button><div class="modal-title-wrap"><div class="eyebrow" id="modalGenre">Featured game</div><h2 id="modalTitle">Game title</h2><div class="modal-meta-row" id="modalMeta"></div></div></div><div class="modal-tab-row" role="tablist"><button class="modal-tab active" data-tab="overview" role="tab">Overview</button><button class="modal-tab" data-tab="media" role="tab">Media</button><button class="modal-tab" data-tab="reviews" role="tab">Reviews & fit</button><button class="modal-tab" data-tab="specs" role="tab">System requirements</button></div><div class="modal-content"><div class="tab-panel active" id="panel-overview" role="tabpanel"></div><div class="tab-panel" id="panel-media" role="tabpanel"></div><div class="tab-panel" id="panel-reviews" role="tabpanel"></div><div class="tab-panel" id="panel-specs" role="tabpanel"></div></div></section></div>
+  <div class="compare-tray" id="compareTray" hidden aria-label="Game comparison tray"></div>
+  <div class="modal-backdrop" id="compareBackdrop" aria-hidden="true"><section class="compare-modal" role="dialog" aria-modal="true" aria-labelledby="compareTitle"><button class="modal-close" data-close="compare" aria-label="Close comparison"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button><div class="eyebrow">Side by side</div><h2 id="compareTitle">Compare games.</h2><div class="compare-table-wrap" id="compareTable"></div></section></div>
+  <div class="modal-backdrop" id="loginBackdrop" aria-hidden="true"><section class="login-modal" role="dialog" aria-modal="true" aria-labelledby="loginTitle"><button class="modal-close" data-close="login" aria-label="Close sign-in"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button><div class="eyebrow">Your player profile</div><h2 id="loginTitle">Welcome back.</h2><p id="loginIntro">Sign in to keep your wishlist synced across devices.</p><form class="login-form" id="loginForm"><div class="field"><label for="loginEmail">Email address</label><input id="loginEmail" type="email" autocomplete="email" placeholder="you@example.com" required></div><div class="field"><label for="loginPassword">Password</label><input id="loginPassword" type="password" autocomplete="current-password" placeholder="At least 8 characters" required minlength="8"></div><button class="btn btn-primary" type="submit">Sign in <span>↗</span></button></form><p class="demo-note" id="loginMessage" role="status">Your password is sent only to the GAMEVAULT account service and stored as a salted hash. Wishlist browsing still works without an account.</p><div class="login-switch"><span id="loginSwitchPrompt">New around here?</span> <button id="registerSwitch" type="button">Create an account</button></div></section></div>
+  <div class="toast-stack" id="toastStack" aria-live="polite"></div>
+
+  <script>
+    const games = [
+      {
+        id:'cyberpunk', app:1091500, title:'Cyberpunk 2077', art:'https://cdn.akamai.steamstatic.com/steam/apps/1091500/header.jpg',
+        genres:['Action','RPG'], genreLabel:'Action RPG', release:'2020-12-10', releaseLabel:'Dec 10, 2020', developer:'CD PROJEKT RED', platform:'PC · PlayStation · Xbox', players:'Single-player', review:'Very Positive',
+        description:'A story-rich open-world RPG set in Night City, a sprawling metropolis where power, style and body modification rule. You play as V, a mercenary chasing an implant that holds the key to immortality.',
+        verdict:'A great pick for players who want an absorbing world, strong side stories and build variety. It is at its best when you slow down and let the city breathe. Expect mature themes, a large time commitment and fairly demanding PC specs.',
+        good:'Night City is packed with atmosphere, memorable characters and side stories worth following. Combat builds leave room to find your own rhythm.', consider:'A long, mature story; some players may find the open-world activity loop familiar. The recommended PC hardware is substantially stronger than the minimum.',
+        min:{OS:'64-bit Windows 10',CPU:'Intel Core i7-6700 / AMD Ryzen 5 1600',RAM:'12 GB',GPU:'GeForce GTX 1060 6 GB / Radeon RX 580 8 GB / Arc A380',DX:'DirectX 12',Storage:'70 GB · SSD required'},
+        rec:{OS:'64-bit Windows 10',CPU:'Intel Core i7-12700 / AMD Ryzen 7 7800X3D',RAM:'16 GB',GPU:'GeForce RTX 2060 SUPER / Radeon RX 5700 XT / Arc A770',DX:'DirectX 12',Storage:'70 GB · SSD required'},
+        steam:'https://store.steampowered.com/app/1091500/Cyberpunk_2077/', trailer:'https://store.steampowered.com/app/1091500/Cyberpunk_2077/#game_area_movies', featured:true
+      },
+      {
+        id:'elden-ring', app:1245620, title:'ELDEN RING', art:'https://cdn.akamai.steamstatic.com/steam/apps/1245620/header.jpg',
+        genres:['Action','RPG'], genreLabel:'Action RPG', release:'2022-02-25', releaseLabel:'Feb 25, 2022', developer:'FromSoftware, Inc.', platform:'PC · PlayStation · Xbox', players:'Single-player · Online co-op', review:'Overwhelmingly Positive',
+        description:'An open-world action RPG set in the Lands Between. Explore at your own pace, learn its combat, and shape a character from a wide range of weapons, spells and play styles.',
+        verdict:'Worth the journey if you enjoy learning difficult fights and piecing together a world through exploration. You can ask for help in many encounters. Its storytelling is intentionally indirect, and it rarely tells you where to go next.',
+        good:'A vast world with remarkable discovery, flexible character builds and rewarding boss fights. Exploration gives you options when a fight feels too hard.', consider:'Combat can be punishing, quests can be obscure and the map does not lead you through a linear story. Online features need an internet connection.',
+        min:{OS:'Windows 10',CPU:'Intel Core i5-8400 / AMD Ryzen 3 3300X',RAM:'12 GB',GPU:'NVIDIA GTX 1060 3 GB / AMD Radeon RX 580 4 GB',DX:'DirectX 12',Storage:'60 GB'},
+        rec:{OS:'Windows 10/11',CPU:'Intel Core i7-8700K / AMD Ryzen 5 3600X',RAM:'16 GB',GPU:'NVIDIA GTX 1070 8 GB / AMD Radeon RX Vega 56 8 GB',DX:'DirectX 12',Storage:'60 GB'},
+        steam:'https://store.steampowered.com/app/1245620/ELDEN_RING/', trailer:'https://store.steampowered.com/app/1245620/ELDEN_RING/#game_area_movies'
+      },
+      {
+        id:'baldurs-gate-3', app:1086940, title:"Baldur's Gate 3", art:'https://cdn.akamai.steamstatic.com/steam/apps/1086940/header.jpg',
+        genres:['RPG','Adventure','Strategy'], genreLabel:'RPG · Strategy', release:'2023-08-03', releaseLabel:'Aug 3, 2023', developer:'Larian Studios', platform:'PC · macOS · PlayStation · Xbox', players:'Single-player · Online co-op', review:'Overwhelmingly Positive',
+        description:'A story-rich party-based RPG set in the world of Dungeons & Dragons. Your decisions shape an expansive adventure with tactical, turn-based combat and companions who have their own stories.',
+        verdict:'A standout choice for players who want meaningful choices, character-driven storytelling and thoughtful turn-based combat. It is especially good with friends. The dense rules and long runtime can be a lot if you want a quick, guided adventure.',
+        good:'Reactive storytelling, memorable companions and tactical fights give you room to solve problems in creative ways. Co-op makes a long campaign a shared adventure.', consider:'Expect a large download, a long campaign and systems that reward curiosity. Turn-based combat and dice rolls are central to the experience.',
+        min:{OS:'Windows 10 64-bit',CPU:'Intel i5-4690 / AMD FX 8350',RAM:'8 GB',GPU:'NVIDIA GTX 970 / AMD RX 480 / Intel Arc A380',DX:'DirectX 11',Storage:'150 GB · SSD required'},
+        rec:{OS:'Windows 10 64-bit',CPU:'Intel i7-8700K / AMD Ryzen 5 3600',RAM:'16 GB',GPU:'NVIDIA RTX 2060 Super / AMD RX 5700 XT / Intel Arc A580',DX:'DirectX 11',Storage:'150 GB · SSD required'},
+        steam:'https://store.steampowered.com/app/1086940/Baldurs_Gate_3/', trailer:'https://store.steampowered.com/app/1086940/Baldurs_Gate_3/#game_area_movies'
+      },
+      {
+        id:'resident-evil-4', app:2050650, title:'Resident Evil 4', art:'https://cdn.akamai.steamstatic.com/steam/apps/2050650/header.jpg',
+        genres:['Horror','Action'], genreLabel:'Survival horror', release:'2023-03-23', releaseLabel:'Mar 23, 2023', developer:'CAPCOM Co., Ltd.', platform:'PC · PlayStation · Xbox', players:'Single-player', review:'Overwhelmingly Positive',
+        description:'A modern reimagining of Capcom’s survival-horror classic. Leon Kennedy searches for the president’s kidnapped daughter in an isolated European village, balancing tense exploration with fast, resource-aware combat.',
+        verdict:'A strong choice if you want a tightly paced action-horror story, not a slow-burn walking simulator. It mixes scary set pieces with frequent combat; if relentless tension or graphic violence is not for you, take a look at the trailer first.',
+        good:'Confident pacing, satisfying combat and strong set-piece variety make this a very approachable way into survival horror.', consider:'Horror, gore and frequent combat are part of the experience. The story is mostly linear and the game expects you to manage limited resources.',
+        min:{OS:'Windows 10 64-bit',CPU:'AMD Ryzen 3 1200 / Intel Core i5-7500',RAM:'8 GB',GPU:'AMD RX 560 4 GB / NVIDIA GTX 1050 Ti 4 GB',DX:'DirectX 12',Storage:'See current Steam listing'},
+        rec:{OS:'Windows 10/11 64-bit',CPU:'AMD Ryzen 5 3600 / Intel Core i7-8700',RAM:'16 GB',GPU:'AMD RX 5700 / NVIDIA GTX 1070',DX:'DirectX 12',Storage:'See current Steam listing'},
+        steam:'https://store.steampowered.com/app/2050650/Resident_Evil_4/', trailer:'https://store.steampowered.com/app/2050650/Resident_Evil_4/#game_area_movies'
+      },
+      {
+        id:'hogwarts-legacy', app:990080, title:'Hogwarts Legacy', art:'https://cdn.akamai.steamstatic.com/steam/apps/990080/header.jpg',
+        genres:['Adventure','RPG'], genreLabel:'Open-world RPG', release:'2023-02-10', releaseLabel:'Feb 10, 2023', developer:'Avalanche Software', platform:'PC · PlayStation · Xbox · Switch', players:'Single-player', review:'Very Positive',
+        description:'An open-world action RPG set in the Wizarding World during the 1800s. Attend Hogwarts, learn spells, explore the surrounding countryside and uncover an ancient secret.',
+        verdict:'A lovely fit if exploring a familiar magical world is the main draw. It gives you plenty to wander through and customize. The quests and activities can become repetitive if you want every hour to bring a new idea.',
+        good:'A richly realised school and surrounding world, fun spell combinations and plenty of room to make a character your own.', consider:'The PC minimum is 16 GB RAM, and the game takes significant storage. Side activities and mission structure can feel familiar.',
+        min:{OS:'Windows 10 64-bit',CPU:'Intel Core i5-6600 / AMD Ryzen 5 1400',RAM:'16 GB',GPU:'NVIDIA GTX 960 4 GB / AMD RX 470 4 GB',DX:'DirectX 12',Storage:'85 GB'},
+        rec:{OS:'Windows 10 64-bit',CPU:'Intel Core i7-8700 / AMD Ryzen 5 3600',RAM:'16 GB',GPU:'NVIDIA GTX 1080 Ti / AMD RX 5700 XT / Intel Arc A770',DX:'DirectX 12',Storage:'85 GB · SSD preferred'},
+        steam:'https://store.steampowered.com/app/990080/Hogwarts_Legacy/', trailer:'https://store.steampowered.com/app/990080/Hogwarts_Legacy/#game_area_movies'
+      },
+      {
+        id:'black-myth', app:2358720, title:'Black Myth: Wukong', art:'https://cdn.akamai.steamstatic.com/steam/apps/2358720/header.jpg',
+        genres:['Action','Adventure','RPG'], genreLabel:'Action RPG', release:'2024-08-19', releaseLabel:'Aug 19, 2024', developer:'Game Science', platform:'PC · PlayStation · Xbox', players:'Single-player', review:'Very Positive',
+        description:'An action RPG rooted in Chinese mythology and the story of Journey to the West. Play as the Destined One, master staff combat and transformations, and face bosses drawn from a striking mythic world.',
+        verdict:'A visually bold action RPG for players who enjoy demanding boss encounters and spectacle. Combat and presentation are the draw; it is more focused on fights and exploration than on giving you the build freedom of a sprawling RPG.',
+        good:'Eye-catching art, expressive transformations and a steady stream of challenging encounters.', consider:'A demanding PC game, with heavy graphics requirements. Most of the challenge comes from direct combat against bosses.',
+        min:{OS:'Windows 10 64-bit',CPU:'Intel Core i5-8400 / AMD Ryzen 5 1600',RAM:'16 GB',GPU:'NVIDIA GTX 1060 6 GB / AMD RX 580 8 GB',DX:'DirectX 11',Storage:'130 GB · SSD recommended'},
+        rec:{OS:'Windows 10 64-bit',CPU:'Intel Core i7-9700 / AMD Ryzen 5 5500',RAM:'16 GB',GPU:'NVIDIA RTX 2060 / AMD RX 5700 XT / Intel Arc A750',DX:'DirectX 12',Storage:'130 GB · SSD recommended'},
+        steam:'https://store.steampowered.com/app/2358720/Black_Myth_Wukong/', trailer:'https://store.steampowered.com/app/2358720/Black_Myth_Wukong/#game_area_movies'
+      },
+      {
+        id:'doom-eternal', app:782330, title:'DOOM Eternal', art:'https://cdn.akamai.steamstatic.com/steam/apps/782330/header.jpg',
+        genres:['Action','Shooter'], genreLabel:'Action · FPS', release:'2020-03-19', releaseLabel:'Mar 19, 2020', developer:'id Software', platform:'PC · PlayStation · Xbox · Switch', players:'Single-player · online Battlemode', review:'Very Positive',
+        description:'The Slayer is back in a relentless first-person campaign against Hell’s armies. Keep moving, find the right tool for every fight and make split-second choices to stay stocked up.',
+        verdict:'A fantastic fit for players who want fast, skill-driven first-person combat. It rewards aggression and learning enemy patterns. The pace is intense, and multiplayer is a separate 2-versus-1 mode rather than a co-op campaign.',
+        good:'Fast, expressive combat with a great heavy-metal soundtrack and plenty of tools to master.', consider:'This is a high-intensity shooter built around combat encounters. Its violence and gore are not easy to avoid.',
+        min:{OS:'64-bit Windows 7 / Windows 10',CPU:'Intel Core i5 3.3 GHz / AMD Ryzen 3 3.1 GHz',RAM:'8 GB',GPU:'NVIDIA GTX 1050 Ti / GTX 1060 3 GB / GTX 1650 · AMD R9 280 / R9 290 / RX 470',DX:'See official listing',Storage:'80 GB'},
+        rec:{OS:'64-bit Windows 10',CPU:'Intel Core i7-6700K / AMD Ryzen 7 1800X',RAM:'8 GB',GPU:'NVIDIA GTX 1060 6 GB / GTX 970 4 GB · AMD RX 480 8 GB',DX:'See official listing',Storage:'80 GB'},
+        steam:'https://store.steampowered.com/app/782330/DOOM_Eternal/', trailer:'https://store.steampowered.com/app/782330/DOOM_Eternal/#game_area_movies'
+      },
+      {
+        id:'hades', app:1145360, title:'Hades', art:'https://cdn.akamai.steamstatic.com/steam/apps/1145360/header.jpg',
+        genres:['Action','Indie','RPG'], genreLabel:'Action roguelike', release:'2020-09-17', releaseLabel:'Sep 17, 2020', developer:'Supergiant Games', platform:'PC · macOS · Nintendo Switch', players:'Single-player', review:'Overwhelmingly Positive',
+        description:'Fight your way out of the Underworld in a stylish action roguelike. Every escape attempt brings fresh combinations of Olympian powers, and every conversation moves Zagreus’s story forward.',
+        verdict:'A very easy game to recommend if you enjoy responsive action and runs that feel different each time. Permanent upgrades make progress feel kind even after a failed run. It is still built around repeated combat and replaying familiar spaces.',
+        good:'A satisfying combat loop, beautiful hand-painted art, excellent music and story that grows naturally as you play.', consider:'The roguelike loop means you will revisit rooms and bosses. It is not a one-and-done story campaign.',
+        min:{OS:'Windows 7 SP1',CPU:'Dual Core 2.4 GHz',RAM:'4 GB',GPU:'1 GB VRAM · DirectX 10+ support',DX:'See official listing',Storage:'15 GB'},
+        rec:{OS:'Windows 7 SP1',CPU:'Dual Core 3.0 GHz+',RAM:'8 GB',GPU:'2 GB VRAM · DirectX 10+ support',DX:'See official listing',Storage:'20 GB'},
+        steam:'https://store.steampowered.com/app/1145360/Hades/', trailer:'https://store.steampowered.com/app/1145360/Hades/#game_area_movies'
+      },
+      {
+        id:'hollow-knight', app:367520, title:'Hollow Knight', art:'https://cdn.akamai.steamstatic.com/steam/apps/367520/header.jpg',
+        genres:['Indie','Adventure','Action'], genreLabel:'Indie · Metroidvania', release:'2017-02-24', releaseLabel:'Feb 24, 2017', developer:'Team Cherry', platform:'PC · macOS · Linux · consoles', players:'Single-player', review:'Overwhelmingly Positive',
+        description:'Explore a hand-drawn underground kingdom in this atmospheric action-adventure. Find new paths, learn to face its strange creatures and uncover the history of Hallownest one quiet clue at a time.',
+        verdict:'A lovely recommendation for anyone who enjoys precise platforming, exploration and gradually mastering a world. It asks you to get comfortable being lost and to retry difficult fights; the map is part of the adventure.',
+        good:'Beautiful hand-drawn environments, a great soundtrack and a rewarding sense of discovery for an indie-sized price.', consider:'Some bosses and platforming sequences are tough. You will backtrack and gradually fill in your map.',
+        min:{OS:'Windows 10 21H1 or newer',CPU:'Intel Core i3-3240 / AMD FX-4300',RAM:'4 GB',GPU:'GeForce GTX 560 Ti 1 GB / Radeon HD 7750 1 GB',DX:'DirectX 10',Storage:'9 GB'},
+        rec:{OS:'Windows 10 21H1 or newer',CPU:'Intel Core i5-3470',RAM:'8 GB',GPU:'GeForce GTX 1050 2 GB / Radeon R9 380 2 GB',DX:'DirectX 10',Storage:'9 GB'},
+        steam:'https://store.steampowered.com/app/367520/Hollow_Knight/', trailer:'https://store.steampowered.com/app/367520/Hollow_Knight/#game_area_movies'
+      },
+      {
+        id:'dead-by-daylight', app:381210, title:'Dead by Daylight', art:'https://cdn.akamai.steamstatic.com/steam/apps/381210/header.jpg',
+        genres:['Horror','Action','Strategy'], genreLabel:'Asymmetric horror', release:'2016-06-14', releaseLabel:'Jun 14, 2016', developer:'Behaviour Interactive Inc.', platform:'PC · PlayStation · Xbox · Switch · mobile', players:'Online multiplayer · 4 vs 1', review:'Mostly Positive',
+        description:'A multiplayer game of cat and mouse: four Survivors try to escape while one player hunts them as a Killer. Each match plays out differently, and the roster includes original characters and familiar horror icons.',
+        verdict:'A good fit if the fun is in unpredictable matches with friends and you enjoy horror themes. It is an online multiplayer game first, so do not pick it for a solo story campaign. Expect a large, frequently updated roster.',
+        good:'Tense, social matches and a huge range of Killer and Survivor play styles. Playing with friends adds a lot.', consider:'Always-online multiplayer, asymmetric matchups and mature horror themes are central to the game.',
+        min:{OS:'Windows 10 64-bit',CPU:'Intel Core i3-4170 / AMD FX-8120',RAM:'8 GB',GPU:'GeForce GTX 460 1 GB / AMD HD 6850 1 GB',DX:'DirectX 11',Storage:'50 GB · broadband internet'},
+        rec:{OS:'Windows 10 64-bit',CPU:'Intel Core i3-4170 / AMD FX-8300 or higher',RAM:'8 GB',GPU:'GeForce GTX 760 / AMD HD 8800 or higher with 4 GB',DX:'DirectX 11',Storage:'50 GB · broadband internet'},
+        steam:'https://store.steampowered.com/app/381210/Dead_by_Daylight/', trailer:'https://store.steampowered.com/app/381210/Dead_by_Daylight/#game_area_movies'
+      },
+      {
+        id:'stardew', app:413150, title:'Stardew Valley', art:'https://cdn.akamai.steamstatic.com/steam/apps/413150/header.jpg',
+        genres:['Indie','Adventure','Simulation','Co-op'], genreLabel:'Indie · Life sim', release:'2016-02-26', releaseLabel:'Feb 26, 2016', developer:'ConcernedApe', platform:'PC · macOS · Linux · consoles · mobile', players:'Single-player · co-op', review:'Overwhelmingly Positive',
+        description:'Inherit an overgrown farm and make it your own. Grow crops, meet the neighbours, fish, explore the mines or settle into the seasons at your own pace.',
+        verdict:'Easy to recommend when you want a cozy game that quietly becomes part of your routine. It has surprisingly deep systems, but you set the pace. If you dislike open-ended days and gentle repetition, it may not click.',
+        good:'A great low-pressure world with farming, friendships, exploration and co-op. It is easy to pick up and return to.', consider:'There is no single way to “finish” it; a lot of the joy comes from building your own daily rhythm.',
+        min:{OS:'Windows Vista or newer',CPU:'2 GHz',RAM:'2 GB',GPU:'256 MB video memory · Shader Model 3.0+',DX:'DirectX 10',Storage:'500 MB'},
+        rec:{OS:'No separate recommended tier listed',CPU:'Official listing provides minimum specs only',RAM:'2 GB minimum',GPU:'256 MB video memory minimum',DX:'DirectX 10',Storage:'500 MB'},
+        steam:'https://store.steampowered.com/app/413150/Stardew_Valley/', trailer:'https://store.steampowered.com/app/413150/Stardew_Valley/#game_area_movies'
+      },
+      {
+        id:'dead-cells', app:588650, title:'Dead Cells', art:'https://cdn.akamai.steamstatic.com/steam/apps/588650/header.jpg',
+        genres:['Action','Adventure','Indie','Roguelike','Platformer'], genreLabel:'Action roguelite', release:'2018-08-06', releaseLabel:'Aug 6, 2018', developer:'Motion Twin', platform:'PC · PlayStation · Xbox · Switch · mobile', players:'Single-player', review:'Overwhelmingly Positive',
+        description:'A fast action roguelite with metroidvania-style exploration. Fight through a changing island, learn enemy patterns and unlock new routes as each run pushes you further.',
+        verdict:'A strong fit if you like quick movement, precise combat and the “one more run” loop. Every attempt teaches you something, but the game expects you to enjoy retrying after a loss.',
+        good:'Responsive combat, branching paths and a satisfying stream of discoveries make short sessions feel rewarding.', consider:'Runs reset after defeat, and the difficulty climbs. This is a solo action game rather than a story-first adventure.',
+        min:{OS:'Windows 7+',CPU:'Intel i5+',RAM:'2 GB',GPU:'Nvidia 450 GTS / Radeon HD 5750 or better',DX:'DirectX 9.1+ or OpenGL 3.2+',Storage:'500 MB'},
+        rec:{OS:'Windows 7+',CPU:'Intel i5+',RAM:'4 GB',GPU:'Nvidia GTX 460 / Radeon HD 7800 or better',DX:'DirectX 9.1+ or OpenGL 3.2+',Storage:'500 MB'},
+        steam:'https://store.steampowered.com/app/588650/Dead_Cells/', trailer:'https://store.steampowered.com/app/588650/Dead_Cells/#game_area_movies'
+      },
+      {
+        id:'balatro', app:2379780, title:'Balatro', art:'https://cdn.akamai.steamstatic.com/steam/apps/2379780/header.jpg',
+        genres:['Indie','Strategy','Roguelike','Card game'], genreLabel:'Poker roguelike deckbuilder', release:'2024-02-20', releaseLabel:'Feb 20, 2024', developer:'LocalThunk', platform:'PC · macOS · Linux · consoles · mobile', players:'Single-player', review:'Overwhelmingly Positive',
+        description:'A single-player poker-inspired roguelike deckbuilder. Combine familiar card hands with unusual Joker effects to build increasingly wild scoring combos.',
+        verdict:'Easy to pick up and hard to put down if you enjoy card games and experimenting with a build. It is all about the run-based strategy; there is no multiplayer poker mode.',
+        good:'Clear rules create room for surprising strategies, and each run can take a different direction.', consider:'A lot of the appeal is repeated runs, score chasing and learning how card effects interact.',
+        min:{OS:'Windows 7 / 8 / 10 / 11 · 64-bit',CPU:'Intel Core i3',RAM:'1 GB',GPU:'Integrated graphics · OpenGL 2.1',Storage:'150 MB'},
+        rec:{Notes:'Steam does not list a separate recommended tier.'},
+        steam:'https://store.steampowered.com/app/2379780/Balatro/', trailer:'https://store.steampowered.com/app/2379780/Balatro/#game_area_movies'
+      },
+      {
+        id:'helldivers-2', app:553850, title:'HELLDIVERS 2', art:'https://cdn.akamai.steamstatic.com/steam/apps/553850/header.jpg',
+        genres:['Action','Shooter','Co-op','Multiplayer'], genreLabel:'Co-op third-person shooter', release:'2024-02-08', releaseLabel:'Feb 8, 2024', developer:'Arrowhead Game Studios', platform:'PC · PlayStation 5', players:'Online co-op · up to 4', review:'Very Positive',
+        description:'A squad-based third-person shooter about fighting alien threats across a shared galactic war. Coordinate with up to three teammates and call in powerful support, with a real risk of friendly fire.',
+        verdict:'A great match for friends who want chaotic co-op missions and team coordination. It is online-first, and the action can get hectic; check the live store page for current account and PC requirement details.',
+        good:'Team play creates memorable close calls, and the missions reward communication and adapting on the fly.', consider:'Requires online play for its central experience; friendly fire and chaotic combat are part of the design.',
+        min:{OS:'Windows 10 · 64-bit',CPU:'Intel Core i7-4790K / AMD Ryzen 5 1500X',RAM:'8 GB',GPU:'NVIDIA GTX 1050 Ti / AMD RX 470',Storage:'135 GB'},
+        rec:{OS:'Windows 10 · 64-bit',CPU:'Intel Core i7-9700K / AMD Ryzen 7 3700X',RAM:'16 GB',GPU:'NVIDIA RTX 2060 / AMD RX 6600XT',Storage:'40 GB listed · SSD recommended'},
+        steam:'https://store.steampowered.com/app/553850/HELLDIVERS_2/', trailer:'https://store.steampowered.com/app/553850/HELLDIVERS_2/#game_area_movies'
+      },
+      {
+        id:'it-takes-two', app:1426210, title:'It Takes Two', art:'https://cdn.akamai.steamstatic.com/steam/apps/1426210/header.jpg',
+        genres:['Adventure','Co-op','Puzzle','Platformer'], genreLabel:'Co-op adventure', release:'2021-03-25', releaseLabel:'Mar 25, 2021', developer:'Hazelight Studios', platform:'PC · PlayStation · Xbox · Switch', players:'Two-player co-op only', review:'Overwhelmingly Positive',
+        description:'A co-op adventure where two players work together through a changing series of platforming, puzzle and action challenges. Every chapter introduces a fresh mechanic for the pair to learn.',
+        verdict:'One of the clearest picks for a two-player story night. It requires a second player throughout, so it is not suitable if you want a solo campaign.',
+        good:'Playful set pieces and constantly changing abilities make teamwork feel central rather than bolted on.', consider:'Two players are required. The local or online co-op format is the whole game.',
+        min:{OS:'Windows 8.1 / 10 · 64-bit',CPU:'Intel Core i3-2100T / AMD FX 6100',RAM:'8 GB',GPU:'NVIDIA GTX 660 / AMD R7 260X',DX:'DirectX 11',Storage:'50 GB'},
+        rec:{OS:'Windows 8.1 / 10 · 64-bit',CPU:'Intel Core i5-3570K / AMD Ryzen 3 1300x',RAM:'16 GB',GPU:'NVIDIA GTX 980 / AMD R9 290X',DX:'DirectX 11',Storage:'50 GB'},
+        steam:'https://store.steampowered.com/app/1426210/It_Takes_Two/', trailer:'https://store.steampowered.com/app/1426210/It_Takes_Two/#game_area_movies'
+      },
+      {
+        id:'portal-2', app:620, title:'Portal 2', art:'https://cdn.akamai.steamstatic.com/steam/apps/620/header.jpg',
+        genres:['Puzzle','Co-op','Adventure'], genreLabel:'Puzzle adventure', release:'2011-04-18', releaseLabel:'Apr 18, 2011', developer:'Valve', platform:'PC · macOS · Linux · consoles', players:'Single-player · two-player co-op', review:'Overwhelmingly Positive',
+        description:'A first-person puzzle adventure about solving increasingly inventive tests with a portal device. The separate co-op campaign gives two players puzzles built around communication.',
+        verdict:'A timeless choice for clever puzzles, dry humour and a memorable single-player story. The co-op mode is a separate campaign and works best when both players talk through their ideas.',
+        good:'Inventive puzzle design, sharp writing and a full co-op campaign give it lasting appeal.', consider:'The main experience is puzzle solving; action-focused players may prefer something faster.',
+        min:{OS:'Windows 7 / Vista / XP',CPU:'3.0 GHz P4 / dual-core 2.0 GHz or AMD64 X2',RAM:'2 GB',GPU:'128 MB · Pixel Shader 2.0b',DX:'DirectX 9.0c',Storage:'8 GB'},
+        rec:{Notes:'Steam does not list a separate recommended tier.'},
+        steam:'https://store.steampowered.com/app/620/Portal_2/', trailer:'https://store.steampowered.com/app/620/Portal_2/#game_area_movies'
+      },
+      {
+        id:'subnautica', app:264710, title:'Subnautica', art:'https://cdn.akamai.steamstatic.com/steam/apps/264710/header.jpg',
+        genres:['Adventure','Survival','Horror'], genreLabel:'Underwater survival adventure', release:'2018-01-23', releaseLabel:'Jan 23, 2018', developer:'Unknown Worlds Entertainment', platform:'PC · PlayStation · Xbox · Switch', players:'Single-player', review:'Overwhelmingly Positive',
+        description:'Explore an alien ocean after crash-landing on a water-covered planet. Gather materials, craft equipment and vehicles, and venture deeper to discover what happened there.',
+        verdict:'A memorable pick if exploration and crafting are your kind of adventure. The ocean can become genuinely tense, and the game gives you space to learn rather than marking every step.',
+        good:'A distinctive underwater world, gradual discoveries and a strong sense of making progress.', consider:'You will gather resources, manage oxygen and explore alone. Some encounters can be frightening.',
+        min:{OS:'Windows Vista SP2+ · 64-bit',CPU:'Intel Haswell 2-core / 4-thread 2.5 GHz',RAM:'4 GB',GPU:'Intel HD 4600 or equivalent',DX:'DirectX 11',Storage:'20 GB'},
+        rec:{OS:'Windows Vista SP2+ · 64-bit',CPU:'Intel Haswell 4-core 3.2 GHz',RAM:'8 GB',GPU:'NVIDIA GTX 550 Ti or equivalent · 2 GB VRAM',DX:'DirectX 11',Storage:'20 GB'},
+        steam:'https://store.steampowered.com/app/264710/Subnautica/', trailer:'https://store.steampowered.com/app/264710/Subnautica/#game_area_movies'
+      },
+      {
+        id:'slay-the-spire', app:646570, title:'Slay the Spire', art:'https://cdn.akamai.steamstatic.com/steam/apps/646570/header.jpg',
+        genres:['Indie','Strategy','Roguelike','Card game'], genreLabel:'Roguelike deckbuilder', release:'2019-01-23', releaseLabel:'Jan 23, 2019', developer:'Mega Crit', platform:'PC · macOS · Linux · consoles · mobile', players:'Single-player', review:'Overwhelmingly Positive',
+        description:'Climb a dangerous tower in a single-player card-battling roguelike. Build a deck, collect powerful relics and adapt your strategy to the enemies and events on each run.',
+        verdict:'An excellent fit for thoughtful, turn-based runs and learning through experimentation. There is little story emphasis; the fun comes from shaping a deck and making each choice count.',
+        good:'Readable tactical choices, multiple characters and a strong sense of a run coming together.', consider:'Expect repetition as you learn systems and try different routes up the Spire.',
+        min:{OS:'Windows XP / Vista / 7 / 8 / 10',CPU:'2.0 GHz',RAM:'2 GB',GPU:'1 GB VRAM · OpenGL 3.0+ (2.1 with ARB extensions)',Storage:'1 GB'},
+        rec:{Notes:'Steam does not list a separate recommended tier.'},
+        steam:'https://store.steampowered.com/app/646570/Slay_the_Spire/', trailer:'https://store.steampowered.com/app/646570/Slay_the_Spire/#game_area_movies'
+      },
+      {
+        id:'street-fighter-6', app:1364780, title:'Street Fighter 6', art:'https://cdn.akamai.steamstatic.com/steam/apps/1364780/header.jpg',
+        genres:['Action','Fighting','Multiplayer'], genreLabel:'Fighting game', release:'2023-06-01', releaseLabel:'Jun 1, 2023', developer:'CAPCOM Co., Ltd.', platform:'PC · PlayStation · Xbox', players:'Single-player · online PvP', review:'Very Positive',
+        description:'Capcom’s fighting game combines head-to-head battles with a single-player World Tour mode and the online Battle Hub. Its control options give newcomers and series veterans different ways to play.',
+        verdict:'A strong fighting-game package if you want to learn matchups or play online. Character DLC and online features are part of its ecosystem; read the current listing for edition and account details.',
+        good:'A broad set of modes, expressive characters and options for players who are new to fighting games.', consider:'Competitive play has a learning curve, and additional characters are sold as DLC.',
+        min:{OS:'Windows 10 · 64-bit',CPU:'Intel Core i5-7500 / AMD Ryzen 3 1200',RAM:'8 GB',GPU:'NVIDIA GTX 1060 6 GB / AMD RX 580 4 GB',DX:'DirectX 12',Storage:'60 GB'},
+        rec:{OS:'Windows 10 / 11 · 64-bit',CPU:'Intel Core i7-8700 / AMD Ryzen 5 3600',RAM:'16 GB',GPU:'NVIDIA RTX 2070 / AMD RX 5700XT',DX:'DirectX 12',Storage:'60 GB'},
+        steam:'https://store.steampowered.com/app/1364780/Street_Fighter_6/', trailer:'https://store.steampowered.com/app/1364780/Street_Fighter_6/#game_area_movies'
+      }
+    ];
+    const gta = {id:'gta-vi',title:'Grand Theft Auto VI',release:'2026-11-19',releaseLabel:'Nov 19, 2026',developer:'Rockstar Games',platform:'PlayStation 5 · Xbox Series X|S',players:'Not announced',genreLabel:'Open-world action adventure',steam:'https://www.rockstargames.com/VI',review:'Not released yet',description:'The next Grand Theft Auto story follows Jason and Lucia in Vice City and the wider state of Leonida. Rockstar currently lists PlayStation 5 and Xbox Series X|S, with a November 19, 2026 release date.',verdict:'The release information on this page follows Rockstar’s current announcement. There is no published PC specification or announced Steam listing at the time this page was made. Check the official site for changes.'};
+    let featuredHeroes = [
+      {id:'cyberpunk',app:1091500,title:'Cyberpunk 2077',genre:'Action RPG',review:'Very Positive',style:'Story-rich · Open world'},
+      {id:'elden-ring',app:1245620,title:'ELDEN RING',genre:'Action RPG',review:'Overwhelmingly Positive',style:'Open world · Challenging'},
+      {id:'baldurs-gate-3',app:1086940,title:"Baldur's Gate 3",genre:'RPG · Strategy',review:'Overwhelmingly Positive',style:'Choices · Turn-based'},
+      {id:'resident-evil-4',app:2050650,title:'Resident Evil 4',genre:'Survival horror',review:'Overwhelmingly Positive',style:'Horror · Action'},
+      {id:'hogwarts-legacy',app:990080,title:'Hogwarts Legacy',genre:'Open-world RPG',review:'Very Positive',style:'Magic · Exploration'}
+    ];
+    let heroIndex=0, heroTimer=null, heroTextTimer=null;
+
+    const grid = document.getElementById('gameGrid');
+    const searchInput = document.getElementById('searchInput');
+    const sortSelect = document.getElementById('sortSelect');
+    let activeGenre = 'All';
+    let wishlist = JSON.parse(localStorage.getItem('gamevault-wishlist') || localStorage.getItem('playscape-wishlist') || '[]');
+    let compareIds = JSON.parse(localStorage.getItem('gamevault-compare') || localStorage.getItem('playscape-compare') || '[]').slice(0,4);
+    let selectedGame = null;
+    let requirementTier = 'min';
+    let registerMode = false;
+    let userEmail = '';
+    let cardRevealObserver = null;
+    const API_BASE = (location.port === '4173') ? `${location.protocol}//${location.hostname}:4174` : '';
+    let remoteCatalogMode = new URLSearchParams(location.search).get('catalog') === 'rawg' || location.pathname.replace(/\/$/,'') === '/games';
+    let remoteResults = [], remotePage = 1, remotePages = 0, remoteTotal = 0, remoteLoading = false, remoteDebounce = null, steamShelfRecords = [];
+    let rawgKeyConfigured = false, dealsPage = 1, dealsPages = 0, dealsDebounce = null, lightboxItems = [], lightboxIndex = 0;
+    let accountUser = null;
+
+    async function apiRequest(path,options={}) {
+      const response=await fetch(`${API_BASE}${path}`,{credentials:'include',...options,headers:{'Content-Type':'application/json',...(options.headers||{})}});
+      let data={};try{data=await response.json();}catch{}
+      if(!response.ok)throw new Error(data.error||`Request failed (${response.status})`);
+      return data;
+    }
+    function sourceNotice(message,state='') {
+      const node=document.getElementById('catalogSource');node.className=`catalog-source ${state}`;node.querySelector('span').textContent=message;node.hidden=false;
+    }
+    function configureSortOptions(fullCatalog){
+      sortSelect.innerHTML=fullCatalog?'<option value="most-reviewed">Most reviewed</option><option value="newest">Recently released</option><option value="highest-rated">Highest rated</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="az">Name: A–Z</option>':'<option value="featured">GAMEVAULT picks</option><option value="newest">Newest release</option><option value="az">Name: A–Z</option>';
+      if(![...sortSelect.options].some(option=>option.value===sortSelect.value))sortSelect.value=fullCatalog?'most-reviewed':'featured';
+    }
+    function setRemoteFiltersEnabled(enabled){['platformFilter','priceFilter','releaseFilter','ratingFilter','tagFilter','developerFilter','publisherFilter'].forEach(id=>document.getElementById(id).disabled=!enabled);}
+    async function refreshCatalogStatus() {
+      try {
+        const state=await apiRequest('/api/catalog/status');
+        setRemoteFiltersEnabled(remoteCatalogMode&&state.catalog_games>0);
+        if(state.catalog_games>0){
+          sourceNotice(`${state.catalog_games.toLocaleString()} RAWG games available · ${state.detailed_games.toLocaleString()} with expanded details · Catalog ${state.status==='running'?'updating':'ready'}.`,state.status==='failed'?'error':'live');
+          document.getElementById('catalogModeBtn').textContent='Browse the RAWG catalog ↗';
+          if(remoteCatalogMode)document.getElementById('libraryCount').textContent=`${state.catalog_games.toLocaleString()} RAWG games indexed`;
+          if(state.status==='failed')sourceNotice(`RAWG catalog needs attention: ${state.message}`, 'error');
+          loadSteamShelves();loadSteamGenres();
+        } else {
+          sourceNotice(state.status==='failed'?(state.last_error||state.message||'RAWG could not complete the request.'):state.rawg_key_configured?'RAWG is loading games automatically. Your catalog will appear here in a moment.':'RAWG_API_KEY is not available to the game server.',state.status==='failed'||!state.rawg_key_configured?'error':'live');
+        }
+      } catch {
+        sourceNotice('RAWG catalog service is offline. Start the GAMEVAULT service to enable catalog browsing, account sync and filters.', 'error');
+      }
+    }
+    const remoteQueryString=()=>{
+      const p=new URLSearchParams({catalog:'rawg',page:String(remotePage),limit:'24',sort:sortSelect.value});
+      const q=searchInput.value.trim();if(q)p.set('q',q);
+      if(activeGenre!=='All')p.set('genre',activeGenre);
+      const platform=document.getElementById('platformFilter').value;if(platform)p.set('platform',platform);
+      const price=document.getElementById('priceFilter').value;if(price==='free')p.set('free','1');else if(price)p.set('price',price);
+      const release=document.getElementById('releaseFilter').value;if(release)p.set('release',release);
+      return p;
+    };
+    function updateCatalogUrl(){
+      if(!remoteCatalogMode)return;
+      const p=remoteQueryString();history.replaceState({},'',`${location.pathname}?${p.toString()}${location.hash}`);
+    }
+    function normalizeSteamGame(raw){
+      const app=Number(raw.app_id),genres=Array.isArray(raw.genres)?raw.genres:[],platforms=raw.platforms||{};
+      const supported=Object.entries(platforms).filter(([,yes])=>yes).map(([key])=>({windows:'Windows',mac:'macOS',linux:'Linux'}[key]||key));
+      const dev=Array.isArray(raw.developers)?raw.developers.join(', '):'Not available';
+      const pubs=Array.isArray(raw.publishers)?raw.publishers.join(', '):'Not available';
+      const positives=Number(raw.review_positive||0),negatives=Number(raw.review_negative||0),reviewCount=Number(raw.review_count||0);
+      const pct=reviewCount?Math.round(positives/(positives+negatives||1)*100):null;
+      let min=null,rec=null;if(raw.min_requirements)min={'Published on Steam':raw.min_requirements};if(raw.rec_requirements)rec={'Published on Steam':raw.rec_requirements};
+      return {id:String(app),app,title:raw.name||`Steam game ${app}`,art:raw.header_image||`https://cdn.akamai.steamstatic.com/steam/apps/${app}/header.jpg`,
+        genres,genreLabel:genres.slice(0,2).join(' · ')||'Steam game',release:raw.release_date||'',releaseLabel:raw.release_date||'Release date unavailable',
+        developer:dev,publisher:pubs,platform:supported.join(' · ')||'Platform details unavailable',players:'See Steam store features',
+        review:raw.review_desc||'Reviews unavailable',reviewCount,reviewPositivePercent:pct,description:raw.description||raw.short_description||'Description not available in Steam store data.',
+        shortDescription:raw.short_description||'',verdict:'GAMEVAULT has not published an editorial review for this title yet. Steam community information is shown where available.',
+        steam:raw.steam_url||`https://store.steampowered.com/app/${app}/`,trailer:`https://store.steampowered.com/app/${app}/#game_area_movies`,
+        min,rec,steamData:raw,source:'Steam Store',screenshots:raw.screenshots||[],trailers:raw.trailers||[],priceCents:raw.price_cents,currency:raw.currency,priceFormatted:raw.price_formatted,originalPriceFormatted:raw.original_price_formatted,isFree:raw.is_free};
+    }
+    function rememberSteamGames(items){
+      try{const old=JSON.parse(localStorage.getItem('gamevault-steam-cache')||localStorage.getItem('playscape-steam-cache')||'[]'),byId=new Map(old.map(item=>[String(item.app_id),item]));items.forEach(item=>byId.set(String(item.app_id),item));const payload=JSON.stringify([...byId.values()].slice(-500));localStorage.setItem('gamevault-steam-cache',payload);localStorage.setItem('playscape-steam-cache',payload);}catch{}
+    }
+    function formatSteamPrice(game){
+      if(game.isFree)return 'Free to Play';if(game.priceFormatted)return game.priceFormatted;if(game.priceCents==null||!game.currency)return 'See Steam for price';
+      try{return new Intl.NumberFormat(undefined,{style:'currency',currency:game.currency}).format(game.priceCents/100)}catch{return `${game.currency} ${(game.priceCents/100).toFixed(2)}`}
+    }
+    function findCompareGame(id){
+      const local=games.find(game=>String(game.id)===String(id));if(local)return local;
+      const raw=[...remoteResults,...steamShelfRecords,...JSON.parse(localStorage.getItem('gamevault-steam-cache')||localStorage.getItem('playscape-steam-cache')||'[]')].find(game=>String(game.app_id)===String(id));
+      return raw?normalizeSteamGame(raw):null;
+    }
+    function compareSummary(game){
+      const source=game.source==='Steam Store';
+      const system=game.min?(source?(game.min['Published on Steam']||'Not available'):[game.min.OS,game.min.CPU,game.min.RAM,game.min.GPU].filter(Boolean).join(' · ')):'Not available';
+      const review=source?(game.reviewCount?`${game.review} · ${game.reviewCount.toLocaleString()} reviews`:'Not available'):game.review||'Not available';
+      return {Genre:game.genreLabel||'Not available',Release:game.releaseLabel||'Not available',Developer:game.developer||'Not available',Publisher:game.publisher||'Not available',Platforms:game.platform||'Not available','Steam reviews':review,'Current price':source?formatSteamPrice(game):'Not available in this curated record','PC minimum':system};
+    }
+    function renderCompareTray(){
+      const tray=document.getElementById('compareTray');if(!tray)return;
+      compareIds=compareIds.filter(id=>findCompareGame(id));
+      tray.hidden=!compareIds.length;
+      if(!compareIds.length)return;
+      const entries=compareIds.map(id=>({id,game:findCompareGame(id)})).filter(item=>item.game);
+      tray.innerHTML=`<div class="compare-items"><strong>Compare · ${entries.length}/4</strong>${entries.map(({id,game})=>`<span class="compare-pill">${escapeHtml(game.title)}<button type="button" data-remove-compare="${escapeHtml(id)}" aria-label="Remove ${escapeHtml(game.title)} from comparison">×</button></span>`).join('')}</div><button type="button" id="clearCompare">Clear</button><button type="button" id="openCompare" class="primary" ${entries.length<2?'disabled':''}>Compare games</button>`;
+      tray.querySelector('#clearCompare').addEventListener('click',()=>{compareIds=[];localStorage.setItem('gamevault-compare','[]');localStorage.setItem('playscape-compare','[]');renderCompareTray();document.querySelectorAll('[data-compare]').forEach(button=>button.classList.remove('selected'));});
+      tray.querySelector('#openCompare').addEventListener('click',openCompareDialog);
+    }
+    function decorateCompareButtons(){
+      grid.querySelectorAll('.game-card').forEach(card=>{const body=card.querySelector('.card-body'),target=card.querySelector('[data-open]')?.dataset.open;if(!body||!target||body.querySelector('[data-compare]'))return;const button=document.createElement('button');button.type='button';button.className=`compare-add ${compareIds.includes(String(target))?'selected':''}`;button.dataset.compare=target;button.setAttribute('aria-pressed',String(compareIds.includes(String(target))));button.textContent=compareIds.includes(String(target))?'✓ Added to compare':'+ Compare';body.append(button);});
+    }
+    function toggleCompare(id){
+      id=String(id);if(compareIds.includes(id))compareIds=compareIds.filter(value=>value!==id);else if(compareIds.length>=4){toast('Compare up to four games at a time');return;}else compareIds.push(id);
+      localStorage.setItem('gamevault-compare',JSON.stringify(compareIds));localStorage.setItem('playscape-compare',JSON.stringify(compareIds));renderCompareTray();document.querySelectorAll('[data-compare]').forEach(button=>{const active=compareIds.includes(String(button.dataset.compare));button.classList.toggle('selected',active);button.setAttribute('aria-pressed',String(active));button.textContent=active?'✓ Added to compare':'+ Compare';});
+    }
+    function openCompareDialog(){
+      const entries=compareIds.map(findCompareGame).filter(Boolean);if(entries.length<2)return;
+      const rows=Object.keys(compareSummary(entries[0]));
+      document.getElementById('compareTable').innerHTML=`<table class="compare-table"><thead><tr><th>Game facts</th>${entries.map(game=>`<th>${escapeHtml(game.title)}</th>`).join('')}</tr></thead><tbody>${rows.map(label=>`<tr><td>${escapeHtml(label)}</td>${entries.map(game=>`<td>${escapeHtml(compareSummary(game)[label]||'Not available')}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+      openBackdrop('compareBackdrop');
+    }
+    function surpriseMe(){
+      let candidates=remoteCatalogMode?remoteResults.map(normalizeSteamGame):games.filter(game=>(activeGenre==='All'||game.genres.includes(activeGenre))&&(!searchInput.value.trim()||game.title.toLowerCase().includes(searchInput.value.trim().toLowerCase())));
+      candidates=candidates.filter(game=>!wishlistOnly||isSaved(game.id));
+      if(!candidates.length){toast(remoteCatalogMode?'Sync the catalog or change filters to discover a game':'No games match the current filters');return;}
+      const pick=candidates[Math.floor(Math.random()*candidates.length)];openGame(pick.id);
+    }
+    async function loadSteamShelves(){
+      const sections=[
+        {title:'Most reviewed on Steam',note:'Ordered by available Steam review volume.',sort:'most-reviewed'},
+        {title:'Recently released',note:'Sorted by release date when Steam provides one.',sort:'recently-released'},
+        {title:'Role-playing games',note:'Steam genre metadata · RPG.',genre:'RPG'},
+        {title:'Action picks',note:'Steam genre metadata · Action.',genre:'Action'},
+        {title:'Horror',note:'Steam genre metadata · Horror.',genre:'Horror'},
+        {title:'Free to play',note:'Steam Store products marked free.',free:'1'},
+        {title:'Coming soon',note:'Steam Store release status.',release:'upcoming'}
+      ];
+      const results=await Promise.allSettled(sections.map(async section=>{const p=new URLSearchParams({limit:'15',page:'1',sort:section.sort||'popular'});if(section.genre)p.set('genre',section.genre);if(section.free)p.set('free',section.free);if(section.release)p.set('release',section.release);const data=await apiRequest(`/api/games?${p}`);return {...section,results:data.results||[],total:data.total||0};}));
+      const shelves=results.filter(item=>item.status==='fulfilled'&&item.value.results.length).map(item=>item.value);
+      steamShelfRecords=shelves.flatMap(shelf=>shelf.results);rememberSteamGames(steamShelfRecords);
+      const host=document.getElementById('steamShelfRows');
+      host.innerHTML=shelves.map(shelf=>`<section class="steam-shelf"><div class="steam-shelf-head"><div><h3>${escapeHtml(shelf.title)}</h3><p>${escapeHtml(shelf.note)} ${shelf.total.toLocaleString()} available.</p></div><button class="text-link" type="button" data-browse-shelf="${escapeHtml(shelf.genre||shelf.title)}">View all <span>↗</span></button></div><div class="steam-shelf-grid">${shelf.results.slice(0,15).map(raw=>{const app=Number(raw.app_id),title=escapeHtml(raw.name||'Steam game'),image=escapeHtml(raw.header_image||`https://cdn.akamai.steamstatic.com/steam/apps/${app}/header.jpg`),price=raw.is_free?'Free to Play':raw.price_formatted||'Price on Steam';return `<article class="steam-mini-card"><img loading="lazy" src="${image}" alt="${title} Steam artwork" onerror="this.style.display='none'"><div class="steam-mini-copy"><strong title="${title}">${title}</strong><span>${escapeHtml(raw.review_desc||'Reviews not available')} · ${escapeHtml(raw.release_date||'Release date unavailable')}</span><span>${escapeHtml(price)}</span><button type="button" data-open="${app}">Explore this game ↗</button></div></article>`;}).join('')}</div></section>`).join('');
+      document.getElementById('steamShelves').hidden=!shelves.length;
+      host.querySelectorAll('[data-browse-shelf]').forEach(button=>button.addEventListener('click',()=>{const genre=sections.find(item=>item.title===button.dataset.browseShelf||item.genre===button.dataset.browseShelf)?.genre||'';activeGenre=genre||'All';document.querySelectorAll('.chip').forEach(chip=>chip.classList.toggle('active',chip.dataset.genre===activeGenre));setCatalogMode(true);document.getElementById('library').scrollIntoView({behavior:'smooth'});}));
+    }
+    async function loadSteamGenres(){
+      try{
+        const data=await apiRequest('/api/genres'),items=data.results||[],chipHost=document.getElementById('genreFilters'),tileHost=document.querySelector('#genres .genre-grid');
+        const chips=new Set([...chipHost.querySelectorAll('[data-genre]')].map(node=>node.dataset.genre.toLowerCase()));
+        const tiles=new Set([...tileHost.querySelectorAll('[data-genre]')].map(node=>node.dataset.genre.toLowerCase()));
+        items.forEach(item=>{
+          const name=String(item.name||'').trim();if(!name)return;
+          if(!chips.has(name.toLowerCase())){const button=document.createElement('button');button.className='chip';button.dataset.genre=name;button.dataset.remoteGenre='true';button.textContent=name;chipHost.append(button);}
+          if(!tiles.has(name.toLowerCase()))tileHost.insertAdjacentHTML('beforeend',`<button class="genre-tile steam-genre-tile" data-genre="${escapeHtml(name)}" data-remote-genre="true"><span class="genre-glyph">✦</span><span><strong>${escapeHtml(name)}</strong><small>${Number(item.game_count||0).toLocaleString()} RAWG games</small></span></button>`);
+        });
+      }catch{}
+    }
+    async function loadRemoteCatalog(){
+      if(!remoteCatalogMode)return;
+      remoteLoading=true;updateCatalogUrl();
+      grid.setAttribute('aria-busy','true');
+      grid.innerHTML=Array.from({length:8},()=>'<div class="game-skeleton" aria-hidden="true"></div>').join('');
+      try{
+        const response=await apiRequest(`/api/games?${remoteQueryString().toString()}`);
+        remoteResults=response.results||[];remoteTotal=response.total||0;remotePages=response.pages||0;rememberSteamGames(remoteResults);
+        const catalogState=await apiRequest('/api/catalog/status');setRemoteFiltersEnabled(remoteCatalogMode&&catalogState.catalog_games>0);
+        if(remoteTotal===0){
+          const state=catalogState;
+          if(state.catalog_games===0){const loading=state.rawg_key_configured&&state.status!=='failed';document.getElementById('libraryCount').textContent=loading?'Loading RAWG games…':'RAWG catalog unavailable';const message=state.status==='failed'?(state.last_error||state.message||'RAWG could not complete the request.'):loading?'The catalog is being prepared automatically. Please wait a moment.':'RAWG_API_KEY is not available to the game server.';grid.innerHTML=`<div class="catalog-setup-note"><strong>${loading?'Loading games from RAWG…':'RAWG games could not be loaded.'}</strong><br>${escapeHtml(message)}</div>`;sourceNotice(message,loading?'live':'error');}
+          else{renderRemoteGames();sourceNotice('No RAWG games match the current search and filters.','live');}
+        }else{renderRemoteGames();sourceNotice(`${remoteTotal.toLocaleString()} matching Steam Store games · Server-side search and filters. Regional price data is shown where Steam provides it.`, 'live');}
+      }catch(error){
+        remoteResults=[];remoteTotal=0;remotePages=0;
+        grid.innerHTML=`<div class="empty-state"><div><strong>RAWG catalog is not available yet.</strong>${escapeHtml(error.message)}</div></div>`;
+        sourceNotice('Local catalog browsing is unavailable. Check the game server connection.', 'error');
+      }finally{
+        remoteLoading=false;grid.removeAttribute('aria-busy');
+        const pager=document.getElementById('catalogPagination');pager.hidden=remotePages<2;
+        document.getElementById('catalogPrev').disabled=remotePage<=1;
+        document.getElementById('catalogNext').disabled=remotePage>=remotePages;
+        document.getElementById('catalogPageLabel').textContent=remotePages?`Page ${remotePage} of ${remotePages}`:'No catalog pages';
+        document.getElementById('catalogModeBtn').textContent='Show curated picks';
+      }
+    }
+    function renderRemoteGames(){
+      const list=wishlistOnly?remoteResults.filter(raw=>isSaved(String(raw.app_id))):remoteResults;
+      document.getElementById('libraryCount').textContent=`${remoteTotal.toLocaleString()} ${remoteTotal===1?'game':'RAWG games'}${wishlistOnly?' · wishlist':''}`;
+      if(!list.length){grid.innerHTML=`<div class="empty-state"><div><strong>${wishlistOnly?'No saved RAWG games are available on this page.':'No matching RAWG games.'}</strong>${wishlistOnly?'Browse the catalog to save a game to your wishlist.':'Try changing a filter, or search another title.'}</div></div>`;}
+      else grid.innerHTML=list.map((raw,index)=>{const game=normalizeSteamGame(raw),saved=isSaved(game.id);return `<article class="game-card" style="transition-delay:${Math.min(index%8,7)*35}ms"><div class="game-card-inner"><div class="card-art" data-open="${game.id}" tabindex="0" role="button" aria-label="View ${escapeHtml(game.title)} details"><img loading="lazy" src="${escapeHtml(game.art)}" alt="${escapeHtml(game.title)} official Steam artwork" onerror="this.style.display='none'"><div class="card-top"><span class="status-pill">${escapeHtml(game.genreLabel)}</span><button class="save-btn ${saved?'saved':''}" data-save="${game.id}" aria-label="${saved?'Remove':'Add'} ${escapeHtml(game.title)} ${saved?'from':'to'} wishlist">${saved?'♥':'♡'}</button></div><div class="art-title"><small>${escapeHtml(game.developer)}</small><strong>${escapeHtml(game.title)}</strong></div></div><div class="card-body"><div class="tag-row">${game.genres.slice(0,3).map(g=>`<span class="genre-tag">${escapeHtml(g)}</span>`).join('')||'<span class="genre-tag">Steam Store</span>'}</div><div class="rating-row"><span class="rating">${escapeHtml(game.review)}</span><span class="release-mini">${escapeHtml(game.releaseLabel)}</span></div><div class="rating-row"><span class="catalog-card-price">${escapeHtml(formatSteamPrice(game))}</span><span class="release-mini">${game.reviewCount?`${game.reviewCount.toLocaleString()} reviews`:''}</span></div><button class="card-open" data-open="${game.id}"><span>Game details & specs</span><span>↗</span></button></div></div></article>`;}).join('');
+      decorateCompareButtons();renderCompareTray();if(cardRevealObserver)grid.querySelectorAll('.game-card').forEach(card=>cardRevealObserver.observe(card));
+    }
+    function setCatalogMode(enabled){
+      remoteCatalogMode=enabled;wishlistOnly=false;remotePage=1;
+      configureSortOptions(enabled);setRemoteFiltersEnabled(enabled&&remoteTotal>0);
+      document.getElementById('catalogPagination').hidden=true;
+      document.getElementById('catalogModeBtn').textContent='Browse the RAWG catalog ↗';
+      if(enabled)loadRemoteCatalog();else{wishlistOnly=false;history.replaceState({},'',`${location.pathname}${location.hash}`);renderGames();refreshCatalogStatus();}
+    }
+
+    const escapeHtml = (value) => String(value).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+    const isSaved = id => wishlist.includes(id);
+    const saveWishlist = () => { localStorage.setItem('gamevault-wishlist', JSON.stringify(wishlist)); localStorage.setItem('playscape-wishlist', JSON.stringify(wishlist)); updateWishlistCount(); renderGames(); if(accountUser)writeWishlistToAccount(); };
+    const updateWishlistCount = () => { document.getElementById('wishCount').textContent = wishlist.length; document.getElementById('wishCount').style.display = wishlist.length ? 'grid' : 'none'; };
+    function toast(message) {
+      const node = document.createElement('div'); node.className = 'toast'; node.innerHTML = `<i>✦</i><span>${escapeHtml(message)}</span>`;
+      document.getElementById('toastStack').append(node); setTimeout(() => { node.style.opacity = '0'; node.style.transform = 'translateY(6px)'; setTimeout(() => node.remove(), 220); }, 2600);
+    }
+    function renderGames() {
+      if(remoteCatalogMode)return renderRemoteGames();
+      let list = games.filter(game => (activeGenre === 'All' || game.genres.includes(activeGenre)) && (game.title.toLowerCase().includes(searchInput.value.trim().toLowerCase()) || game.genres.join(' ').toLowerCase().includes(searchInput.value.trim().toLowerCase())));
+      if (wishlistOnly) list = list.filter(game => isSaved(game.id));
+      document.getElementById('libraryCount').textContent=`${list.length} ${list.length===1?'game':'games'} ${wishlistOnly?'saved':'on this shelf'}`;
+      const sort = sortSelect.value;
+      if (sort === 'az') list.sort((a,b) => a.title.localeCompare(b.title));
+      if (sort === 'newest') list.sort((a,b) => b.release.localeCompare(a.release));
+      if (sort === 'oldest') list.sort((a,b) => a.release.localeCompare(b.release));
+      if (!list.length) { grid.innerHTML = `<div class="empty-state"><div><strong>${wishlistOnly ? 'Your wishlist is waiting.' : 'No matches this time.'}</strong>${wishlistOnly ? 'Save a game with the heart to keep it here.' : 'Try a different search or choose another genre.'}</div></div>`;renderCompareTray();return; }
+      grid.innerHTML = list.map((game,index) => `<article class="game-card" style="transition-delay:${Math.min(index%8,7)*55}ms"><div class="game-card-inner"><div class="card-art" data-open="${game.id}" tabindex="0" role="button" aria-label="View ${escapeHtml(game.title)} details"><img loading="lazy" src="${game.art}" alt="${escapeHtml(game.title)} official Steam artwork" onerror="this.style.display='none'"><div class="card-top"><span class="status-pill">${escapeHtml(game.genreLabel)}</span><button class="save-btn ${isSaved(game.id)?'saved':''}" data-save="${game.id}" aria-label="${isSaved(game.id)?'Remove':'Add'} ${escapeHtml(game.title)} ${isSaved(game.id)?'from':'to'} wishlist">${isSaved(game.id)?'♥':'♡'}</button></div><div class="art-title"><small>${escapeHtml(game.developer)}</small><strong>${escapeHtml(game.title)}</strong></div></div><div class="card-body"><div class="tag-row">${game.genres.slice(0,3).map(g=>`<span class="genre-tag">${escapeHtml(g)}</span>`).join('')}</div><div class="rating-row"><span class="rating"><span class="spark">✦</span>${escapeHtml(game.review)}</span><span class="release-mini">${escapeHtml(game.releaseLabel)}</span></div><button class="card-open" data-open="${game.id}"><span>Game details & specs</span><span>↗</span></button></div></div></article>`).join('');
+      decorateCompareButtons();renderCompareTray();if(cardRevealObserver)grid.querySelectorAll('.game-card').forEach(card=>cardRevealObserver.observe(card));
+    }
+    let wishlistOnly = false;
+    function toggleSave(id) {
+      if (isSaved(id)) { wishlist = wishlist.filter(item => item !== id); toast('Removed from your wishlist'); }
+      else { wishlist.push(id); toast('Saved to your wishlist'); }
+      saveWishlist();
+      document.getElementById('saveGta').innerHTML = isSaved(gta.id) ? '♥ <span>Saved to wishlist</span>' : '♡ <span>Save to wishlist</span>';
+    }
+    function openBackdrop(id) { const el=document.getElementById(id); el.classList.add('open'); el.setAttribute('aria-hidden','false'); document.body.classList.add('modal-open'); }
+    function closeBackdrop(id) { const el=document.getElementById(id); el.classList.remove('open'); el.setAttribute('aria-hidden','true'); if (![...document.querySelectorAll('.modal-backdrop')].some(item=>item.classList.contains('open'))) document.body.classList.remove('modal-open'); }
+    function gameFacts(game) { return `<div class="fact-grid"><div class="fact"><small>Release date</small><strong>${escapeHtml(game.releaseLabel)}</strong></div><div class="fact"><small>Developer</small><strong>${escapeHtml(game.developer)}</strong></div><div class="fact"><small>Players</small><strong>${escapeHtml(game.players)}</strong></div><div class="fact"><small>Platforms</small><strong>${escapeHtml(game.platform)}</strong></div></div>`; }
+    function gameMedia(game, upcoming) {
+      if(upcoming)return `<div class="media-section"><div class="media-head"><div><h3>Official game media</h3><p>Open the publisher's official page for current trailers and artwork.</p></div></div><a class="btn btn-primary" href="${game.steam}" target="_blank" rel="noreferrer">See official media ↗</a></div>`;
+      const app=game.app;
+      const screenshots=game.screenshots||[];
+      const assets=screenshots.length?screenshots.slice(0,3).map((shot,i)=>[`Screenshot ${i+1}`,shot.url||shot.path_full]).filter(x=>x[1]):[['Store artwork',`https://cdn.akamai.steamstatic.com/steam/apps/${app}/header.jpg`],['Library artwork',`https://cdn.akamai.steamstatic.com/steam/apps/${app}/library_hero.jpg`],['Portrait artwork',`https://cdn.akamai.steamstatic.com/steam/apps/${app}/library_600x900_2x.jpg`]];
+      const trailers=game.trailers||[];
+      const trailer=trailers.find(item=>item.webm?.max||item.webm?.['480']||item.mp4?.max||item.mp4?.['480']);
+      const videoUrl=trailer&&(trailer.webm?.max||trailer.webm?.['480']||trailer.mp4?.max||trailer.mp4?.['480']);
+      const video=videoUrl?`<div class="steam-trailer"><video controls preload="none" poster="${escapeHtml(trailer.thumbnail||'')}" aria-label="${escapeHtml(trailer.name||game.title+' official trailer')}"><source src="${escapeHtml(videoUrl)}" type="${videoUrl.endsWith('.webm')?'video/webm':'video/mp4'}"></video><span>${escapeHtml(trailer.name||'Official Steam trailer')}</span></div>`:'';
+      return `<div class="media-section"><div class="media-head"><div><h3>Game artwork & official media</h3><p>${game.source==='Steam Store'?'Steam Store screenshots and trailers, when available.':'Steam game artwork; trailers and screenshots open on the official store page.'}</p></div></div>${video}<div class="media-grid">${assets.map(([label,url])=>`<figure class="media-shot"><img loading="lazy" src="${escapeHtml(url)}" alt="${escapeHtml(game.title)} ${escapeHtml(label.toLowerCase())}" onerror="this.closest('.media-shot').remove()"><figcaption>${escapeHtml(label)}</figcaption></figure>`).join('')}</div><div class="media-cta"><a class="btn btn-primary" href="${game.steam}" target="_blank" rel="noreferrer">See on Steam ↗</a></div><p class="media-note">Steam Store data is refreshed from the source when available. The Steam link opens the current official listing, trailer and screenshot carousel.</p></div>`;
+    }
+    function openGame(id) {
+      const steamRecord=remoteResults.find(game=>String(game.app_id)===String(id))||steamShelfRecords.find(game=>String(game.app_id)===String(id));
+      selectedGame = id === 'gta-vi' ? gta : (steamRecord?normalizeSteamGame(steamRecord):games.find(game => game.id === id)); if (!selectedGame) return;
+      const upcoming = id === 'gta-vi';
+      document.getElementById('modalTitle').textContent=selectedGame.title;
+      document.getElementById('modalGenre').textContent=upcoming ? 'Upcoming game · release date announced' : selectedGame.genreLabel;
+      document.getElementById('modalMeta').innerHTML=`<span>${escapeHtml(selectedGame.releaseLabel)}</span><span>${escapeHtml(selectedGame.developer)}</span><span>${escapeHtml(selectedGame.platform)}</span>`;
+      const image=upcoming?'https://www.rockstargames.com/VI/_next/static/media/poster_full.0az_iud2g3y4j.jpg?akim=1&imdensity=1&imwidth=1920':selectedGame.art;
+      document.getElementById('modalHero').style.backgroundImage=`url('${image}')`;
+      const overview=upcoming?`<div class="overview-grid"><div><h3>What's known so far</h3><div class="overview-copy">${escapeHtml(selectedGame.description)}<br><br>Release plans can change; see Rockstar's official page for the latest announcement.</div>${gameFacts(selectedGame)}</div><aside class="verdict-box"><small>Worth the wait?</small><p>${escapeHtml(selectedGame.verdict)}</p><div class="modal-actions"><a class="btn btn-primary" href="${selectedGame.steam}" target="_blank" rel="noreferrer">Official game page ↗</a><button class="btn-small-ghost" data-save="gta-vi">${isSaved('gta-vi')?'♥ Saved':'♡ Add to wishlist'}</button></div></aside></div>`:
+        `<div class="overview-grid"><div><h3>What kind of game is it?</h3><div class="overview-copy">${escapeHtml(selectedGame.description)}</div>${gameFacts(selectedGame)}<div class="modal-actions"><a class="btn btn-primary" href="${selectedGame.steam}" target="_blank" rel="noreferrer">See on Steam ↗</a><a class="btn-small-ghost" href="${selectedGame.steam}" target="_blank" rel="noreferrer">View current price ↗</a><button class="btn-small-ghost" data-compare="${selectedGame.id}">+ Compare</button></div></div><aside class="verdict-box"><small>The GameVault take</small><p>${escapeHtml(selectedGame.verdict)}</p><button class="btn-small-ghost" style="margin-top:13px" data-save="${selectedGame.id}">${isSaved(selectedGame.id)?'♥ Saved to wishlist':'♡ Add to wishlist'}</button></aside></div>`;
+      document.getElementById('panel-overview').innerHTML=overview;
+      document.getElementById('panel-media').innerHTML=gameMedia(selectedGame,upcoming);
+      document.getElementById('panel-reviews').innerHTML=upcoming?`<div class="steam-review"><span>◷</span> ${escapeHtml(selectedGame.review)}</div><h3>Too early for a player review</h3><p class="overview-copy">The game has not released yet, so there is no player review score to report. The release date and platforms on this page follow Rockstar’s current listing. We will only show player sentiment once players can actually review the game.</p><div class="verdict-box" style="margin-top:15px"><small>Current recommendation</small><p>${escapeHtml(selectedGame.verdict)}</p></div>`:selectedGame.source==='Steam Store'?`<div class="steam-review"><span>✦</span> ${escapeHtml(selectedGame.review)}</div><h3>Steam community reviews</h3>${selectedGame.reviewCount?`<p class="overview-copy">${selectedGame.reviewCount.toLocaleString()} reviews · ${selectedGame.reviewPositivePercent==null?'Positive share unavailable':`${selectedGame.reviewPositivePercent}% positive`}. This community summary is supplied by Steam and can change.</p>`:'<p class="overview-copy">Review totals are not available in the current Steam data response.</p>'}<a class="btn-small-ghost" href="${selectedGame.steam}#app_reviews_hash" target="_blank" rel="noreferrer">Read current Steam reviews ↗</a><p class="media-note">GAMEVAULT has not written an editorial review for this game.</p>`:`<div class="steam-review"><span>✦</span> Steam review snapshot: ${escapeHtml(selectedGame.review)}</div><h3>Will it click with you?</h3><p class="overview-copy">This is a stored sentiment snapshot, not a live Steam score. Open the store page for the current rating and recent reviews.</p><div class="pros-cons"><div class="review-note"><strong>✦ &nbsp;What stands out</strong><p>${escapeHtml(selectedGame.good)}</p></div><div class="review-note"><strong>↗ &nbsp;Good to know first</strong><p>${escapeHtml(selectedGame.consider)}</p></div></div><div class="modal-actions"><a class="btn-small-ghost" href="${selectedGame.steam}" target="_blank" rel="noreferrer">Read live Steam reviews ↗</a></div>`;
+      requirementTier='min';
+      const hasSpecs=!!(selectedGame.min||selectedGame.rec);
+      document.getElementById('panel-specs').innerHTML=upcoming?`<div class="verdict-box"><small>PC system requirements</small><p>${escapeHtml(selectedGame.verdict)} Rockstar has not announced a PC release or published PC system requirements on its current official page.</p></div><div class="fact-grid"><div class="fact"><small>Confirmed platforms</small><strong>PlayStation 5 · Xbox Series X|S</strong></div><div class="fact"><small>Release date</small><strong>${escapeHtml(selectedGame.releaseLabel)}</strong></div></div><div class="modal-actions"><a class="btn btn-primary" href="${selectedGame.steam}" target="_blank" rel="noreferrer">Official release info ↗</a></div>`:hasSpecs?`<h3>PC system requirements</h3><div class="req-toggle"><button class="active" data-tier="min">Minimum</button><button data-tier="rec">Recommended</button></div><div class="spec-list" id="specList"></div><p class="spec-foot">Requirements are summarized from the game's store listing and may change. The official listing has the latest PC details and regional pricing.</p><div class="modal-actions"><a class="btn-small-ghost" href="${selectedGame.steam}" target="_blank" rel="noreferrer">Check official requirements & regional price ↗</a></div>`:`<h3>PC system requirements</h3><div class="verdict-box"><small>Current PC details</small><p>This guide has not transcribed verified PC requirements for this title. Open the official Steam listing for the current minimum and recommended specifications.</p></div><div class="modal-actions"><a class="btn btn-primary" href="${selectedGame.steam}" target="_blank" rel="noreferrer">See requirements on Steam ↗</a></div>`;
+      if (!upcoming) renderSpecs();
+      document.querySelectorAll('.modal-tab').forEach(tab=>tab.classList.toggle('active',tab.dataset.tab==='overview'));
+      document.querySelectorAll('.tab-panel').forEach(panel=>panel.classList.toggle('active',panel.id==='panel-overview'));
+      openBackdrop('gameBackdrop');
+      if(steamRecord&&steamRecord.detail_status!=='complete'&&!document.body.dataset.detailsLoading){
+        document.body.dataset.detailsLoading='true';
+        apiRequest(`/api/games/${steamRecord.app_id}`).then(full=>{
+          const at=remoteResults.findIndex(item=>Number(item.app_id)===Number(full.app_id));
+          if(at>=0)remoteResults[at]=full;
+          if(selectedGame&&Number(selectedGame.app)===Number(full.app_id))openGame(String(full.app_id));
+        }).catch(()=>{}).finally(()=>{delete document.body.dataset.detailsLoading;});
+      }
+    }
+    function renderSpecs() {
+      const panel=document.getElementById('specList'); if(!panel||!selectedGame)return;
+      if(!selectedGame[requirementTier]){panel.innerHTML=`<div class="spec-item"><small>${requirementTier==='rec'?'Recommended':'Minimum'} tier</small><span>Not published as a separate tier. Check the official store listing for the game's current requirements.</span></div>`;document.querySelectorAll('.req-toggle button').forEach(button=>button.classList.toggle('active',button.dataset.tier===requirementTier));return;}
+      panel.innerHTML=Object.entries(selectedGame[requirementTier]).map(([key,value])=>`<div class="spec-item"><small>${escapeHtml(key)}</small><span>${escapeHtml(value)}</span></div>`).join('');
+      document.querySelectorAll('.req-toggle button').forEach(button=>button.classList.toggle('active',button.dataset.tier===requirementTier));
+    }
+
+    document.addEventListener('click',event=>{
+      const slide=event.target.closest('[data-slide]'); if(slide){window.showHeroSlide(Number(slide.dataset.slide));startHeroTimer();return;}
+      const compare=event.target.closest('[data-compare]');if(compare){toggleCompare(compare.dataset.compare);return;}
+      const removeCompare=event.target.closest('[data-remove-compare]');if(removeCompare){toggleCompare(removeCompare.dataset.removeCompare);return;}
+      const save=event.target.closest('[data-save]'); if(save){const wasOpen=document.getElementById('gameBackdrop').classList.contains('open');const activeId=selectedGame&&selectedGame.id;toggleSave(save.dataset.save);if(wasOpen&&activeId)openGame(activeId);return;}
+      const open=event.target.closest('[data-open]'); if(open){openGame(open.dataset.open);return;}
+      const genre=event.target.closest('[data-genre]'); if(genre){activeGenre=genre.dataset.genre;wishlistOnly=false;remotePage=1;searchInput.value='';document.querySelectorAll('.chip').forEach(chip=>chip.classList.toggle('active',chip.dataset.genre===activeGenre));if(genre.dataset.remoteGenre==='true'&&!remoteCatalogMode){remoteCatalogMode=true;configureSortOptions(true);document.getElementById('catalogModeBtn').textContent='Show curated picks';loadRemoteCatalog();}else if(remoteCatalogMode)loadRemoteCatalog();else renderGames();document.getElementById('library').scrollIntoView({behavior:'smooth'});return;}
+      const tab=event.target.closest('.modal-tab'); if(tab){document.querySelectorAll('.modal-tab').forEach(item=>item.classList.toggle('active',item===tab));document.querySelectorAll('.tab-panel').forEach(panel=>panel.classList.toggle('active',panel.id===`panel-${tab.dataset.tab}`));return;}
+      const tier=event.target.closest('[data-tier]'); if(tier){requirementTier=tier.dataset.tier;renderSpecs();return;}
+      const close=event.target.closest('[data-close]'); if(close){closeBackdrop(`${close.dataset.close}Backdrop`);return;}
+      if(event.target.classList.contains('modal-backdrop')) {closeBackdrop(event.target.id);return;}
+    });
+    document.addEventListener('keydown',event=>{
+      if(event.key==='Escape'){document.querySelectorAll('.modal-backdrop.open').forEach(item=>closeBackdrop(item.id));}
+      if(event.key==='Enter'&&event.target.matches('[data-open]'))openGame(event.target.dataset.open);
+    });
+    searchInput.addEventListener('input',()=>{wishlistOnly=false;if(remoteCatalogMode){clearTimeout(remoteDebounce);remotePage=1;remoteDebounce=setTimeout(loadRemoteCatalog,320);}else renderGames();});
+    sortSelect.addEventListener('change',()=>{remotePage=1;remoteCatalogMode?loadRemoteCatalog():renderGames();});
+    ['platformFilter','priceFilter','releaseFilter','ratingFilter','tagFilter'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{remotePage=1;if(remoteCatalogMode)loadRemoteCatalog();}));
+    ['developerFilter','publisherFilter'].forEach(id=>document.getElementById(id).addEventListener('input',()=>{clearTimeout(remoteDebounce);remotePage=1;remoteDebounce=setTimeout(()=>{if(remoteCatalogMode)loadRemoteCatalog();},320);}));
+    document.getElementById('filterReset').addEventListener('click',()=>{activeGenre='All';wishlistOnly=false;searchInput.value='';sortSelect.value=remoteCatalogMode?'most-reviewed':'featured';['platformFilter','priceFilter','releaseFilter','ratingFilter','tagFilter','developerFilter','publisherFilter'].forEach(id=>document.getElementById(id).value='');document.querySelectorAll('.chip').forEach(chip=>chip.classList.toggle('active',chip.dataset.genre==='All'));remotePage=1;remoteCatalogMode?loadRemoteCatalog():renderGames();});
+    document.getElementById('catalogModeBtn').addEventListener('click',()=>setCatalogMode(!remoteCatalogMode));
+    document.getElementById('surpriseBtn').addEventListener('click',surpriseMe);
+    document.getElementById('catalogPrev').addEventListener('click',()=>{if(remotePage>1){remotePage--;loadRemoteCatalog();document.getElementById('library').scrollIntoView({behavior:'smooth'});}});
+    document.getElementById('catalogNext').addEventListener('click',()=>{if(remotePage<remotePages){remotePage++;loadRemoteCatalog();document.getElementById('library').scrollIntoView({behavior:'smooth'});}});
+    document.getElementById('searchNav').addEventListener('click',()=>{if(!remoteCatalogMode)setCatalogMode(true);setTimeout(()=>{document.getElementById('library').scrollIntoView({behavior:'smooth'});searchInput.focus();},40);});
+    document.addEventListener('keydown',event=>{if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==='k'){event.preventDefault();document.getElementById('searchNav').click();}});
+    document.getElementById('wishlistNav').addEventListener('click',async()=>{wishlistOnly=true;activeGenre='All';searchInput.value='';document.querySelectorAll('.chip').forEach(item=>item.classList.toggle('active',item.dataset.genre==='All'));const hasSteamIds=wishlist.some(id=>/^\d+$/.test(String(id)));if(hasSteamIds){remoteCatalogMode=true;remotePage=1;try{if(accountUser){const data=await apiRequest('/api/wishlist');remoteResults=data.games||[];}else{const cache=JSON.parse(localStorage.getItem('gamevault-steam-cache')||localStorage.getItem('playscape-steam-cache')||'[]');remoteResults=cache.filter(item=>isSaved(String(item.app_id)));}remoteTotal=remoteResults.length;remotePages=1;renderRemoteGames();}catch{remoteResults=[];remoteTotal=0;remotePages=1;renderRemoteGames();}}else{remoteCatalogMode=false;renderGames();}document.getElementById('library').scrollIntoView({behavior:'smooth'});});
+    document.getElementById('newsletterWish').addEventListener('click',()=>{document.getElementById('wishlistNav').click();});
+    document.getElementById('saveGta').addEventListener('click',()=>toggleSave('gta-vi'));
+    document.getElementById('gtaDetails').addEventListener('click',()=>openGame('gta-vi'));
+    document.getElementById('heroTrailer').addEventListener('click',()=>openGame(featuredHeroes[heroIndex].id));
+    document.getElementById('openLogin').addEventListener('click',()=>openBackdrop('loginBackdrop'));
+    document.getElementById('loginForm').addEventListener('submit',async event=>{event.preventDefault();const submit=event.currentTarget.querySelector('[type="submit"]'),message=document.getElementById('loginMessage');submit.disabled=true;submit.textContent=registerMode?'Creating account…':'Signing in…';message.textContent='';try{const data=await apiRequest(registerMode?'/api/auth/register':'/api/auth/login',{method:'POST',body:JSON.stringify({email:document.getElementById('loginEmail').value,password:document.getElementById('loginPassword').value})});accountUser=data.user;userEmail=data.user.email;document.getElementById('openLogin').innerHTML='Hi, '+escapeHtml(userEmail.split('@')[0]);document.getElementById('loginTitle').textContent='You’re in.';document.getElementById('loginIntro').textContent='Your wishlist can now follow your account on this server.';message.textContent='Account connected. Syncing any saved Steam games…';await syncWishlistToAccount();toast(registerMode?'Account created':'Signed in');setTimeout(()=>closeBackdrop('loginBackdrop'),700);}catch(error){message.textContent=error.message;message.classList.add('login-error');}finally{submit.disabled=false;submit.innerHTML=registerMode?'Create account <span>↗</span>':'Sign in <span>↗</span>';}});
+    document.getElementById('registerSwitch').addEventListener('click',()=>{registerMode=!registerMode;document.getElementById('loginTitle').textContent=registerMode?'Create your player profile.':'Welcome back.';document.getElementById('loginIntro').textContent=registerMode?'One account keeps your GAMEVAULT wishlist in sync.':'Sign in to keep your wishlist synced across devices.';document.querySelector('#loginForm button[type="submit"]').innerHTML=registerMode?'Create account <span>↗</span>':'Sign in <span>↗</span>';document.getElementById('loginSwitchPrompt').textContent=registerMode?'Already have an account?':'New around here?';document.getElementById('registerSwitch').textContent=registerMode?'Sign in':'Create an account';document.getElementById('loginMessage').textContent='';document.getElementById('loginMessage').classList.remove('login-error');});
+    document.getElementById('menuBtn').addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('open'));
+    document.querySelectorAll('.nav-links a').forEach(link=>link.addEventListener('click',()=>document.getElementById('navLinks').classList.remove('open')));
+    const isHoverDevice=matchMedia('(hover:hover) and (pointer:fine)').matches;
+    let tiltRafId=null;
+    if(isHoverDevice){
+      grid.addEventListener('pointermove',event=>{
+        const card=event.target.closest('.game-card'); if(!card)return;
+        const inner=card.querySelector('.game-card-inner'),box=card.getBoundingClientRect(),x=(event.clientX-box.left)/box.width-.5,y=(event.clientY-box.top)/box.height-.5;
+        if(tiltRafId)cancelAnimationFrame(tiltRafId);
+        tiltRafId=requestAnimationFrame(()=>{inner.style.transform=`perspective(900px) rotateX(${-y*5}deg) rotateY(${x*6}deg) translateY(-3px) translateZ(0)`;tiltRafId=null;});
+      },{passive:true});
+      grid.addEventListener('pointerout',event=>{const card=event.target.closest('.game-card');if(card&&!card.contains(event.relatedTarget)){if(tiltRafId){cancelAnimationFrame(tiltRafId);tiltRafId=null;}card.querySelector('.game-card-inner').style.transform='';}},{passive:true});
+    }
+    const heroShowcase=document.getElementById('heroShowcase'), heroCard=document.getElementById('heroCard');
+    if(isHoverDevice){let heroRaf=null;heroShowcase.addEventListener('pointermove',event=>{const box=heroShowcase.getBoundingClientRect(),x=(event.clientX-box.left)/box.width-.5,y=(event.clientY-box.top)/box.height-.5;if(heroRaf)cancelAnimationFrame(heroRaf);heroRaf=requestAnimationFrame(()=>{heroCard.style.transform=`rotateY(${-19+x*13}deg) rotateX(${6-y*10}deg) rotateZ(${2+x*2}deg) translateZ(0)`;heroRaf=null;});},{passive:true});}
+    function showHeroSlide(index) {
+      heroIndex=(index+featuredHeroes.length)%featuredHeroes.length;
+      const item=featuredHeroes[heroIndex],cover=document.getElementById('heroCover'),background=document.getElementById('heroBg');
+      const coverUrl=`https://cdn.akamai.steamstatic.com/steam/apps/${item.app}/library_600x900_2x.jpg`;
+      const backgroundUrl=`https://cdn.akamai.steamstatic.com/steam/apps/${item.app}/library_hero.jpg`;
+      const cardTitle=document.getElementById('heroTitleGame'),kicker=document.getElementById('heroKicker'),rating=document.getElementById('heroRating'),style=document.getElementById('heroStyle');
+      [cardTitle,kicker,rating,style].forEach(element=>element.style.opacity='0');
+      clearTimeout(heroTextTimer);
+      heroTextTimer=setTimeout(()=>{
+        kicker.textContent=`Editor's pick · ${item.genre}`;
+        cardTitle.textContent=item.title;
+        rating.textContent=item.review;
+        style.textContent=item.style;
+        document.getElementById('heroCover').alt=`${item.title} game art`;
+        [cardTitle,kicker,rating,style].forEach(element=>element.style.opacity='1');
+      },180);
+      cover.style.opacity='0.15';
+      cover.onload=()=>{cover.style.opacity='1';};
+      cover.onerror=()=>{cover.onerror=null;cover.src=`https://cdn.akamai.steamstatic.com/steam/apps/${item.app}/header.jpg`;};
+      cover.src=coverUrl;
+      background.style.opacity='0.2';
+      setTimeout(()=>{background.style.backgroundImage=`linear-gradient(90deg,#090b10 0%,rgba(9,11,16,.96) 23%,rgba(9,11,16,.64) 56%,rgba(9,11,16,.45) 100%),linear-gradient(0deg,#090b10 0%,transparent 38%,rgba(9,11,16,.1) 100%),url('https://cdn.akamai.steamstatic.com/steam/apps/${item.app}/library_hero.jpg')`;background.style.opacity='0.68';},220);
+      document.querySelectorAll('.hero-dot').forEach((dot,dotIndex)=>{dot.classList.toggle('active',dotIndex===heroIndex);dot.setAttribute('aria-current',dotIndex===heroIndex?'true':'false');});
+      document.getElementById('heroCount').innerHTML=`${String(heroIndex+1).padStart(2,'0')} <span>/ ${String(featuredHeroes.length).padStart(2,'0')}</span>`;
+      document.getElementById('heroTrailer').setAttribute('aria-label',`See ${item.title} featured details`);
+    }
+    function stopHeroTimer(){clearInterval(heroTimer);heroTimer=null;}
+    function startHeroTimer(){
+      stopHeroTimer();
+      if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!document.hidden)heroTimer=setInterval(()=>window.showHeroSlide(heroIndex+1),7000);
+    }
+    document.getElementById('heroPrev').addEventListener('click',()=>{window.showHeroSlide(heroIndex-1);startHeroTimer();});
+    document.getElementById('heroNext').addEventListener('click',()=>{window.showHeroSlide(heroIndex+1);startHeroTimer();});
+    heroShowcase.addEventListener('pointerenter',stopHeroTimer);
+    heroShowcase.addEventListener('pointerleave',()=>{heroCard.style.transform='rotateY(-19deg) rotateX(6deg) rotateZ(2deg)';startHeroTimer();});
+    heroShowcase.addEventListener('focusin',stopHeroTimer);
+    heroShowcase.addEventListener('focusout',event=>{if(!heroShowcase.contains(event.relatedTarget))startHeroTimer();});
+    document.addEventListener('visibilitychange',()=>document.hidden?stopHeroTimer():startHeroTimer());
+    showHeroSlide(0);startHeroTimer();
+    const revealObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');revealObserver.unobserve(entry.target);}}),{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(element=>revealObserver.observe(element));
+    cardRevealObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');cardRevealObserver.unobserve(entry.target);}}),{threshold:.08,rootMargin:'0px 0px -24px 0px'});
+    let scrollRafId=null;
+    window.addEventListener('scroll',()=>{if(scrollRafId)return;scrollRafId=requestAnimationFrame(()=>{const max=document.documentElement.scrollHeight-window.innerHeight;document.getElementById('progress').style.width=(max>0?window.scrollY/max*100:0)+'%';scrollRafId=null;});},{passive:true});
+    document.getElementById('saveGta').innerHTML=isSaved(gta.id)?'♥ <span>Saved to wishlist</span>':'♡ <span>Save to wishlist</span>';
+    async function writeWishlistToAccount(){
+      if(!accountUser)return;
+      try{await apiRequest('/api/wishlist',{method:'PUT',body:JSON.stringify({appIds:wishlist.filter(id=>/^\d+$/.test(String(id))).map(Number)})});}catch(error){document.getElementById('loginMessage').textContent=error.message;}
+    }
+    async function syncWishlistToAccount(){
+      if(!accountUser)return;
+      try{const current=await apiRequest('/api/wishlist');const merged=[...new Set([...current.appIds.map(String),...wishlist.filter(id=>/^\d+$/.test(String(id)))])];const result=await apiRequest('/api/wishlist',{method:'PUT',body:JSON.stringify({appIds:merged})});wishlist=[...new Set([...wishlist,...result.appIds.map(String)])];localStorage.setItem('gamevault-wishlist',JSON.stringify(wishlist));localStorage.setItem('playscape-wishlist',JSON.stringify(wishlist));updateWishlistCount();renderGames();}catch(error){document.getElementById('loginMessage').textContent=error.message;}
+    }
+    async function loadAccountSession(){try{const session=await apiRequest('/api/auth/session');if(session.authenticated){accountUser=session.user;userEmail=session.user.email;document.getElementById('openLogin').innerHTML='Hi, '+escapeHtml(userEmail.split('@')[0]);await syncWishlistToAccount();}}catch{}}
+    configureSortOptions(remoteCatalogMode);setRemoteFiltersEnabled(false);
+    if(remoteCatalogMode){const params=new URLSearchParams(location.search);searchInput.value=params.get('q')||'';activeGenre=params.get('genre')||'All';remotePage=Math.max(1,Number(params.get('page')||1));if(params.has('sort')&&[...sortSelect.options].some(option=>option.value===params.get('sort')))sortSelect.value=params.get('sort');document.getElementById('platformFilter').value=params.get('platform')||'';document.getElementById('priceFilter').value=params.get('metacritic_min')||params.get('price')|| (params.get('free')==='1'?'free':'');document.getElementById('releaseFilter').value=params.get('release')||'';document.getElementById('ratingFilter').value=params.get('rating_min')||'';document.getElementById('tagFilter').value=params.get('tag')||'';document.getElementById('developerFilter').value=params.get('developer')||'';document.getElementById('publisherFilter').value=params.get('publisher')||'';}
+    updateWishlistCount();renderGames();loadAccountSession();
+    /* Remove playscape-api-pending class after initial paint to reveal content */
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{document.documentElement.classList.remove('playscape-api-pending');refreshCatalogStatus();}));
+  </script>
+  <script src="playscape-data.js"></script>
+</body>
+</html>

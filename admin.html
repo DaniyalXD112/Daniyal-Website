@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#090910">
+  <title>Catalog control room · GAMEVAULT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Orbitron:wght@700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{color-scheme:dark;--bg:#050508;--panel:#0d0d16;--line:rgba(200,200,255,.09);--muted:#9a9eb5;--text:#f4f3fb;--violet:#a855f7;--neon-bright:#c084fc;--green:#4ade80;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text)}
+    *{box-sizing:border-box}body{margin:0;min-width:320px;background:radial-gradient(ellipse at 80% 0%,rgba(168,85,247,.12),transparent 45%),radial-gradient(ellipse at 20% 100%,rgba(124,58,237,.08),transparent 40%),var(--bg)}a{color:inherit;text-decoration:none}button,input{font:inherit}.shell{width:min(100% - 42px,1080px);margin:auto}.top{height:74px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}.brand{display:inline-flex;align-items:center;gap:10px;font:800 17px 'Orbitron',sans-serif;letter-spacing:.06em;text-transform:uppercase}.brand em{color:var(--neon-bright);font-style:normal;text-shadow:0 0 14px rgba(192,132,252,.65)}.brand-mark{width:32px;height:32px;display:grid;place-items:center;border:1px solid rgba(168,85,247,.55);border-radius:9px;background:linear-gradient(145deg,rgba(168,85,247,.18),rgba(99,102,241,.06));box-shadow:0 0 20px rgba(168,85,247,.14),inset 0 0 10px rgba(168,85,247,.08);transition:box-shadow .3s ease,border-color .3s ease,transform .3s ease}.brand:hover .brand-mark{border-color:rgba(192,132,252,.9);box-shadow:0 0 30px rgba(168,85,247,.3),inset 0 0 14px rgba(192,132,252,.12);transform:scale(1.05)}.brand-mark svg{width:20px;height:20px;filter:drop-shadow(0 0 7px rgba(168,85,247,.6))}.back{color:#bbb5ca;font-size:12px;transition:color .2s}.back:hover{color:#c084fc}.intro{padding:68px 0 38px}.eyebrow{color:var(--neon-bright);font:700 10px 'Outfit',sans-serif;letter-spacing:.18em;text-transform:uppercase}.intro h1{margin:13px 0 12px;font:700 clamp(38px,6vw,62px)/1 'Outfit',sans-serif;letter-spacing:-.05em}.intro p{max-width:700px;color:var(--muted);font-size:14px;line-height:1.75}.grid{display:grid;grid-template-columns:1.05fr .95fr;gap:16px;padding-bottom:80px}.panel{border:1px solid var(--line);border-radius:14px;background:linear-gradient(145deg,rgba(18,17,29,.95),rgba(11,11,18,.98));padding:23px}.panel h2{margin:0 0 8px;font:650 18px 'Outfit',sans-serif;letter-spacing:-.03em}.sub{margin:0 0 20px;color:#89889a;font-size:11px;line-height:1.6}.field{display:grid;gap:8px;margin:18px 0}.field label{color:#a5a3b2;font-size:11px}.field input{width:100%;height:43px;border:1px solid var(--line);border-radius:8px;outline:none;padding:0 12px;background:#06060b;color:var(--text);transition:border-color .2s,box-shadow .2s}.field input:focus{border-color:var(--neon-bright);box-shadow:0 0 0 3px rgba(168,85,247,.2)}.actions{display:flex;flex-wrap:wrap;gap:9px;margin:18px 0 0}.btn{min-height:39px;border:1px solid rgba(168,85,247,.3);border-radius:8px;padding:0 13px;background:rgba(168,85,247,.1);color:#ebd8ff;font-weight:700;font-size:10px;cursor:pointer;transition:transform .2s,background .2s,border-color .2s}.btn:hover{transform:translateY(-2px);background:rgba(168,85,247,.2);border-color:rgba(192,132,252,.6)}.btn.primary{border-color:#c084fc;background:linear-gradient(110deg,#a855f7,#7c3aed);color:#ffffff;box-shadow:0 0 16px rgba(168,85,247,.35)}.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}.notice{min-height:19px;margin:12px 0 0;color:#9a94a9;font-size:10px;line-height:1.6}.notice.error{color:#ff9eaa}.notice.good{color:var(--green)}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:9px}.metric{border:1px solid rgba(200,200,255,.08);border-radius:9px;background:rgba(255,255,255,.02);padding:13px}.metric small{display:block;color:#8d899d;font-size:9px;text-transform:uppercase;letter-spacing:.12em}.metric strong{display:block;margin-top:8px;font:650 20px 'Outfit',sans-serif;letter-spacing:-.03em}.status-line{display:flex;align-items:center;gap:8px;margin:16px 0;color:#aaa6b6;font-size:10px}.status-line i{width:7px;height:7px;border-radius:50%;background:#9891a6}.status-line.running i{background:#e9cf7a;box-shadow:0 0 10px #e9cf7a}.status-line.complete i,.status-line.paused i{background:var(--green);box-shadow:0 0 10px var(--green)}.status-line.failed i{background:#ff8291;box-shadow:0 0 10px #ff8291}.progress{height:5px;overflow:hidden;border-radius:9px;background:#1a1926}.progress span{display:block;width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,#7c3aed,#c084fc);transition:width .35s}.progress span.running{width:28%;animation:travel 1.6s ease-in-out infinite alternate}@keyframes travel{to{transform:translateX(255%)}}.source{margin-top:20px;padding:14px;border:1px solid rgba(168,85,247,.2);border-radius:9px;color:#8e8b9d;font-size:10px;line-height:1.65;background:rgba(168,85,247,.03)}.source a{color:#c084fc;text-decoration:underline;text-underline-offset:3px}.list{display:grid;gap:0;margin:14px 0 0}.list div{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid rgba(200,200,255,.06);padding:10px 0;color:#9794a5;font-size:10px}.list b{color:#d6d2e0;font-weight:600;text-align:right}.hidden{display:none!important}@media(max-width:760px){.grid{grid-template-columns:1fr}.intro{padding-top:50px}.panel{padding:19px}}
+  </style>
+</head>
+<body>
+  <header class="top shell"><a class="brand" href="index.html"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="gvAdminGrad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#f0abfc"/><stop offset="50%" stop-color="#c084fc"/><stop offset="100%" stop-color="#a855f7"/></linearGradient></defs><path d="M5.8 7C7.6 6 16.4 6 18.2 7C20.2 8.1 22 11.8 21.2 16.8C20.6 19.8 17.8 20.6 15.8 18.6C14.4 17.2 13.5 16.5 12 16.5C10.5 16.5 9.6 17.2 8.2 18.6C6.2 20.6 3.4 19.8 2.8 16.8C2 11.8 3.8 8.1 5.8 7Z" stroke="url(#gvAdminGrad)" stroke-width="1.6" stroke-linejoin="round" fill="rgba(168,85,247,0.1)"/><path d="M6.2 5.2L9.2 4.6" stroke="#c084fc" stroke-width="1.3" stroke-linecap="round" opacity="0.85"/><path d="M17.8 5.2L14.8 4.6" stroke="#c084fc" stroke-width="1.3" stroke-linecap="round" opacity="0.85"/><path d="M6 12H8.4M7.2 10.8V13.2" stroke="#e879f9" stroke-width="1.4" stroke-linecap="round"/><circle cx="16.8" cy="10.8" r="0.65" fill="#f0abfc"/><circle cx="15.6" cy="12" r="0.65" fill="#c084fc"/><circle cx="18" cy="12" r="0.65" fill="#c084fc"/><circle cx="16.8" cy="13.2" r="0.65" fill="#a855f7"/><path d="M13.2 9.8H11.2C10.1 9.8 9.3 10.6 9.3 11.8C9.3 13 10.1 13.8 11.2 13.8H12.8V11.8H11.5" stroke="url(#gvAdminGrad)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="11.8" r="0.5" fill="#ffffff"/></svg></span>GAME<em>VAULT</em></a><a class="back" href="index.html">← Back to discovery</a></header>
+  <main class="shell">
+    <section class="intro"><div class="eyebrow">Catalog control room</div><h1>Real games. Fresh deals.</h1><p>RAWG supplies game details for the local GAMEVAULT catalog. CheapShark prices are fetched when a player requests them and cached; this dashboard never crawls its catalog.</p></section>
+    <div class="grid">
+      <section class="panel">
+        <h2>Protected catalog actions</h2><p class="sub">Admin token is sent to the server only and held in this tab session.</p>
+        <div class="field"><label for="adminToken">GAMEVAULT admin token</label><input id="adminToken" type="password" autocomplete="off" placeholder="Token from server environment"></div>
+        <div class="actions">
+          <button class="btn" id="connect">Connect</button>
+          <button class="btn primary" id="sync">Import next RAWG pages</button>
+          <button class="btn" id="syncUpcoming">Sync upcoming RAWG releases</button>
+          <button class="btn" id="incremental">Refresh recent RAWG pages</button>
+          <button class="btn" id="retry">Retry failed details</button>
+          <button class="btn" id="clearCache">Clear stale price cache</button>
+        </div>
+        <div class="field"><label for="refreshGameId">GAMEVAULT database game ID</label><input id="refreshGameId" inputmode="numeric" placeholder="Open a game to find its database ID"></div>
+        <div class="actions"><button class="btn" id="refreshGame">Refresh this game's RAWG details</button><button class="btn" id="refreshStores">Refresh CheapShark stores</button></div>
+        <p class="notice" id="notice" role="status">Connect with your admin token to view sync health and run catalog actions.</p>
+        <div class="source">A sync action imports up to 10 RAWG pages (40 results per page) and stores the next page cursor. Use another controlled action to continue. Price checks are on demand and cached for 2 hours; store names are cached for 24 hours. <a href="https://rawg.io/apidocs" target="_blank" rel="noreferrer">RAWG API terms and attribution ↗</a> · <a href="https://apidocs.cheapshark.com/" target="_blank" rel="noreferrer">CheapShark API usage and redirect ↗</a></div>
+      </section>
+      <section class="panel">
+        <h2>Sync health</h2><p class="sub">Current local catalog and provider request state.</p>
+        <div class="status-line" id="syncStatus"><i></i><span>Not connected</span></div><div class="progress"><span id="syncProgress"></span></div>
+        <div class="metrics" style="margin-top:16px">
+          <div class="metric"><small>RAWG games indexed</small><strong id="total">—</strong></div><div class="metric"><small>Expanded details</small><strong id="detailed">—</strong></div>
+          <div class="metric"><small>Added last run</small><strong id="added">—</strong></div><div class="metric"><small>Updated last run</small><strong id="updated">—</strong></div>
+        </div>
+        <div class="list">
+          <div><span>Pages processed</span><b id="pages">—</b></div><div><span>Next page cursor</span><b id="cursor">—</b></div>
+          <div><span>Upcoming games in catalog</span><b id="upcomingGames">—</b></div><div><span>Upcoming sync</span><b id="upcomingStatus">—</b></div>
+          <div><span>Upcoming pages cursor</span><b id="upcomingCursor">—</b></div><div><span>Upcoming last sync</span><b id="upcomingLastSync">—</b></div>
+          <div><span>Last sync started</span><b id="started">—</b></div><div><span>Last sync finished</span><b id="finished">—</b></div>
+          <div><span>Failed game details</span><b id="failed">—</b></div><div><span>Last sync error</span><b id="lastError">—</b></div>
+          <div><span>Last CheapShark request</span><b id="priceRequest">—</b></div><div><span>Cached price results</span><b id="priceCache">—</b></div>
+          <div><span>CheapShark API errors</span><b id="priceErrors">—</b></div><div><span>429 rate limits</span><b id="rateLimits">—</b></div>
+          <div><span>Retry-After remaining</span><b id="retryAfter">—</b></div><div><span>RAWG key configured</span><b id="rawgKey">—</b></div>
+        </div>
+      </section>
+    </div>
+  </main>
+  <script>
+    const API = (location.port === "4173") ? location.protocol + "//" + location.hostname + ":4174" : "";
+    const tokenInput = document.getElementById("adminToken"), notice = document.getElementById("notice");
+    tokenInput.value = sessionStorage.getItem("gamevault-admin-token") || sessionStorage.getItem("playscape-admin-token") || "";
+    async function api(path, options) {
+      options = options || {};
+      const response = await fetch(API + path, {credentials:"include",...options,headers:{"Content-Type":"application/json","X-Admin-Key":tokenInput.value,...(options.headers || {})}});
+      const data = await response.json().catch(function () { return {}; });
+      if (!response.ok) throw new Error(data.error || "Request failed (" + response.status + ")");
+      return data;
+    }
+    function setNotice(message, kind) { notice.textContent = message; notice.className = "notice " + (kind || ""); }
+    function time(value) { if (!value) return "—"; const parsed = new Date(value); return Number.isNaN(parsed.getTime()) ? value : parsed.toLocaleString(); }
+    function update(data) {
+      document.getElementById("total").textContent = Number(data.catalog_games || 0).toLocaleString();
+      document.getElementById("detailed").textContent = Number(data.detailed_games || 0).toLocaleString();
+      document.getElementById("added").textContent = Number(data.added || 0).toLocaleString();
+      document.getElementById("updated").textContent = Number(data.updated || 0).toLocaleString();
+      document.getElementById("pages").textContent = Number(data.pages || 0).toLocaleString();
+      document.getElementById("cursor").textContent = Number(data.cursor || 1).toLocaleString();
+      document.getElementById("upcomingGames").textContent = Number(data.upcoming_games || 0).toLocaleString();
+      document.getElementById("upcomingStatus").textContent = (data.upcoming_sync_status || "idle").toUpperCase() + (data.upcoming_has_more ? " · more pages" : "");
+      document.getElementById("upcomingCursor").textContent = Number(data.upcoming_cursor || 1).toLocaleString();
+      document.getElementById("upcomingLastSync").textContent = time(data.upcoming_last_sync_at);
+      document.getElementById("started").textContent = time(data.started_at);
+      document.getElementById("finished").textContent = time(data.finished_at);
+      document.getElementById("failed").textContent = Number(data.failed || data.metadata && data.metadata.failed || 0).toLocaleString();
+      document.getElementById("lastError").textContent = data.last_error || "—";
+      document.getElementById("rawgKey").textContent = data.rawg_key_configured ? "Yes" : "No";
+      const cheap = data.cheapshark || {};
+      document.getElementById("priceRequest").textContent = time(cheap.last_price_request);
+      document.getElementById("priceCache").textContent = Number(cheap.cached_price_results || 0).toLocaleString();
+      document.getElementById("priceErrors").textContent = Number(cheap.api_errors || 0).toLocaleString();
+      document.getElementById("rateLimits").textContent = Number(cheap.rate_limit_errors || 0).toLocaleString();
+      document.getElementById("retryAfter").textContent = Number(cheap.retry_after_seconds || 0) + " sec";
+      const line = document.getElementById("syncStatus"); line.className = "status-line " + (data.status || "idle");
+      line.querySelector("span").textContent = (data.status || "idle").toUpperCase() + " · " + Number(data.total_seen || 0).toLocaleString() + " processed · " + (data.has_more ? "more pages available" : "current run complete");
+      const progress = document.getElementById("syncProgress"); progress.classList.toggle("running", data.status === "running");
+      progress.style.width = data.status === "complete" ? "100%" : data.status === "paused" ? "70%" : data.status === "running" ? "28%" : "0%";
+      const meta = data.metadata || {};
+      if (data.status === "running" || meta.status === "running" || data.upcoming_sync_status === "running") setTimeout(refresh, 1800);
+      if (!data.rawg_key_configured) setNotice("Set RAWG_API_KEY in the server environment, then restart the GAMEVAULT service before importing.", "error");
+      else if (!data.admin_protected) setNotice("Admin protection is not configured. Set GAMEVAULT_ADMIN_TOKEN on the server and restart.", "error");
+      else if (data.status === "failed") setNotice(data.last_error || data.message || "The last RAWG sync failed.", "error");
+      else setNotice(data.message || "Connected to the protected catalog service.", "good");
+    }
+    async function refresh() { try { update(await api("/api/admin/status")); } catch (error) { setNotice(error.message, "error"); } }
+    async function action(path, body, doneText) {
+      try { const result = await api(path, {method:"POST",body:JSON.stringify(body || {})}); setNotice(result.message || doneText, "good"); await refresh(); }
+      catch (error) { setNotice(error.message, "error"); }
+    }
+    document.getElementById("connect").addEventListener("click", function () {
+      sessionStorage.setItem("gamevault-admin-token", tokenInput.value);
+      sessionStorage.setItem("playscape-admin-token", tokenInput.value);
+      refresh();
+    });
+    document.getElementById("sync").addEventListener("click", function () { action("/api/admin/sync", {mode:"continue",pageLimit:10}, "RAWG page import queued."); });
+    document.getElementById("syncUpcoming").addEventListener("click", function () { action("/api/admin/sync-upcoming", {pageLimit:10}, "Upcoming RAWG release sync queued."); });
+    document.getElementById("incremental").addEventListener("click", function () { action("/api/admin/sync", {mode:"incremental",pageLimit:5}, "Recent RAWG pages queued."); });
+    document.getElementById("retry").addEventListener("click", function () { action("/api/admin/retry-failed", {}, "Failed detail retry queued."); });
+    document.getElementById("clearCache").addEventListener("click", function () { action("/api/admin/clear-stale-cache", {}, "Expired price and deal cache cleared."); });
+    document.getElementById("refreshGame").addEventListener("click", function () {
+      const id = document.getElementById("refreshGameId").value.trim();
+      if (!/^\d+$/.test(id)) { setNotice("Enter the numeric GAMEVAULT database game ID.", "error"); return; }
+      action("/api/admin/games/" + encodeURIComponent(id) + "/refresh", {}, "Game details refresh queued.");
+    });
+    document.getElementById("refreshStores").addEventListener("click", function () { action("/api/admin/refresh-stores", {}, "CheapShark store list refreshed."); });
+    if (tokenInput.value) refresh();
+    else fetch(API + "/api/catalog/status").then(function (response) { return response.json(); }).then(update).catch(function () { setNotice("Start the GAMEVAULT server to connect the admin panel.", "error"); });
+  </script>
+</body>
+</html>

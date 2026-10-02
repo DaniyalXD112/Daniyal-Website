@@ -1,0 +1,7 @@
+# playscape.sqlite3 (bundled with catalog)
+playscape.sqlite3-shm
+playscape.sqlite3-wal
+__pycache__/
+.env
+*.log
+

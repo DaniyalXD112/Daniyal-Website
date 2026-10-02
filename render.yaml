@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: gamevault
+    runtime: python
+    buildCommand: ""
+    startCommand: python server.py
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: RAWG_API_KEY
+        value: 4b4c93a0cb2e4cd7ab734df6825760b8
+      - key: PYTHON_VERSION
+        value: 3.11.9
